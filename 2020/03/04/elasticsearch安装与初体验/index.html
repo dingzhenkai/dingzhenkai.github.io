@@ -10,7 +10,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    域名解析的一些坑 |  丁星乐
+    elasticsearch安装与初体验 |  丁星乐
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -35,7 +35,7 @@
   <div id="app">
     <main class="content">
       <section class="outer">
-  <article id="post-域名解析的一些坑" class="article article-type-post" itemscope
+  <article id="post-elasticsearch安装与初体验" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -43,7 +43,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  域名解析的一些坑
+  elasticsearch安装与初体验
 </h1>
   
 
@@ -52,12 +52,12 @@
 
     
     <div class="article-meta">
-      <a href="/2020/02/02/%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/" class="article-date">
-  <time datetime="2020-02-02T02:43:47.000Z" itemprop="datePublished">2020-02-02</time>
+      <a href="/2020/03/04/elasticsearch%E5%AE%89%E8%A3%85%E4%B8%8E%E5%88%9D%E4%BD%93%E9%AA%8C/" class="article-date">
+  <time datetime="2020-03-04T02:47:35.000Z" itemprop="datePublished">2020-03-04</time>
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a>
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
   </div>
 
       
@@ -67,7 +67,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">266字</span>
+            <span class="post-count">569字</span>
         </span>
     </span>
 
@@ -76,7 +76,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1分钟</span>
+            <span class="post-count">2分钟</span>
         </span>
     </span>
 </div>
@@ -87,6 +87,8 @@
 
     
     
+    <div class="tocbot"></div>
+
 
 
 
@@ -100,16 +102,34 @@
       
 
       
-      <p>使用github page+hexo搭建完博客之后，博客可以通过url <code>dingzhenkai.github.io</code> 访问，但是这样还留下两个缺点：</p>
+      <h2 id="elasticsearch简介"><a href="#elasticsearch简介" class="headerlink" title="elasticsearch简介"></a>elasticsearch简介</h2><p>官网：<a href="https://www.elastic.co/cn/elasticsearch" target="_blank" rel="noopener">https://www.elastic.co/cn/elasticsearch</a></p>
+<p>elasticsearch 中文名 弹性搜索。</p>
+<p>Wikipedia是这样介绍的</p>
+<blockquote>
+<p><strong>Elasticsearch</strong>是一个基于<a href="https://zh.wikipedia.org/wiki/Lucene" target="_blank" rel="noopener">Lucene</a>库的<a href="https://zh.wikipedia.org/wiki/搜索引擎" target="_blank" rel="noopener">搜索引擎</a>。它提供了一个分布式、支持多租户的<a href="https://zh.wikipedia.org/wiki/全文檢索" target="_blank" rel="noopener">全文搜索</a>引擎，具有<a href="https://zh.wikipedia.org/wiki/HTTP" target="_blank" rel="noopener">HTTP</a> Web接口和无模式<a href="https://zh.wikipedia.org/wiki/JSON" target="_blank" rel="noopener">JSON</a>文档。Elasticsearch是用<a href="https://zh.wikipedia.org/wiki/Java" target="_blank" rel="noopener">Java</a>开发的，并在<a href="https://zh.wikipedia.org/wiki/Apache许可证" target="_blank" rel="noopener">Apache许可证</a>下作为开源软件发布。</p>
+<p>Elasticsearch可以用于搜索各种文档。它提供可扩展的搜索，具有接近实时的搜索，并支持多租户。<a href="https://zh.wikipedia.org/wiki/Elasticsearch#cite_note-offizsite-5" target="_blank" rel="noopener">[5]</a>”Elasticsearch是分布式的，这意味着索引可以被分成分片，每个分片可以有0个或多个副本。每个节点托管一个或多个分片，并充当协调器将操作委托给正确的分片。再平衡和路由是自动完成的。“<a href="https://zh.wikipedia.org/wiki/Elasticsearch#cite_note-offizsite-5" target="_blank" rel="noopener">[5]</a>相关数据通常存储在同一个索引中，该索引由一个或多个主分片和零个或多个复制分片组成。一旦创建了索引，就不能更改主分片的数量。<a href="https://zh.wikipedia.org/wiki/Elasticsearch#cite_note-7" target="_blank" rel="noopener">[7]</a></p>
+<p>Elasticsearch使用Lucene，并试图通过JSON和Java API提供其所有特性。它支持facetting和percolating<a href="https://zh.wikipedia.org/wiki/Elasticsearch#cite_note-8" target="_blank" rel="noopener">[8]</a>，如果新文档与注册查询匹配，这对于通知非常有用。</p>
+<p>另一个特性称为“网关”，处理索引的长期持久性；例如，在服务器崩溃的情况下，可以从网关恢复索引。<a href="https://zh.wikipedia.org/wiki/Elasticsearch#cite_note-gateway-9" target="_blank" rel="noopener">[9]</a>Elasticsearch支持实时GET请求，适合作为<a href="https://zh.wikipedia.org/wiki/NoSQL" target="_blank" rel="noopener">NoSQL</a>数据存储<a href="https://zh.wikipedia.org/wiki/Elasticsearch#cite_note-jetslidedatabase-10" target="_blank" rel="noopener">[10]</a>，但缺少分布式事务。<a href="https://zh.wikipedia.org/wiki/Elasticsearch#cite_note-transactions-11" target="_blank" rel="noopener">[11]</a></p>
+</blockquote>
+<p>这几篇文章介绍elasticsearch比较好</p>
 <ul>
-<li>github访问速度太慢</li>
-<li>url太长，比较难记</li>
+<li><a href="https://zhuanlan.zhihu.com/p/62892586" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/62892586</a></li>
+<li><a href="https://www.jianshu.com/p/b0e9b8cd6d45" target="_blank" rel="noopener">https://www.jianshu.com/p/b0e9b8cd6d45</a></li>
 </ul>
-<p>对于这两个缺点，其一，github太慢这一点，两个优化方法：分析network traffic，找出性能瓶颈，例如请求首页却额外返回了不需要的具体文章，或者是文章用的图片太大等；迁移至gitee或者自建git平台，这样访问速度会更快一点。</p>
-<p>其二，对于url太难记这一点，可以买一个简单好记的域名，然后域名解析，将url转发到原来的url。域名解析两种方式：一种是CNAME（别名）解析，一种是显性/隐性url解析。CNAME解析有很多冲突问题，暂未搞懂。显性/隐性url解析需要网站备案，很烦。</p>
-<p>目前我还是想用CNAME解析来实现，不过还没成功，我大二倒是搞定过，当时也没留个博客，后悔。</p>
-<p>未完待续…</p>
+<p><a href="https://data.aliyun.com/product/elasticsearch" target="_blank" rel="noopener">阿里云elasticsearch</a> </p>
+<p><a href="https://es.xiaoleilu.com/index.html" target="_blank" rel="noopener">Elasticsearch 权威指南</a></p>
+<h3 id="与普通检索的区别"><a href="#与普通检索的区别" class="headerlink" title="与普通检索的区别"></a>与普通检索的区别</h3><h2 id="Mac安装elasticsearch在docker上"><a href="#Mac安装elasticsearch在docker上" class="headerlink" title="Mac安装elasticsearch在docker上"></a>Mac安装elasticsearch在docker上</h2><ol>
+<li><p><code>docker pull elasticsearch:7.6.0</code> 拉取镜像 笔者20200305拉取镜像时最新版为7.6.0</p>
+</li>
+<li><p><code>docker run -d --name elasticsearch -p 9200:9200 -p 9300:9300 -e &quot;discovery.type=single-node&quot; elasticsearch:7.6.0</code>  运行镜像</p>
+</li>
+<li><p>浏览器访问<code>http://localhost:9200/</code>, 出现如下情况即算成功</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span> : <span class="string">"e8c5385b604b"</span>,</span><br><span class="line">  <span class="attr">"cluster_name"</span> : <span class="string">"docker-cluster"</span>,</span><br><span class="line">  <span class="attr">"cluster_uuid"</span> : <span class="string">"6p6Y_83JRs-OlzDTsFcbQA"</span>,</span><br><span class="line">  <span class="attr">"version"</span> : &#123;</span><br><span class="line">    <span class="attr">"number"</span> : <span class="string">"7.6.0"</span>,</span><br><span class="line">    <span class="attr">"build_flavor"</span> : <span class="string">"default"</span>,</span><br><span class="line">    <span class="attr">"build_type"</span> : <span class="string">"docker"</span>,</span><br><span class="line">    <span class="attr">"build_hash"</span> : <span class="string">"7f634e9f44834fbc12724506cc1da681b0c3b1e3"</span>,</span><br><span class="line">    <span class="attr">"build_date"</span> : <span class="string">"2020-02-06T00:09:00.449973Z"</span>,</span><br><span class="line">    <span class="attr">"build_snapshot"</span> : <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">"lucene_version"</span> : <span class="string">"8.4.0"</span>,</span><br><span class="line">    <span class="attr">"minimum_wire_compatibility_version"</span> : <span class="string">"6.8.0"</span>,</span><br><span class="line">    <span class="attr">"minimum_index_compatibility_version"</span> : <span class="string">"6.0.0-beta1"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"tagline"</span> : <span class="string">"You Know, for Search"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+</li>
+</ol>
+<p>当然这只是单节点的测试环境部署，生产环境部署参考<a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.6/docker.html" target="_blank" rel="noopener">官网链接</a></p>
+<h2 id="elasticsearch初体验"><a href="#elasticsearch初体验" class="headerlink" title="elasticsearch初体验"></a>elasticsearch初体验</h2>
       
       <!-- 打赏 -->
       
@@ -119,10 +139,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/02/02/%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/" data-id="ck7gzdrex0013kij57i9g5pxg"
+      <a data-url="https://dingzhenkai.github.io/2020/03/04/elasticsearch%E5%AE%89%E8%A3%85%E4%B8%8E%E5%88%9D%E4%BD%93%E9%AA%8C/" data-id="ck7gzdre40000kij5gjw27u8p"
         class="article-share-link">分享</a>
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9F%9F%E5%90%8D/" rel="tag">域名</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%89%E8%A3%85/" rel="tag">安装</a></li></ul>
 
     </footer>
 
@@ -132,19 +152,10 @@
   
   <nav class="article-nav">
     
-      <a href="/2020/02/18/%E7%BF%BB%E5%A2%99%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            翻墙代理配置教程
-          
-        </div>
-      </a>
     
-    
-      <a href="/2020/01/31/DataStructure/" class="article-nav-link">
+      <a href="/2020/03/03/jira%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">DataStructure</div>
+        <div class="article-nav-title">jira简单介绍</div>
       </a>
     
   </nav>
