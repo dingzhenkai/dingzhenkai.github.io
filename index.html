@@ -121,7 +121,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/03/23/aliyun-logshipper%E9%85%8D%E7%BD%AE/" data-id="ck86p4sez0006c1j50vyj0y5f"
+      <a data-url="https://dingzhenkai.github.io/2020/03/23/aliyun-logshipper%E9%85%8D%E7%BD%AE/" data-id="ck88owpil000h6dj5hhz7enna"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/logshipper/" rel="tag">logshipper</a></li></ul>
@@ -185,7 +185,7 @@
       <p>教程入口：<a href="https://developer.aliyun.com/live/2154" target="_blank" rel="noopener">https://developer.aliyun.com/live/2154</a></p>
 <p>教程相关材料 <a href="https://github.com/onebirdrocks/geektime-ELK/" target="_blank" rel="noopener">https://github.com/onebirdrocks/geektime-ELK/</a></p>
 <p>aliyun es控制台 <a href="https://elasticsearch-cn-shanghai.console.aliyun.com/#/home" target="_blank" rel="noopener">https://elasticsearch-cn-shanghai.console.aliyun.com/#/home</a></p>
-<p>kibana视频教程 <a href="https://www.elastic.co/cn/webinars/getting-started-kibana?elektra=home&amp;amp&amp;storm=sub2" target="_blank" rel="noopener">https://www.elastic.co/cn/webinars/getting-started-kibana?elektra=home&amp;amp&amp;storm=sub2</a></p>
+<p>Docker elf build <a href="https://github.com/deviantony/docker-elk" target="_blank" rel="noopener">https://github.com/deviantony/docker-elk</a></p>
 <h2 id="01-Elasticsearch课程介绍"><a href="#01-Elasticsearch课程介绍" class="headerlink" title="01 | Elasticsearch课程介绍"></a>01 | Elasticsearch课程介绍</h2><p>Elasticsearch结合Kibana、Logstash、Beats可以实现搜索和实时分析</p>
 <p>Elasticsearch工程师认证考试</p>
 <h2 id="02-内容综述及学习建议"><a href="#02-内容综述及学习建议" class="headerlink" title="02 | 内容综述及学习建议"></a>02 | 内容综述及学习建议</h2><p>学习目标：</p>
@@ -197,7 +197,8 @@
 <li><p>方案<br>搜索与如何解决搜索的相关性问题<br>大数据分析实践与项目实战，理论知识运用到实际场景</p>
 </li>
 </ul>
-<h2 id="03-Elasticsearch简介及其发展历史"><a href="#03-Elasticsearch简介及其发展历史" class="headerlink" title="03 | Elasticsearch简介及其发展历史"></a>03 | Elasticsearch简介及其发展历史</h2><p>Elasticsearch 开源近实时分布式搜索分析引擎</p>
+<h2 id="03-Elasticsearch简介及其发展历史"><a href="#03-Elasticsearch简介及其发展历史" class="headerlink" title="03 | Elasticsearch简介及其发展历史"></a>03 | Elasticsearch简介及其发展历史</h2><p><a href="https://www.elastic.co/cn/elasticsearch" target="_blank" rel="noopener">https://www.elastic.co/cn/elasticsearch</a></p>
+<p>Elasticsearch 开源近实时分布式搜索分析引擎</p>
 <p><img src="arch.png" alt=""></p>
 <p><img src="feature.png" alt=""></p>
 <p><img src="func.png" alt=""></p>
@@ -211,14 +212,32 @@
 <p><img src="beats.png" alt=""></p>
 <p><img src="elk_for.png" alt=""></p>
 <h2 id="05-Elasticsearch的安装与简单配置"><a href="#05-Elasticsearch的安装与简单配置" class="headerlink" title="05 | Elasticsearch的安装与简单配置"></a>05 | Elasticsearch的安装与简单配置</h2><p>手把手教会你如何在阿里云购买与配置es和如何在本地安装es，es插件，如何多节点运行</p>
-<h2 id="06-Kibanan的安装与界面快速浏览"><a href="#06-Kibanan的安装与界面快速浏览" class="headerlink" title="06 | Kibanan的安装与界面快速浏览"></a>06 | Kibanan的安装与界面快速浏览</h2><p>在本机下载与安装kibana</p>
-<h2 id="07-在Docker容器中运行Elasticsearch-Kibana和-Cerebro"><a href="#07-在Docker容器中运行Elasticsearch-Kibana和-Cerebro" class="headerlink" title="07 | 在Docker容器中运行Elasticsearch Kibana和 Cerebro"></a>07 | 在Docker容器中运行Elasticsearch Kibana和 Cerebro</h2>
+<h2 id="06-Kibanan的安装与界面快速浏览"><a href="#06-Kibanan的安装与界面快速浏览" class="headerlink" title="06 | Kibanan的安装与界面快速浏览"></a>06 | Kibanan的安装与界面快速浏览</h2><p><a href="https://www.elastic.co/cn/kibana" target="_blank" rel="noopener">https://www.elastic.co/cn/kibana</a></p>
+<blockquote>
+<p>通过 Kibana，您可以对自己的 Elasticsearch 进行可视化，还可以在 Elastic Stack 中进行导航，这样您便可以进行各种操作了，从跟踪查询负载，到理解请求如何流经您的整个应用，都能轻松完成。</p>
+</blockquote>
+<p>在本机下载与安装kibana 与使用</p>
+<p>重点是dev tool 可以调用esapi</p>
+<h2 id="07-在Docker容器中运行Elasticsearch-Kibana和-Cerebro"><a href="#07-在Docker容器中运行Elasticsearch-Kibana和-Cerebro" class="headerlink" title="07 | 在Docker容器中运行Elasticsearch Kibana和 Cerebro"></a>07 | 在Docker容器中运行Elasticsearch Kibana和 Cerebro</h2><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'2.2'</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">cerebro:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">lmenezes/cerebro:0.8.3</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">cerebro</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"9000:9000"</span></span><br><span class="line">    <span class="attr">command:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">-Dhosts.0.host=http://elasticsearch:9200</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">es7net</span></span><br><span class="line">  <span class="attr">kibana:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">docker.elastic.co/kibana/kibana:7.1.0</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">kibana7</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">I18N_LOCALE=zh-CN</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">XPACK_GRAPH_ENABLED=true</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">TIMELION_ENABLED=true</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">XPACK_MONITORING_COLLECTION_ENABLED="true"</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"5601:5601"</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">es7net</span></span><br><span class="line">  <span class="attr">elasticsearch:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">docker.elastic.co/elasticsearch/elasticsearch:7.1.0</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">es7_01</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">cluster.name=geektime</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">node.name=es7_01</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">bootstrap.memory_lock=true</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"ES_JAVA_OPTS=-Xms512m -Xmx512m"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">discovery.seed_hosts=es7_01,es7_02</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">cluster.initial_master_nodes=es7_01,es7_02</span></span><br><span class="line">    <span class="attr">ulimits:</span></span><br><span class="line">      <span class="attr">memlock:</span></span><br><span class="line">        <span class="attr">soft:</span> <span class="number">-1</span></span><br><span class="line">        <span class="attr">hard:</span> <span class="number">-1</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">es7data1:/usr/share/elasticsearch/data</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">9200</span><span class="string">:9200</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">es7net</span></span><br><span class="line">  <span class="attr">elasticsearch2:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">docker.elastic.co/elasticsearch/elasticsearch:7.1.0</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">es7_02</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">cluster.name=geektime</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">node.name=es7_02</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">bootstrap.memory_lock=true</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">"ES_JAVA_OPTS=-Xms512m -Xmx512m"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">discovery.seed_hosts=es7_01,es7_02</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">cluster.initial_master_nodes=es7_01,es7_02</span></span><br><span class="line">    <span class="attr">ulimits:</span></span><br><span class="line">      <span class="attr">memlock:</span></span><br><span class="line">        <span class="attr">soft:</span> <span class="number">-1</span></span><br><span class="line">        <span class="attr">hard:</span> <span class="number">-1</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">es7data2:/usr/share/elasticsearch/data</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">es7net</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">es7data1:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">local</span></span><br><span class="line">  <span class="attr">es7data2:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">local</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">es7net:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">bridge</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>docker-compose up</code> 即可运行</p>
+<p><code>docker-compose down</code>停止运行</p>
+<h2 id="08-Logstash安装与导入数据"><a href="#08-Logstash安装与导入数据" class="headerlink" title="08 | Logstash安装与导入数据"></a>08 | Logstash安装与导入数据</h2><blockquote>
+<p>Logstash 是一个实时的管道式开源日志收集引擎。Logstash可以动态的将不同来源的数据进行归一并且将格式化的数据存储到你选择的位置。对你的所有做数据清洗和大众化处理，以便做数据分析和可视化。</p>
+<p>我们对Logstash的日志收集做了大量的创新，但它的能力远不止收集日志这么简单。通过输入、过滤和输出插件Logstash可以对任何类型的事件丰富和转换，通过本地编码器还可以进一步简化此过程。Logstash通过大量的多样化数据来提升你的洞察力。</p>
+</blockquote>
+<p><a href="https://www.elastic.co/cn/logstash" target="_blank" rel="noopener">https://www.elastic.co/cn/logstash</a></p>
+<p><a href="https://www.kancloud.cn/aiyinsi-tan/logstash/870166" target="_blank" rel="noopener">logstash6.5中文文档</a></p>
+<p>重点是 logstash.conf 文件，将原始数据处理一遍之后插入es，处理逻辑也实现在conf文件中</p>
+
       
       <!-- 打赏 -->
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/03/22/elasticsearch%E5%85%AC%E5%BC%80%E8%AF%BE%E9%98%AE%E4%B8%80%E9%B8%A3/" data-id="ck86p4sf1000ac1j5g59zbgd1"
+      <a data-url="https://dingzhenkai.github.io/2020/03/22/elasticsearch%E5%85%AC%E5%BC%80%E8%AF%BE%E9%98%AE%E4%B8%80%E9%B8%A3/" data-id="ck88owpio000m6dj57ili0hhg"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li></ul>
@@ -297,7 +316,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/03/21/Cuttlefish%E4%BB%8B%E7%BB%8D/" data-id="ck86p4ser0000c1j5fnergwwv"
+      <a data-url="https://dingzhenkai.github.io/2020/03/21/Cuttlefish%E4%BB%8B%E7%BB%8D/" data-id="ck88owpi800006dj50shr2ogl"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Cuttlefish/" rel="tag">Cuttlefish</a></li></ul>
@@ -384,7 +403,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/03/17/%E5%9F%BA%E9%87%91%E6%8A%95%E8%B5%84%E5%85%A5%E9%97%A8/" data-id="ck86p4sfs001ic1j53kj69c2t"
+      <a data-url="https://dingzhenkai.github.io/2020/03/17/%E5%9F%BA%E9%87%91%E6%8A%95%E8%B5%84%E5%85%A5%E9%97%A8/" data-id="ck88owpip000o6dj54ham0eqp"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9F%BA%E9%87%91%E6%8A%95%E8%B5%84/" rel="tag">基金投资</a></li></ul>
@@ -446,14 +465,6 @@
 
       
       <h2 id="elasticsearch简介"><a href="#elasticsearch简介" class="headerlink" title="elasticsearch简介"></a>elasticsearch简介</h2><p>官网：<a href="https://www.elastic.co/cn/elasticsearch" target="_blank" rel="noopener">https://www.elastic.co/cn/elasticsearch</a></p>
-<p>elasticsearch 中文名 弹性搜索。</p>
-<p>Wikipedia是这样介绍的</p>
-<blockquote>
-<p><strong>Elasticsearch</strong>是一个基于<a href="https://zh.wikipedia.org/wiki/Lucene" target="_blank" rel="noopener">Lucene</a>库的<a href="https://zh.wikipedia.org/wiki/搜索引擎" target="_blank" rel="noopener">搜索引擎</a>。它提供了一个分布式、支持多租户的<a href="https://zh.wikipedia.org/wiki/全文檢索" target="_blank" rel="noopener">全文搜索</a>引擎，具有<a href="https://zh.wikipedia.org/wiki/HTTP" target="_blank" rel="noopener">HTTP</a> Web接口和无模式<a href="https://zh.wikipedia.org/wiki/JSON" target="_blank" rel="noopener">JSON</a>文档。Elasticsearch是用<a href="https://zh.wikipedia.org/wiki/Java" target="_blank" rel="noopener">Java</a>开发的，并在<a href="https://zh.wikipedia.org/wiki/Apache许可证" target="_blank" rel="noopener">Apache许可证</a>下作为开源软件发布。</p>
-<p>Elasticsearch可以用于搜索各种文档。它提供可扩展的搜索，具有接近实时的搜索，并支持多租户。<a href="https://zh.wikipedia.org/wiki/Elasticsearch#cite_note-offizsite-5" target="_blank" rel="noopener">[5]</a>”Elasticsearch是分布式的，这意味着索引可以被分成分片，每个分片可以有0个或多个副本。每个节点托管一个或多个分片，并充当协调器将操作委托给正确的分片。再平衡和路由是自动完成的。“<a href="https://zh.wikipedia.org/wiki/Elasticsearch#cite_note-offizsite-5" target="_blank" rel="noopener">[5]</a>相关数据通常存储在同一个索引中，该索引由一个或多个主分片和零个或多个复制分片组成。一旦创建了索引，就不能更改主分片的数量。<a href="https://zh.wikipedia.org/wiki/Elasticsearch#cite_note-7" target="_blank" rel="noopener">[7]</a></p>
-<p>Elasticsearch使用Lucene，并试图通过JSON和Java API提供其所有特性。它支持facetting和percolating<a href="https://zh.wikipedia.org/wiki/Elasticsearch#cite_note-8" target="_blank" rel="noopener">[8]</a>，如果新文档与注册查询匹配，这对于通知非常有用。</p>
-<p>另一个特性称为“网关”，处理索引的长期持久性；例如，在服务器崩溃的情况下，可以从网关恢复索引。<a href="https://zh.wikipedia.org/wiki/Elasticsearch#cite_note-gateway-9" target="_blank" rel="noopener">[9]</a>Elasticsearch支持实时GET请求，适合作为<a href="https://zh.wikipedia.org/wiki/NoSQL" target="_blank" rel="noopener">NoSQL</a>数据存储<a href="https://zh.wikipedia.org/wiki/Elasticsearch#cite_note-jetslidedatabase-10" target="_blank" rel="noopener">[10]</a>，但缺少分布式事务。<a href="https://zh.wikipedia.org/wiki/Elasticsearch#cite_note-transactions-11" target="_blank" rel="noopener">[11]</a></p>
-</blockquote>
 <p>这几篇文章介绍elasticsearch比较好</p>
 <ul>
 <li><a href="https://zhuanlan.zhihu.com/p/62892586" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/62892586</a></li>
@@ -462,31 +473,22 @@
 <p><a href="https://data.aliyun.com/product/elasticsearch" target="_blank" rel="noopener">阿里云elasticsearch</a> </p>
 <p><a href="https://es.xiaoleilu.com/index.html" target="_blank" rel="noopener">Elasticsearch 权威指南</a></p>
 <p><a href="https://developer.aliyun.com/topic/elasticsearch" target="_blank" rel="noopener">Elasticsearch公开课 阮一鸣</a></p>
-<h3 id="与普通检索的区别"><a href="#与普通检索的区别" class="headerlink" title="与普通检索的区别"></a>与普通检索的区别</h3><h2 id="docker安装elasticsearch"><a href="#docker安装elasticsearch" class="headerlink" title="docker安装elasticsearch"></a>docker安装elasticsearch</h2><ol>
-<li><p><code>docker pull elasticsearch:7.6.0</code> 拉取镜像 笔者20200305拉取镜像时最新版为7.6.0</p>
-</li>
-<li><p><code>docker network create somenetwork</code> 要与之后的kibana logstash共用一个network</p>
-</li>
-<li><p><code>docker run -d --name elasticsearch --net somenetwork -p 9200:9200 -p 9300:9300 -e &quot;discovery.type=single-node&quot; elasticsearch:7.6.0</code>  运行镜像</p>
-</li>
-<li><p>浏览器访问<code>http://localhost:9200/</code>, 出现如下情况即算成功</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span> : <span class="string">"e8c5385b604b"</span>,</span><br><span class="line">  <span class="attr">"cluster_name"</span> : <span class="string">"docker-cluster"</span>,</span><br><span class="line">  <span class="attr">"cluster_uuid"</span> : <span class="string">"6p6Y_83JRs-OlzDTsFcbQA"</span>,</span><br><span class="line">  <span class="attr">"version"</span> : &#123;</span><br><span class="line">    <span class="attr">"number"</span> : <span class="string">"7.6.0"</span>,</span><br><span class="line">    <span class="attr">"build_flavor"</span> : <span class="string">"default"</span>,</span><br><span class="line">    <span class="attr">"build_type"</span> : <span class="string">"docker"</span>,</span><br><span class="line">    <span class="attr">"build_hash"</span> : <span class="string">"7f634e9f44834fbc12724506cc1da681b0c3b1e3"</span>,</span><br><span class="line">    <span class="attr">"build_date"</span> : <span class="string">"2020-02-06T00:09:00.449973Z"</span>,</span><br><span class="line">    <span class="attr">"build_snapshot"</span> : <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">"lucene_version"</span> : <span class="string">"8.4.0"</span>,</span><br><span class="line">    <span class="attr">"minimum_wire_compatibility_version"</span> : <span class="string">"6.8.0"</span>,</span><br><span class="line">    <span class="attr">"minimum_index_compatibility_version"</span> : <span class="string">"6.0.0-beta1"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"tagline"</span> : <span class="string">"You Know, for Search"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<p>当然这只是单节点的测试环境部署，生产环境部署参考<a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.6/docker.html" target="_blank" rel="noopener">官网链接</a></p>
-<h2 id="docker-安装-kibana"><a href="#docker-安装-kibana" class="headerlink" title="docker 安装 kibana"></a>docker 安装 kibana</h2><ol>
-<li><code>docker pull kibana:7.6.0</code></li>
-<li><code>docker run -d --name kibana --net somenetwork -p 5601:5601 kibana:7.6.0</code></li>
-<li>浏览器访问 <code>http://localhost:5601</code> 显示kibana画面即可</li>
-</ol>
-<h2 id="docker-安装-logstash"><a href="#docker-安装-logstash" class="headerlink" title="docker 安装 logstash"></a>docker 安装 logstash</h2><h2 id="elasticsearch初体验"><a href="#elasticsearch初体验" class="headerlink" title="elasticsearch初体验"></a>elasticsearch初体验</h2>
+<h3 id="与普通检索的区别"><a href="#与普通检索的区别" class="headerlink" title="与普通检索的区别"></a>与普通检索的区别</h3><h2 id="docker-安装-elk"><a href="#docker-安装-elk" class="headerlink" title="docker 安装 elk"></a>docker 安装 elk</h2><p>已有前人整理好在github <a href="https://github.com/deviantony/docker-elk" target="_blank" rel="noopener">https://github.com/deviantony/docker-elk</a></p>
+<p>elk版本可在<code>.env</code>文件中修改，20200325下载时<code>.env</code>中版本号为7.6.0</p>
+<p>The stack is pre-configured with the following <strong>privileged</strong> bootstrap user:</p>
+<ul>
+<li>user: <em>elastic</em></li>
+<li>password: <em>changeme</em></li>
+</ul>
+<p>docker-compose up 拉取镜像并生成容器</p>
+<p>docker-compose down -v 删除容器、镜像和数据</p>
+<h2 id="elasticsearch初体验"><a href="#elasticsearch初体验" class="headerlink" title="elasticsearch初体验"></a>elasticsearch初体验</h2>
       
       <!-- 打赏 -->
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/03/04/elasticsearch%E5%AE%89%E8%A3%85%E4%B8%8E%E5%88%9D%E4%BD%93%E9%AA%8C/" data-id="ck86p4sfk0014c1j59p4b4vej"
+      <a data-url="https://dingzhenkai.github.io/2020/03/04/elasticsearch%E5%AE%89%E8%A3%85%E4%B8%8E%E5%88%9D%E4%BD%93%E9%AA%8C/" data-id="ck88owpik000d6dj58m228phn"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%89%E8%A3%85/" rel="tag">安装</a></li></ul>
@@ -555,7 +557,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/03/03/jira%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/" data-id="ck86p4sfl0016c1j5gpa02abe"
+      <a data-url="https://dingzhenkai.github.io/2020/03/03/jira%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/" data-id="ck88owpiq000t6dj55nl0a95e"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jira/" rel="tag">jira</a></li></ul>
@@ -635,7 +637,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/02/18/Google%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%A4%8F%E7%94%B3%E8%AF%B7%E8%AE%B0%E5%BD%95/" data-id="ck86p4sev0001c1j53u9few3c"
+      <a data-url="https://dingzhenkai.github.io/2020/02/18/Google%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%A4%8F%E7%94%B3%E8%AF%B7%E8%AE%B0%E5%BD%95/" data-id="ck88owpic00026dj52amr3k7t"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Google/" rel="tag">Google</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%9E%E4%B9%A0%E7%94%B3%E8%AF%B7/" rel="tag">实习申请</a></li></ul>
@@ -702,7 +704,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/02/18/%E7%BF%BB%E5%A2%99%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/" data-id="ck86p4sfp001dc1j5ekzn6gcl"
+      <a data-url="https://dingzhenkai.github.io/2020/02/18/%E7%BF%BB%E5%A2%99%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/" data-id="ck88owpim000i6dj56kyx43vn"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A2%AF%E5%AD%90/" rel="tag">梯子</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BF%BB%E5%A2%99/" rel="tag">翻墙</a></li></ul>
@@ -778,7 +780,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/02/02/%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/" data-id="ck86p4sfn001ac1j50krxb1bl"
+      <a data-url="https://dingzhenkai.github.io/2020/02/02/%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/" data-id="ck88owpii000c6dj57c4e5oou"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9F%9F%E5%90%8D/" rel="tag">域名</a></li></ul>
@@ -845,7 +847,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/01/31/DataStructure/" data-id="ck86p4sey0004c1j593m49736"
+      <a data-url="https://dingzhenkai.github.io/2020/01/31/DataStructure/" data-id="ck88owpig00076dj51rx65gkq"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" rel="tag">计算机基础</a></li></ul>
