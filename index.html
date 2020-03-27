@@ -121,7 +121,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/03/23/aliyun-logshipper%E9%85%8D%E7%BD%AE/" data-id="ck88owpil000h6dj5hhz7enna"
+      <a data-url="https://dingzhenkai.github.io/2020/03/23/aliyun-logshipper%E9%85%8D%E7%BD%AE/" data-id="ck8ac2mj60008k0j53qye7fv6"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/logshipper/" rel="tag">logshipper</a></li></ul>
@@ -237,7 +237,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/03/22/elasticsearch%E5%85%AC%E5%BC%80%E8%AF%BE%E9%98%AE%E4%B8%80%E9%B8%A3/" data-id="ck88owpio000m6dj57ili0hhg"
+      <a data-url="https://dingzhenkai.github.io/2020/03/22/elasticsearch%E5%85%AC%E5%BC%80%E8%AF%BE%E9%98%AE%E4%B8%80%E9%B8%A3/" data-id="ck8ac2mj8000bk0j59nys3ud6"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li></ul>
@@ -316,7 +316,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/03/21/Cuttlefish%E4%BB%8B%E7%BB%8D/" data-id="ck88owpi800006dj50shr2ogl"
+      <a data-url="https://dingzhenkai.github.io/2020/03/21/Cuttlefish%E4%BB%8B%E7%BB%8D/" data-id="ck8ac2mj50006k0j5fmh17f6a"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Cuttlefish/" rel="tag">Cuttlefish</a></li></ul>
@@ -403,7 +403,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/03/17/%E5%9F%BA%E9%87%91%E6%8A%95%E8%B5%84%E5%85%A5%E9%97%A8/" data-id="ck88owpip000o6dj54ham0eqp"
+      <a data-url="https://dingzhenkai.github.io/2020/03/17/%E5%9F%BA%E9%87%91%E6%8A%95%E8%B5%84%E5%85%A5%E9%97%A8/" data-id="ck8ac2mjd000mk0j53hrq6hk0"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9F%BA%E9%87%91%E6%8A%95%E8%B5%84/" rel="tag">基金投资</a></li></ul>
@@ -475,6 +475,7 @@
 <p><a href="https://developer.aliyun.com/topic/elasticsearch" target="_blank" rel="noopener">Elasticsearch公开课 阮一鸣</a></p>
 <h3 id="与普通检索的区别"><a href="#与普通检索的区别" class="headerlink" title="与普通检索的区别"></a>与普通检索的区别</h3><h2 id="docker-安装-elk"><a href="#docker-安装-elk" class="headerlink" title="docker 安装 elk"></a>docker 安装 elk</h2><p>已有前人整理好在github <a href="https://github.com/deviantony/docker-elk" target="_blank" rel="noopener">https://github.com/deviantony/docker-elk</a></p>
 <p>elk版本可在<code>.env</code>文件中修改，20200325下载时<code>.env</code>中版本号为7.6.0</p>
+<p>当前默认用的是30天试用版本，可以在es配置文件es.yml中修改trial为basic改成免费版</p>
 <p>The stack is pre-configured with the following <strong>privileged</strong> bootstrap user:</p>
 <ul>
 <li>user: <em>elastic</em></li>
@@ -482,13 +483,17 @@
 </ul>
 <p>docker-compose up 拉取镜像并生成容器</p>
 <p>docker-compose down -v 删除容器、镜像和数据</p>
+<p>插入数据可以在elk都配好之后</p>
+<p><code>cat data.csv | nc -c localhost 5000</code> 通过logstash插入到es中</p>
+<p>可以在logstash配置文件logstash.conf中配置fliter来将原始数据变成结构化数据</p>
+<p>然后kibana打开</p>
 <h2 id="elasticsearch初体验"><a href="#elasticsearch初体验" class="headerlink" title="elasticsearch初体验"></a>elasticsearch初体验</h2>
       
       <!-- 打赏 -->
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/03/04/elasticsearch%E5%AE%89%E8%A3%85%E4%B8%8E%E5%88%9D%E4%BD%93%E9%AA%8C/" data-id="ck88owpik000d6dj58m228phn"
+      <a data-url="https://dingzhenkai.github.io/2020/03/04/elasticsearch%E5%AE%89%E8%A3%85%E4%B8%8E%E5%88%9D%E4%BD%93%E9%AA%8C/" data-id="ck8ac2mja000fk0j5avgi25iq"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%89%E8%A3%85/" rel="tag">安装</a></li></ul>
@@ -557,7 +562,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/03/03/jira%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/" data-id="ck88owpiq000t6dj55nl0a95e"
+      <a data-url="https://dingzhenkai.github.io/2020/03/03/jira%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D/" data-id="ck8ac2mj8000ck0j5ek6nd7u9"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jira/" rel="tag">jira</a></li></ul>
@@ -637,7 +642,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/02/18/Google%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%A4%8F%E7%94%B3%E8%AF%B7%E8%AE%B0%E5%BD%95/" data-id="ck88owpic00026dj52amr3k7t"
+      <a data-url="https://dingzhenkai.github.io/2020/02/18/Google%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%A4%8F%E7%94%B3%E8%AF%B7%E8%AE%B0%E5%BD%95/" data-id="ck8ac2mj10002k0j5hw7v5v8z"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Google/" rel="tag">Google</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%9E%E4%B9%A0%E7%94%B3%E8%AF%B7/" rel="tag">实习申请</a></li></ul>
@@ -704,7 +709,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/02/18/%E7%BF%BB%E5%A2%99%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/" data-id="ck88owpim000i6dj56kyx43vn"
+      <a data-url="https://dingzhenkai.github.io/2020/02/18/%E7%BF%BB%E5%A2%99%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/" data-id="ck8ac2mje000rk0j5f85g1l7l"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A2%AF%E5%AD%90/" rel="tag">梯子</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BF%BB%E5%A2%99/" rel="tag">翻墙</a></li></ul>
@@ -780,7 +785,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/02/02/%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/" data-id="ck88owpii000c6dj57c4e5oou"
+      <a data-url="https://dingzhenkai.github.io/2020/02/02/%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/" data-id="ck8ac2mjc000kk0j5asdshpoa"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9F%9F%E5%90%8D/" rel="tag">域名</a></li></ul>
@@ -847,7 +852,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/01/31/DataStructure/" data-id="ck88owpig00076dj51rx65gkq"
+      <a data-url="https://dingzhenkai.github.io/2020/01/31/DataStructure/" data-id="ck8ac2mix0000k0j5hw9patlj"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" rel="tag">计算机基础</a></li></ul>
