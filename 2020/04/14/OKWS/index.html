@@ -67,7 +67,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">6字</span>
+            <span class="post-count">2.6k字</span>
         </span>
     </span>
 
@@ -76,7 +76,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1分钟</span>
+            <span class="post-count">10分钟</span>
         </span>
     </span>
 </div>
@@ -102,7 +102,171 @@
       
 
       
-      <h2 id="简单翻译"><a href="#简单翻译" class="headerlink" title="简单翻译"></a>简单翻译</h2><h2 id="Paper-review"><a href="#Paper-review" class="headerlink" title="Paper review"></a>Paper review</h2>
+      <h2 id="简单翻译"><a href="#简单翻译" class="headerlink" title="简单翻译"></a>简单翻译</h2><h3 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h3><h2 id="Paper-review"><a href="#Paper-review" class="headerlink" title="Paper review"></a>Paper review</h2><h2 id="相关情报"><a href="#相关情报" class="headerlink" title="相关情报"></a>相关情报</h2><p><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3148" target="_blank" rel="noopener">CVE-2014-3148</a> OkCupid OKWS 跨站脚本漏洞</p>
+<blockquote>
+<p>OkCupidOKWS（OKWebServer）是一款用于创建Web服务的Web服务器。OkCupidOKWS的libahttp/err.c文件中存在安全漏洞，该漏洞源于non-existent页面没有充分过滤‘PATH_INFO’值。远程攻击者可利用该漏洞注入任意Web脚本或HTML。</p>
+</blockquote>
+<p><a href="https://github.com/YuZhang/Security-Courseware/blob/master/system-security/privilege-separation.md" target="_blank" rel="noopener">https://github.com/YuZhang/Security-Courseware/blob/master/system-security/privilege-separation.md</a></p>
+<blockquote>
+<h1 id="特权分离"><a href="#特权分离" class="headerlink" title="特权分离"></a>特权分离</h1><h3 id="哈尔滨工业大学-网络与信息安全-张宇-2016"><a href="#哈尔滨工业大学-网络与信息安全-张宇-2016" class="headerlink" title="哈尔滨工业大学 网络与信息安全 张宇 2016"></a>哈尔滨工业大学 网络与信息安全 张宇 2016</h3><hr>
+<p>本节课学习特权分离概念，一种web服务器安全体系OKWS。</p>
+<h2 id="访问控制"><a href="#访问控制" class="headerlink" title="访问控制"></a>访问控制</h2><p><a href="https://en.wikipedia.org/wiki/Access_control" target="_blank" rel="noopener">访问控制（access control (AC)）</a>：对资源消耗，访问，使用的的选择性限制。</p>
+<ul>
+<li>“访问”包含三个元素：主体，对象（客体），操作</li>
+<li>认证（authentication）过程识别主体的真正身份<ul>
+<li>“你知道的”：例如网站口令</li>
+<li>“你拥有的”：例如手机sim卡</li>
+<li>“你是什么”：例如指纹，虹膜</li>
+<li>恢复机制：口令恢复通道（email，短信）；你所知道的其他知识</li>
+<li>双因子（two-factor）认证：例如在ATM上取款需要银行卡和口令</li>
+</ul>
+</li>
+<li>对访问资源的许可称为“授权（authorization）”</li>
+<li>强制访问控制（Mandatory Access Control，MAC），系统强制执行，例如特权用户与非特权用户</li>
+<li>自主访问控制（Discretionary Access Control，DAC），资源拥有者自定义，例如文件权限</li>
+</ul>
+<p>实现访问控制依赖于 <a href="https://en.wikipedia.org/wiki/Reference_monitor" target="_blank" rel="noopener">引用监视器（reference monitor）</a>：在操作系统中，对引用验证机制（reference validation mechanism，RVM）的一个设计需求集合，来强制实现访问控制策略，需满足一下需求：</p>
+<ul>
+<li>不可绕过（Non-bypassable）：RVM必须始终被调用（always invoked），完全介入（complete mediation）</li>
+<li>防篡改（Tamper-proof）：否则，不能保证不可绕过</li>
+<li>可验证（Verifiable）：RVM必须足够小，以进行分析，测试，确保不可绕过</li>
+</ul>
+<p>实现引用监视器依赖于 <a href="https://en.wikipedia.org/wiki/Trusted_computing_base" target="_blank" rel="noopener">可信计算基（trusted computing base）</a>：实现安全策略的关键硬件、固件、软件的集合，若发生故障则无法实现安全；区别于其他即使发生故障也不会影响安全的组件</p>
+<p><a href="https://en.wikipedia.org/wiki/Time_of_check_to_time_of_use" target="_blank" rel="noopener">TOCTOU (time-of-check-time-of-use)</a>：指访问控制的检查时刻与使用时刻之间相关资源已改变。</p>
+<p>受害程序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;if (access(&quot;file&quot;, W_OK) !&#x3D; 0) &#123;</span><br><span class="line">  exit(1);</span><br><span class="line">&gt;&#125;</span><br><span class="line"></span><br><span class="line">&gt;fd &#x3D; open(&quot;file&quot;, O_WRONLY);</span><br><span class="line">&gt;&#x2F;&#x2F; Actually writing over &#x2F;etc&#x2F;passwd</span><br><span class="line">&gt;write(fd, buffer, sizeof(buffer));</span><br></pre></td></tr></table></figure>
+
+<p>攻击程序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&#x2F;&#x2F; After the access check</span><br><span class="line">&gt;symlink(&quot;&#x2F;etc&#x2F;passwd&quot;, &quot;file&quot;);</span><br><span class="line">&gt;&#x2F;&#x2F; Before the open, &quot;file&quot; points to the password database</span><br></pre></td></tr></table></figure>
+
+<h2 id="UNIX操作系统中的特权"><a href="#UNIX操作系统中的特权" class="headerlink" title="UNIX操作系统中的特权"></a>UNIX操作系统中的特权</h2><p><a href="https://en.wikipedia.org/wiki/Privilege_(computing)" target="_blank" rel="noopener">特权（privilege）</a>：允许用户（主体）对一个计算机系统（客体）执行特定操作的授权。</p>
+<p>Unix中的主体与客体：</p>
+<ul>
+<li>Unix系统包含一个内核和多个<strong>进程</strong></li>
+<li>用<strong>文件</strong>作为所有持久性系统对象的概念</li>
+<li><strong>进程</strong>有各自的<strong>内存地址空间</strong></li>
+<li><strong>进程</strong>与<strong>用户</strong>相关联，<strong>用户</strong>与<strong>文件</strong>访问权限相关联</li>
+</ul>
+<p>Unix系统采用强制访问控制，<strong>‘root’</strong>特权用户（UID=0）拥有全部特权，而一般用户不具备的特权包括：</p>
+<ul>
+<li>调整运行级别，内核选项</li>
+<li>调整<code>ulimit</code>或磁盘份额</li>
+<li>更改系统文件，或其他用户的文件</li>
+<li>更改文件的所有者或组,<code>chown/chgrp</code></li>
+<li>创建或删除用户或组，<code>adduser/deluser</code></li>
+<li>执行<code>sbin/</code>目录中内容</li>
+<li>绑定小于1024的端口，创建原始套接字</li>
+<li>启动或终止精灵进程</li>
+<li>向其他用户的进程发信号</li>
+<li>创建设备节点，挂载/卸载（<code>mount/unmount</code>）磁盘分卷</li>
+</ul>
+<p><a href="https://en.wikipedia.org/wiki/File_system_permissions" target="_blank" rel="noopener">文件系统权限（permission）</a>：作为一种自主访问控制，文件拥有者自主定义访问控制，表示为模式位（mode bit）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> 0     123    456    789 bit</span><br><span class="line">[type][owner][group][other]    </span><br><span class="line">[-   ][rwx  ][rwx  ][rwx  ]    +—&gt; [s]etuid&#x2F;gid</span><br><span class="line"> |     |                       |—&gt; s[t]icky</span><br><span class="line"> |     |——&gt; [r]ead, [w]rite, e[x]ecute</span><br><span class="line"> |</span><br><span class="line"> |——&gt; [-]ordinary, [d]irectory, [l]ink,</span><br><span class="line"> |——&gt; [s]ocket, [p]ipe, [c]haracter, [b]lock</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>s[t]icky</code>位: 在目录上设置粘滞位，目录内文件的所有者或者root才可以删除或移动该文件。例如，临时文件目录<code>/tmp</code>，对所有用户可读写，但一个用户不能删除或改动其他用户文件。</li>
+<li><code>[s]etuid/setgid</code>位：执行该文件时，进程<code>euid</code>为文件拥有者。例如，<code>/bin/ping</code>。</li>
+</ul>
+<p><a href="https://en.wikipedia.org/wiki/User_identifier" target="_blank" rel="noopener">用户ID与进程</a>：当用户登录到系统时创建与其关联的进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt;|————————————|———————————————————|———————————————|</span><br><span class="line">&gt;|            |     Set           |     Get       |</span><br><span class="line">&gt;|————————————|———————————————————|———————————————|</span><br><span class="line">&gt;| Effective  | login,            |geteuid        |</span><br><span class="line">&gt;| UID (euid) | setuid(ruid)      |               |</span><br><span class="line">&gt;|            | exec (owner),     |setreuid       |</span><br><span class="line">&gt;|            | setreuid(ruid)    |               |</span><br><span class="line">&gt;|————————————|———————————————————|———————————————|</span><br><span class="line">&gt;| Real UID   | login, setuid,    |setuid, getuid |</span><br><span class="line">&gt;| (ruid)     | setreuid(euid)    |               |</span><br><span class="line">&gt;|————————————|———————————————————|———————————————|</span><br><span class="line">&gt;| Saved UID  | login, exec(euid),|setuid         |</span><br><span class="line">&gt;| (suid)     | setuid            |               |</span><br><span class="line">&gt;|————————————|———————————————————|———————————————|</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>缺省情况下，例如登录后<code>euid = ruid = suid</code></li>
+<li><code>euid</code>：进程多数权限依赖于<code>euid</code>，例如新创建文件的拥有者。<code>euid=0</code>的进程为特权进程。(Linux中还有<code>fsuid</code>)</li>
+<li><code>ruid</code>：进程真正拥有者（启动者），拥有发信号权限</li>
+<li><code>suid</code>：临时保存<code>euid</code>，待之后恢复。用于特权用户临时降低特权，之后再恢复特权</li>
+<li>Linux中的<code>fsuid/gid</code>用于文件系统访问控制，通常与<code>euid/gid</code>一致</li>
+<li>进程<code>fork</code>或<code>exec</code>时，继承或保留3个uid</li>
+<li><code>setuid()</code>函数族设置<code>uid/gid</code>，但实际情况比较复杂，详见<a href="https://www.usenix.org/legacy/events/sec02/full_papers/chen/chen.pdf" target="_blank" rel="noopener">Setuid Demystified (USENIX Security 2002)</a></li>
+<li><code>sudo</code>命令：临时以特定用户（缺省root）特权来执行命令。例如，<code>sudo apt-get</code></li>
+</ul>
+<p><a href="https://en.wikipedia.org/wiki/Privilege_escalation" target="_blank" rel="noopener">特权扩大（privilege escalation）</a>：利用操作系统或软件应用中的bug、设计缺陷或配置疏漏来获得访问被保护资源的特权。</p>
+<ul>
+<li><p>垂直特权扩大：即特权提升（privilege elevation），低特权用户获得高特权用户的特权，通常获得系统管理权。例如，Unix系统中越狱(jailbreaking)打破</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chroot</span><br></pre></td></tr></table></figure>
+
+<p>或</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jail</span><br></pre></td></tr></table></figure>
+
+<p>限制，以及Android中获取root。</p>
+<ul>
+<li><p><code>chroot</code></p>
+<p>命令：</p>
+<ul>
+<li>该命令只有root可以执行：<code>chroot /tmp/guest</code>, <code>su guest</code></li>
+<li>改变当前进程的根目录，将进程文件系统特权限制在指定jail目录下</li>
+<li><code>open(&quot;/etc/passwd&quot;, &quot;r&quot;)</code> -&gt; <code>open(&quot;/tmp/guest/etc/passwd&quot;, &quot;r&quot;)</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>水平特权扩大：一个用户获得另一用户的特权。例如，在一个网银中，用户甲通过cookie劫持来访问用户乙的银行账户。</p>
+</li>
+</ul>
+<p><a href="https://en.wikipedia.org/wiki/Principle_of_least_privilege" target="_blank" rel="noopener"><strong>最小特权原则（principle of least privilege）</strong></a>：限制每个主体只具有执行合法操作所必须的最小特权。</p>
+<h2 id="特权分离-1"><a href="#特权分离-1" class="headerlink" title="特权分离"></a>特权分离</h2><p>参考文献：<a href="http://www.citi.umich.edu/u/provos/papers/privsep.pdf" target="_blank" rel="noopener">Preventing Privilege Escalation (USENIX Security 2003)</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Privilege_separation" target="_blank" rel="noopener">特权分离（privilege separation）</a>：将特权代码最小化，同时不影响功能。</p>
+<p>将一个程序划分为多个组件，根据执行特定任务的需求来限制每个组件的特权。攻破某个组件只能获取该组件特权，而不会得到其他特权。因此，也称为“compartmentalisation（分解法）”。已被应用于OpenSSH, Google Chromium浏览器。</p>
+<ul>
+<li>服务分为一个特权父进程monitor和多个非特权子进程slave</li>
+<li>slave去权限通过UID/GID实现</li>
+<li>slave与monitor通过socketpair通信</li>
+<li>slave请求monitor提供三种权限：信息，能力，UID/GID改变<ul>
+<li>信息：slave向monitor发送信息请求(请求类型，长度)</li>
+<li>能力：通过file descriptor passing机制来访问特权文件</li>
+<li>UID改变：保留slave状态，终止slave，启动有新UID的新slave</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="OKWS"><a href="#OKWS" class="headerlink" title="OKWS"></a>OKWS</h2><p>参考文献：<a href="https://github.com/YuZhang/Security-Courseware/blob/master/system-security/supplements/okws.pdf" target="_blank" rel="noopener">Building Secure High-Performance Web Services with OKWS (USENIX ATC 2004) [local]</a></p>
+<p>实验系统<code>zookws</code>源自于OKWS，一个特权分离web服务器。OKWS实现以下目标：</p>
+<ol>
+<li><pre><code>chroot
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  所有服务到一个jail目录</span><br><span class="line"></span><br><span class="line">  - 以操作系统级jail来隐藏敏感文件。在jail中，每个进程的特权只包括，在启动时读取共享库，以及在异常终止时dump core。所有服务从来不访问文件系统，也没有该特权。</span><br><span class="line"></span><br><span class="line">&gt;- 每个服务以一个唯一的非特权用户来运行</span><br><span class="line"> - 即使在&#96;chroot&#96;环境下，特权用户可以绑定端口，跟踪系统调用或发送信号。</span><br><span class="line">&gt;- 服务器进程应只具有最小数据库访问特权</span><br><span class="line"> - 在web服务和数据库之间插入一个结构化RPC接口，替代直接SQL查询接口，使用简单的认证机制来在不同进程划分上划分数据库访问方法。</span><br><span class="line">&gt;- 独立的功能应分离到独立的进程</span><br><span class="line"> - 每个web服务作为一个独立进程。否则，攻击者可以查看内存中数据结构，其中可能包括会话管理数据，或用于认证的秘密token；攻击者劫持存在的数据库连接；监控改变网络流量。</span><br><span class="line"></span><br><span class="line">&gt;OKWS体系结构：</span><br><span class="line"></span><br><span class="line">&gt;- &#96;okld&#96;：启动&#x2F;重启定制服务</span><br><span class="line">&gt;- &#96;okd&#96;：将到来的请求分发到适合的服务</span><br><span class="line">&gt;- &#96;pubd&#96;：具有有限权限：读取磁盘中配置文件和HTML模板文件</span><br><span class="line">&gt;- &#96;oklogd&#96;：专门的日志精灵进程在磁盘上写入日志</span><br><span class="line">&gt;- &#96;svc1&#x2F;2&#x2F;3&#96;：定制服务</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+  |     +———————+      +————————+   
+  |     |  okld +—————&gt;| oklogd | 
+  |     +———+———+      +————————+             
+  |         |———————+       
+  |         |       |               
+HTTP    +———v———+   |  +———————+     +——————————+
+&lt;====|===&gt; |  okd  |&lt;——+—&gt;|  svc1 |     | Database |
+  |     +———+———+   |  +————+——+     +————^—————+ 
+  |         |       |       +—————+       |
+  |     +———v———+   |  +———————+  |   +———+——+
+  |     |  pubd |   +—&gt;|  svc2 +——+——&gt;| Data2 |
+  |     +———————+   |  +———————+      +———————+
+  |                 |  +———————+      +———————+   
+  |                 +—&gt;|  svc3 +—————&gt;| Data3 |
+                       +———————+      +———————+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&gt;考虑到安全和性能之间的取舍，每个服务一个进程，而不是每个客户一个进程。OKWS权限分离方案：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+|—————————|——————————————————|———————————————|——————|——————|
+| process |chroot jail       |run directory  |uid   | gid  |
+|—————————|——————————————————|———————————————|——————|——————|
+| okld    | /var/okws/run    | /             |root  |wheel |
+| pubd    | /var/okws/htdocs | /             |www   |www   |
+| oklogd  | /var/okws/log    | /             |oklogd|oklogd|
+| okd     | /var/okws/run    | /             |okd   |okd   |
+| svc1    | /var/okws/run    | /cores/51001  |51001 |51001 |
+| svc2    | /var/okws/run    | /cores/51002  |51002 |51002 |
+| svc3    | /var/okws/run    | /cores/51003  |51003 |51003 |
+|—————————|——————————————————|———————————————|——————|——————|</code></pre></li>
+</ol>
+<p>OKWS安全优点：</p>
+<ul>
+<li>本地文件系统：除了执行定制代码，几乎不访问文件系统</li>
+<li>其他特权：进程间彼此分离，除了<code>okld</code>，没有进程能绑定特权端口</li>
+<li>数据库访问：所有数据库访问通过RPC通道使用独立鉴别机制；攻击者直接面对RPC协议声明，无法用SQL客户端访问</li>
+<li>进程隔离与特权分离：将容易出bug的HTTP语法分析与其他敏感区域分离，并赋予最低特权；拥有特权的<code>okld</code>只处理信号，不处理其他消息</li>
+</ul>
+<p>OKWS安全缺点：</p>
+<ul>
+<li>目前只支持C++来开发服务；需要安全字符串类来生成输出，不能阻止程序员是使用不安全编程技术</li>
+<li>一旦被攻破，攻击者可以访问其他用户的在内存中的状态（因为相同服务的用户共享一个进程）</li>
+<li>仍然受核心库中bug影响</li>
+</ul>
+</blockquote>
+
       
       <!-- 打赏 -->
       
@@ -112,7 +276,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/04/14/OKWS/" data-id="ck8zbk19y0007a2j5ds0x2rdx"
+      <a data-url="https://dingzhenkai.github.io/2020/04/14/OKWS/" data-id="ck93yjbbe000hzsj5hqajbhog"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Web%E5%AE%89%E5%85%A8/" rel="tag">Web安全</a></li></ul>
@@ -124,6 +288,15 @@
   
   
   <nav class="article-nav">
+    
+      <a href="/2020/04/14/Algorithm-Network-Flow/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            Algorithm_Network_Flow
+          
+        </div>
+      </a>
     
     
       <a href="/2020/04/09/Transactional-storage-for-geo-replicated-systems/" class="article-nav-link">
