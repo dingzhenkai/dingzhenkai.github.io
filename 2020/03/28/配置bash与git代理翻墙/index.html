@@ -10,7 +10,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    配置bash与git代理翻墙 |  丁星乐
+    配置bash与git代理 |  丁星乐
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -43,7 +43,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  配置bash与git代理翻墙
+  配置bash与git代理
 </h1>
   
 
@@ -67,7 +67,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">49字</span>
+            <span class="post-count">104字</span>
         </span>
     </span>
 
@@ -103,7 +103,14 @@
 
       
       <h2 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h2><p>有时下载国外工具速度太慢或者就连接失败，所以有bash代理的需求，其中以git代理需求最为强烈。</p>
-<h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><p>参考<a href="https://juejin.im/post/5cfe66406fb9a07edb393c56" target="_blank" rel="noopener">一招git clone加速</a></p>
+<h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><p>参考<a href="https://blog.csdn.net/hanqingsong412/article/details/50464465" target="_blank" rel="noopener">https://blog.csdn.net/hanqingsong412/article/details/50464465</a></p>
+<p>速度由 20kb/s 到 1mb/s</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git config --global https.proxy http://202.120.32.250:5678</span><br><span class="line">git config --global http.proxy http://202.120.32.250:5678</span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看所有git 设置</span></span><br><span class="line">git config --global http.proxy -l</span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">unset</span></span></span><br><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
+
+
+
+
+
 
       
       <!-- 打赏 -->
@@ -114,7 +121,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/03/28/%E9%85%8D%E7%BD%AEbash%E4%B8%8Egit%E4%BB%A3%E7%90%86%E7%BF%BB%E5%A2%99/" data-id="ck93yjbbu001fzsj575lu1p8i"
+      <a data-url="https://dingzhenkai.github.io/2020/03/28/%E9%85%8D%E7%BD%AEbash%E4%B8%8Egit%E4%BB%A3%E7%90%86%E7%BF%BB%E5%A2%99/" data-id="ckam2fsxu002zlwj5c9eph5rx"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bash/" rel="tag">bash</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li></ul>
