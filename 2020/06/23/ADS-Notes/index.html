@@ -10,7 +10,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-     丁星乐
+    ADS_Notes |  丁星乐
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -34,55 +34,17 @@
 <body>
   <div id="app">
     <main class="content">
-      
-<section class="cover">
-    
-      
-      <a class="forkMe" href="https://github.com/dingzhenkai"
-        target="_blank"><img width="149" height="149" src="/images/forkme.png"
-          class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
-    
-  <div class="cover-frame">
-    <div class="bg-box">
-      <img src="/images/cover.jpg" alt="image frame" />
-    </div>
-    <div style="color:#000" class="cover-inner text-center text-white">
-      <h1><a style="color:#000" href="/">丁星乐</a></h1>
-      <div id="subtitle-box">
-        
-        <span id="subtitle"></span>
-        
-      </div>
-      <div>
-        
-      </div>
-    </div>
-  </div>
-  <div class="cover-learn-more">
-    <a href="javascript:void(0)" class="anchor"><i class="ri-arrow-down-line"></i></a>
-  </div>
-</section>
-
-
-<div id="main">
-  <section class="outer">
-  <article class="articles">
-    
-    
-    
-    
-    <article id="post-ADS-Notes" class="article article-type-post" itemscope
+      <section class="outer">
+  <article id="post-ADS-Notes" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
     
     <header class="article-header">
        
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/06/23/ADS-Notes/"
-    >ADS_Notes</a
-  >
-</h2>
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  ADS_Notes
+</h1>
   
 
     </header>
@@ -100,9 +62,36 @@
 
       
       
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">14k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">52分钟</span>
+        </span>
+    </span>
+</div>
+
       
     </div>
     
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
 
     
 
@@ -394,6 +383,10 @@
       
       <!-- 打赏 -->
       
+      <div id="reward-btn">
+        打赏
+      </div>
+      
     </div>
     <footer class="article-footer">
       <a data-url="https://dingzhenkai.github.io/2020/06/23/ADS-Notes/" data-id="ckbuxs77b00005pj566c89rlo"
@@ -406,702 +399,80 @@
   </div>
 
   
-
   
-  
-  
-
-  
-
-</article>
+  <nav class="article-nav">
     
-    <article id="post-docker迁移-var-lib-docker" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
     
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/05/19/docker%E8%BF%81%E7%A7%BB-var-lib-docker/"
-    >docker迁移/var/lib/docker</a
-  >
-</h2>
-  
-
-    </header>
+      <a href="/2020/05/19/docker%E8%BF%81%E7%A7%BB-var-lib-docker/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">docker迁移/var/lib/docker</div>
+      </a>
     
-
-    
-    <div class="article-meta">
-      <a href="/2020/05/19/docker%E8%BF%81%E7%A7%BB-var-lib-docker/" class="article-date">
-  <time datetime="2020-05-19T08:51:26.000Z" itemprop="datePublished">2020-05-19</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/docker/">docker</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>第一步，停止docker服务</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">ps aux | grep -i docker | grep -v grep // 结果为空则说明服务已经停止</span><br></pre></td></tr></table></figure>
-
-<p>第二步，将/var/lib/docker迁移到新的文件夹</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync -aqxP /var/lib/docker /mnt/datadrive/</span><br></pre></td></tr></table></figure>
-
-<p>第三步，修改docker启动脚本</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim /lib/systemd/system/docker.service</span><br><span class="line"></span><br><span class="line">FROM:</span><br><span class="line">ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock</span><br><span class="line">TO:</span><br><span class="line">ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock --graph=/mnt/datadrive/docker</span><br></pre></td></tr></table></figure>
-
-<p>第四步，重启docker</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line"> </span><br><span class="line">systemctl restart docker</span><br><span class="line"> </span><br><span class="line">systemctl enable docker  //开机启动</span><br></pre></td></tr></table></figure>
-
-<p>第五步, 启动后确认没问题，删除旧的/var/lib/docker</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf /var/lib/docker</span><br></pre></td></tr></table></figure>
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://linuxconfig.org/how-to-move-docker-s-default-var-lib-docker-to-another-directory-on-ubuntu-debian-linux" target="_blank" rel="noopener">https://linuxconfig.org/how-to-move-docker-s-default-var-lib-docker-to-another-directory-on-ubuntu-debian-linux</a></p>
-<p><a href="https://my.oschina.net/qbj/blog/2998164" target="_blank" rel="noopener">https://my.oschina.net/qbj/blog/2998164</a></p>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/05/19/docker%E8%BF%81%E7%A7%BB-var-lib-docker/" data-id="ckbuxs78a001j5pj5dbvt3vz1"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%81%E7%A7%BB-var-lib-docker/" rel="tag">迁移/var/lib/docker</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-微信小程序逆向" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/05/16/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%80%86%E5%90%91/"
-    >微信小程序逆向</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/05/16/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%80%86%E5%90%91/" class="article-date">
-  <time datetime="2020-05-16T05:20:23.000Z" itemprop="datePublished">2020-05-16</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E9%80%86%E5%90%91/">逆向</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>微信小程序基本是js写的，我们的目标就是逆向出其源码，再打包运行</p>
-<p>具体可分为三步：</p>
-<ul>
-<li>获取小程序安装包</li>
-<li>逆向安装包得出源码</li>
-<li>编译运行</li>
-</ul>
-<h2 id="Dump-pkg"><a href="#Dump-pkg" class="headerlink" title="Dump pkg"></a>Dump pkg</h2><p>dump pkg有三种方式</p>
-<ul>
-<li>pkg文件在data/data/com.tencent.mm/MicroMsg/用户名ID<code>（ 类似于 2bc**************b65</code>)/appbrand/pkg下，找一部root设备(模拟器，刷机或者vmos)pull出来即可</li>
-<li><a href="https://jingyan.baidu.com/article/6d704a13529ab728da51ca4f.html" target="_blank" rel="noopener">备份数据</a></li>
-<li>Windows 微信文件夹里面, 不过现在好像不行了</li>
-</ul>
-<h2 id="Decompile"><a href="#Decompile" class="headerlink" title="Decompile"></a>Decompile</h2><p>使用已有<a href="https://github.com/dingzhenkai/wxappUnpacker" target="_blank" rel="noopener">脚本</a>反编译得出源码</p>
-<p>这一步需要node环境，可以用docker</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker pull node:12</span><br><span class="line">docker run -itd --name mynode node:12</span><br><span class="line">docker cp XXX.wxapkg [containerid]:[path]</span><br><span class="line">docker exec -it [containerid] bash</span><br><span class="line">node wuWxapkg.js [-d] &lt;path/to/.wxapkg&gt;</span><br><span class="line">docker cp [containerid]:[path] proj/</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="Compile"><a href="#Compile" class="headerlink" title="Compile"></a>Compile</h2><p>使用微信开发者工具导入并编译</p>
-<h2 id="Refer"><a href="#Refer" class="headerlink" title="Refer"></a>Refer</h2><p><a href="https://github.com/gzh4213/wxappUnpacker/blob/master/README.md" target="_blank" rel="noopener">https://github.com/gzh4213/wxappUnpacker/blob/master/README.md</a></p>
-<p><a href="https://github.com/zhouyu1993/wxappUnpacker" target="_blank" rel="noopener">https://github.com/zhouyu1993/wxappUnpacker</a></p>
-<p><a href="http://lrdcq.com/me/read.php/66.htm" target="_blank" rel="noopener">http://lrdcq.com/me/read.php/66.htm</a></p>
-<p><a href="https://www.52pojie.cn/thread-1092806-1-1.html" target="_blank" rel="noopener">https://www.52pojie.cn/thread-1092806-1-1.html</a></p>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/05/16/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%80%86%E5%90%91/" data-id="ckbuxs79s004b5pj5adn2coj6"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">微信小程序</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-The-Android-Platform-Security-Model" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/05/15/The-Android-Platform-Security-Model/"
-    >The_Android_Platform_Security_Model</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/05/15/The-Android-Platform-Security-Model/" class="article-date">
-  <time datetime="2020-05-15T06:52:46.000Z" itemprop="datePublished">2020-05-15</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://loccs.sjtu.edu.cn/gossip/blog/2019/07/25/the-android-platform-security-model/" target="_blank" rel="noopener">https://loccs.sjtu.edu.cn/gossip/blog/2019/07/25/the-android-platform-security-model/</a></p>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/05/15/The-Android-Platform-Security-Model/" data-id="ckbuxs78600155pj5dsfa5d3x"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android-Security/" rel="tag">Android Security</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-Algorithm-Approximation" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/05/13/Algorithm-Approximation/"
-    >Algorithm-Approximation</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/05/13/Algorithm-Approximation/" class="article-date">
-  <time datetime="2020-05-13T09:25:02.000Z" itemprop="datePublished">2020-05-13</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/">算法笔记</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h2 id="lec-17"><a href="#lec-17" class="headerlink" title="lec 17"></a>lec 17</h2><blockquote>
-<p>对于许多的问题的算法，我们通常目标在于设计一个可以在多项式时间内运行的算法。然而，上一节的NP问题告诉我们这样的算法不一定存在。近似算法其实是针对NP难问题的一种退让，对于许多P不等于NP的最优化问题，无法在多项式时间内找到最优解。因此，如果可以只求一个我们可以接受的解，而不是非要最优解，那么可能存在一个多项式时间的算法。因此，这里的“近似”其实就是针对最优化问题而言的。其主要应用也是用来解决最优化的问题，并且要求其时间花销为多项式级别的时间。</p>
-</blockquote>
-<p>对一个NPO问题，设计近似算法的步骤：</p>
-<ul>
-<li>找nature</li>
-<li>设计算法</li>
-<li>factor</li>
-</ul>
-<h2 id="lec-18"><a href="#lec-18" class="headerlink" title="lec 18"></a>lec 18</h2><h3 id="Steiner-tree"><a href="#Steiner-tree" class="headerlink" title="Steiner tree"></a>Steiner tree</h3><h3 id="TSP"><a href="#TSP" class="headerlink" title="TSP"></a>TSP</h3><h2 id="lec-19"><a href="#lec-19" class="headerlink" title="lec 19"></a>lec 19</h2><h2 id="lec-20"><a href="#lec-20" class="headerlink" title="lec 20"></a>lec 20</h2>
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/05/13/Algorithm-Approximation/" data-id="ckbuxs77i00055pj53pjyeyb0"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%91%E4%BC%BC%E7%AE%97%E6%B3%95/" rel="tag">近似算法</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-Linux用户和用户组管理" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/05/10/Linux%E7%94%A8%E6%88%B7%E5%92%8C%E7%94%A8%E6%88%B7%E7%BB%84%E7%AE%A1%E7%90%86/"
-    >Linux用户和用户组管理</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/05/10/Linux%E7%94%A8%E6%88%B7%E5%92%8C%E7%94%A8%E6%88%B7%E7%BB%84%E7%AE%A1%E7%90%86/" class="article-date">
-  <time datetime="2020-05-10T08:55:40.000Z" itemprop="datePublished">2020-05-10</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">Linux基础知识</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h2 id="为什么要有多用户机制-Motivation"><a href="#为什么要有多用户机制-Motivation" class="headerlink" title="为什么要有多用户机制(Motivation)"></a>为什么要有多用户机制(Motivation)</h2><p>对个人电脑来说，一个用户(机主也就是管理员)</p>
-<h2 id="多用户机制是什么，简单介绍-Introduction"><a href="#多用户机制是什么，简单介绍-Introduction" class="headerlink" title="多用户机制是什么，简单介绍(Introduction)"></a>多用户机制是什么，简单介绍(Introduction)</h2><h2 id="不同用户之间有什么区别，权限或者使用上的-Design"><a href="#不同用户之间有什么区别，权限或者使用上的-Design" class="headerlink" title="不同用户之间有什么区别，权限或者使用上的(Design)"></a>不同用户之间有什么区别，权限或者使用上的(Design)</h2><h2 id="多用户机制是如何实现的，原理是什么-Implementation"><a href="#多用户机制是如何实现的，原理是什么-Implementation" class="headerlink" title="多用户机制是如何实现的，原理是什么(Implementation)"></a>多用户机制是如何实现的，原理是什么(Implementation)</h2><h2 id="多用户机制的安全性，性能-多用户同时使用-Evaluation"><a href="#多用户机制的安全性，性能-多用户同时使用-Evaluation" class="headerlink" title="多用户机制的安全性，性能(多用户同时使用)(Evaluation)"></a>多用户机制的安全性，性能(多用户同时使用)(Evaluation)</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
-<li>兄弟连教育组《细说Linux基础知识》</li>
-</ol>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/05/10/Linux%E7%94%A8%E6%88%B7%E5%92%8C%E7%94%A8%E6%88%B7%E7%BB%84%E7%AE%A1%E7%90%86/" data-id="ckbuxs781000x5pj5ex84d9m3"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%9A%E7%94%A8%E6%88%B7%E6%9C%BA%E5%88%B6/" rel="tag">多用户机制</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-Android多用户机制" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/05/07/Android%E5%A4%9A%E7%94%A8%E6%88%B7%E6%9C%BA%E5%88%B6/"
-    >Android多用户机制</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/05/07/Android%E5%A4%9A%E7%94%A8%E6%88%B7%E6%9C%BA%E5%88%B6/" class="article-date">
-  <time datetime="2020-05-07T15:44:28.000Z" itemprop="datePublished">2020-05-07</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h2 id="Linux多用户机制"><a href="#Linux多用户机制" class="headerlink" title="Linux多用户机制"></a>Linux多用户机制</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/qq_14978113/article/details/94654401" target="_blank" rel="noopener">https://blog.csdn.net/qq_14978113/article/details/94654401</a></p>
-<p><a href="https://bbs.pediy.com/thread-255212-1.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-255212-1.htm</a></p>
-<p><a href="https://www.jianshu.com/p/1308c94b713e" target="_blank" rel="noopener">https://www.jianshu.com/p/1308c94b713e</a></p>
-<p><a href="https://www.itcodemonkey.com/article/6169.html" target="_blank" rel="noopener">https://www.itcodemonkey.com/article/6169.html</a></p>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/05/07/Android%E5%A4%9A%E7%94%A8%E6%88%B7%E6%9C%BA%E5%88%B6/" data-id="ckbuxs77o000h5pj5d1mt06u8"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%9A%E7%94%A8%E6%88%B7%E6%9C%BA%E5%88%B6/" rel="tag">多用户机制</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-Android-Emu-Dual" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/05/05/Android-Emu-Dual/"
-    >Android_Emu_Dual</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/05/05/Android-Emu-Dual/" class="article-date">
-  <time datetime="2020-05-05T15:23:15.000Z" itemprop="datePublished">2020-05-05</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E9%A3%8E%E6%8E%A7/">风控</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>Android 模拟器多开原理与检测</p>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/05/05/Android-Emu-Dual/" data-id="ckbuxs77n000f5pj5betr2kyu"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%9A%E5%BC%80/" rel="tag">多开</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-sideline" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/05/04/sideline/"
-    >sideline</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/05/04/sideline/" class="article-date">
-  <time datetime="2020-05-04T07:16:50.000Z" itemprop="datePublished">2020-05-04</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%B4%BB%E7%9D%80/">活着</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h2 id="外包"><a href="#外包" class="headerlink" title="外包"></a>外包</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">你好 这边是主要辅导完成各类[中国去美洲澳洲]留学生作业，包括</span><br><span class="line">❶ 编程作业(C&#x2F;C++&#x2F;java&#x2F;python&#x2F;matlab&#x2F;JS&#x2F;机器学习&#x2F;数据库&#x2F;R&#x2F;等等)</span><br><span class="line">❷ 数学、统计、金融分析作业</span><br><span class="line">价钱50–5000不等，取决于作业的难度、时间要求等等，在小程序上接单，每次完成后当周周五结款，提现到支付宝</span><br><span class="line"></span><br><span class="line">介绍一下，我们是11年成立的创业公司，平台是一个小程序</span><br><span class="line">❶ 作业以订单形式给出，标记了价格(标价就是你能拿到的钱)、交付时间和要求</span><br><span class="line">❷ 同时还有一个群(群里有其他导师和教务，平时交流和及时转发作业订单)</span><br><span class="line">❸ 订单可以在小程序里看，也可以关注群里转发的订单</span><br><span class="line">❹ 我们在澳洲和北美都有设立市场部，所以单子数量多</span><br><span class="line">接单需要先在小程序完成注册 有问题请问 没问题发你注册流程</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">邀请码请填13079，注册后[上传证明关键信息可打码]</span><br><span class="line">❶ 请按界面提示填加教务并备注【姓名 已注册 请审核】， 进行审核[秒审]</span><br><span class="line">❷ 并告知我你最擅长的技能，我拉你进群</span><br></pre></td></tr></table></figure>
-
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/05/04/sideline/" data-id="ckbuxs79n00405pj53w3q97l3"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%AF%E4%B8%9A/" rel="tag">副业</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-Algorithm-Liner-Programming" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/04/22/Algorithm-Liner-Programming/"
-    >Algorithm_Liner_Programming</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/04/22/Algorithm-Liner-Programming/" class="article-date">
-  <time datetime="2020-04-22T15:39:10.000Z" itemprop="datePublished">2020-04-22</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/">算法笔记</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="线性规划定义"><a href="#线性规划定义" class="headerlink" title="线性规划定义"></a>线性规划定义</h3><p>有限的资源和若干竞争约束下，求某个目标函数的最大化或最小化的最优策略</p>
-<h2 id="lec14"><a href="#lec14" class="headerlink" title="lec14"></a>lec14</h2><p>所有的最优解都在顶点取到？Yes</p>
-<p>简单方法(Simplex Algorithm)：爬山法 找到最优解</p>
-<p>整数线性规划 NPC问题</p>
-<p>对偶(dual)：将一个线性规划问题转化成一个对偶(dual)问题</p>
-<p>Complementary Slackness</p>
-<h2 id="lec15"><a href="#lec15" class="headerlink" title="lec15"></a>lec15</h2><p>转化为标准线性规划(Standrd LP)</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/a0fc8a57f452" target="_blank" rel="noopener">https://www.jianshu.com/p/a0fc8a57f452</a></p>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/04/22/Algorithm-Liner-Programming/" data-id="ckbuxs77j00065pj5dxyd4t8z"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BA%BF%E6%80%A7%E8%A7%84%E5%88%92/" rel="tag">线性规划</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-  </article>
-  
-
-  
-  <nav class="page-nav">
-    
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
   </nav>
-  
-</section>
-</div>
 
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        notify: false,
+        verify: '',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
       <footer class="footer">
   <div class="outer">
     <ul class="list-inline">
@@ -1246,6 +617,30 @@
 </script>
 
 
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
 
 
 <script>
