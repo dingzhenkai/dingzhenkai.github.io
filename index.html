@@ -71,6 +71,441 @@
     
     
     
+    <article id="post-hashtable" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/08/18/hashtable/"
+    >hashtable</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/08/18/hashtable/" class="article-date">
+  <time datetime="2020-08-18T14:04:28.000Z" itemprop="datePublished">2020-08-18</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://dingzhenkai.github.io/2020/08/18/hashtable/" data-id="ckecquu9c003va6j58vppbmlf"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" rel="tag">哈希表</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-bloom-filter-kiss" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/08/18/bloom-filter-kiss/"
+    >11个问题帮你了解bloom filter</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/08/18/bloom-filter-kiss/" class="article-date">
+  <time datetime="2020-08-18T06:03:35.000Z" itemprop="datePublished">2020-08-18</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h3 id="1-bloom-filter是用来解决什么问题的"><a href="#1-bloom-filter是用来解决什么问题的" class="headerlink" title="1. bloom filter是用来解决什么问题的"></a>1. bloom filter是用来解决什么问题的</h3><p>快速查询元素a是否在集合A={a1,a2,..,an}里面，例如判断一个用户是否在黑名单中。</p>
+<h3 id="2-简述bloom-filter的工作原理"><a href="#2-简述bloom-filter的工作原理" class="headerlink" title="2. 简述bloom filter的工作原理"></a>2. 简述bloom filter的工作原理</h3><ol>
+<li>构建一个长度为m的bit array，初始化其中所有bit为0。</li>
+<li>将集合A={a1,a2,..,an}中所有元素插入到bit array中。插入元素ai时，用k个hash函数算出k个位置，将对应位置的bit置为1。</li>
+<li>为了查询元素a是否在集合A={a1,a2,..,an}中。同样用k个hash函数计算出a在bit array中的k个位置，如果这k个位置不全为1则a<strong>一定不在</strong>集合A中；如果全为1，则说明a<strong>可能</strong>在集合A中。这里存在false positive，因为对应k个位置的bit全为1可能是其他元素置的。</li>
+</ol>
+<p>如下图所示，构建了一个长度为16的bit array，将集合A中元素用3个hash函数计算位置并将对应bit置为1。查询a1时，同样计算3次hash发现对应位置bit全为1，因此判定a1可能在A中。对实际不在A的两个元素x、y，同样计算3次hash。x对应的3个bit全为1，bloom filter判定x可能在A中，但实际上x不在A中，x对应的三个bit是被a2、a3置为1的，这就造成了bloom filter的false positive；y对应的3个bit中有2个bit为0，因此bloom filter判定y一定不在A中。bloom filter不存在false negative，可以用反证法证明。如果存在false nagetive z，说明z实际在A中，那么z对应的bit全为1，那么bloom filter判断的结果应该是z可能在A中而不是不在，因此矛盾。</p>
+<p><img src="bf.svg" alt=""></p>
+<h3 id="3-Bloom-filter会有false-positive吗"><a href="#3-Bloom-filter会有false-positive吗" class="headerlink" title="3. Bloom filter会有false positive吗"></a>3. Bloom filter会有false positive吗</h3><p>会有，原因见问题2。</p>
+<h3 id="4-Bloom-filter会有false-nagetive吗"><a href="#4-Bloom-filter会有false-nagetive吗" class="headerlink" title="4. Bloom filter会有false nagetive吗"></a>4. Bloom filter会有false nagetive吗</h3><p>不会有，原因见问题。</p>
+<h3 id="5-bit-array的大小m如何确定"><a href="#5-bit-array的大小m如何确定" class="headerlink" title="5. bit array的大小m如何确定"></a>5. bit array的大小m如何确定</h3><p>$$ m=-{\frac {n\ln \varepsilon }{(\ln 2)^{2}}} $$</p>
+<p>其中n为数据集A的size，$\varepsilon$为指定的false positive possibility</p>
+<h3 id="6-hash轮数k如何确定"><a href="#6-hash轮数k如何确定" class="headerlink" title="6. hash轮数k如何确定"></a>6. hash轮数k如何确定</h3><p>$$k={\frac {m}{n}}\ln 2$$</p>
+<p>其中m为bit array的size，n为数据集A的size</p>
+<h3 id="7-hash轮数k与数据集A中单个数据的长度l有没有关系"><a href="#7-hash轮数k与数据集A中单个数据的长度l有没有关系" class="headerlink" title="7. hash轮数k与数据集A中单个数据的长度l有没有关系"></a>7. hash轮数k与数据集A中单个数据的长度l有没有关系</h3><p>有关系。hash轮数代表需要多少个bit来表示单个数据，在bloom filter中，表示单个数据需要k个bit。如果单个数据的长度l小于k个bit，那这种情况下用bloom filter就会造成空间的浪费，不划算。实际情况下，1%的false positive rate，9.6个bit就可以表示单个数据数据；0.1%的false positive rate，14.4个bit可以表示单个数据。这时候如果单个数据的长度小于14.4个bit，用bloom filter从空间开销上来说，就不划算了。</p>
+<h3 id="8-对于查询一个元素是否在一个集合中这个问题，除了bloom-filter，你觉得还有什么解决方案，bloom-filter相比他们有什么优势有什么缺点"><a href="#8-对于查询一个元素是否在一个集合中这个问题，除了bloom-filter，你觉得还有什么解决方案，bloom-filter相比他们有什么优势有什么缺点" class="headerlink" title="8. 对于查询一个元素是否在一个集合中这个问题，除了bloom filter，你觉得还有什么解决方案，bloom filter相比他们有什么优势有什么缺点"></a>8. 对于查询一个元素是否在一个集合中这个问题，除了bloom filter，你觉得还有什么解决方案，bloom filter相比他们有什么优势有什么缺点</h3><p>我们需要考虑空间开销与查询时间开销以及正确率。空间开销的话，其他数据结构像数组、链表、平衡二叉搜索树、哈希表等都要存储源数据，相比于只需要一个bit array的bloom filter来说，肯定是不如的。时间开销的话，bloom filter的时间复杂度为O(k)，上述几种方案查询时间复杂度最优的是哈希表O(1)。因此我们对比一下哈希表与bloom filter。</p>
+<p>主要对比三个方面：</p>
+<ul>
+<li>存储10W条大小为50byte的string需要多少空间</li>
+<li>查询10W条相同数据与10万条不同数据需要多少时间</li>
+<li>查询上面20W条数据正确率如何</li>
+</ul>
+<p>效果如下：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>哈希表</th>
+<th>bf(fpp=0.001)</th>
+<th>bf(fpp=0.00001)</th>
+<th>bf(fpp=0.0001)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>空间大小</td>
+<td>12.44M</td>
+<td>176K</td>
+<td>293K</td>
+<td>352K</td>
+</tr>
+<tr>
+<td>查询时间</td>
+<td>21ms</td>
+<td>70ms</td>
+<td>103ms</td>
+<td>90ms</td>
+</tr>
+<tr>
+<td>正确率(FP)</td>
+<td>0</td>
+<td>108</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>正确率(FN)</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<p>可以看到bloom filter空间开销是哈希表的1/72～1/36，但是时间开销是哈希表的3～5倍。正确率方面bloom filter是有False Positive的。总结来说，bloom filter相比于其他解决方案的优势在于时间开销与空间开销都很低，适用于数据集特别大的查询场景；劣势在于有False Positive。</p>
+<h3 id="9-Bloom-filter除了用来高效查询之外还可以用来干嘛"><a href="#9-Bloom-filter除了用来高效查询之外还可以用来干嘛" class="headerlink" title="9. Bloom filter除了用来高效查询之外还可以用来干嘛"></a>9. Bloom filter除了用来高效查询之外还可以用来干嘛</h3><ul>
+<li>高效安全存储。bloom filter只需要10个bit就可以表示数据，对于一些不需要知道源数据或者源数据较为敏感的存储场景，可以使用bloom filter进行存储。例如门禁设备，存储所有人的指纹或者瞳纹在设备内部不是很安全，万一设备被盗了，所有人的指纹瞳纹就被泄露了，这种情况下，用bloom filter将所有人的指纹瞳纹存储为一个bit array就很合适。</li>
+<li>复杂查询。bloom filter支持将bit array做交集或者并集后再进行查询。</li>
+</ul>
+<h3 id="10-Bloom-filter可以怎么被用在你的项目上"><a href="#10-Bloom-filter可以怎么被用在你的项目上" class="headerlink" title="10. Bloom filter可以怎么被用在你的项目上"></a>10. Bloom filter可以怎么被用在你的项目上</h3><p>略</p>
+<h3 id="11-Bloom-filter是谁在什么时候发明的"><a href="#11-Bloom-filter是谁在什么时候发明的" class="headerlink" title="11. Bloom filter是谁在什么时候发明的"></a>11. Bloom filter是谁在什么时候发明的</h3><p>1970 <a href="https://en.wikipedia.org/w/index.php?title=Burton_Howard_Bloom&action=edit&redlink=1" target="_blank" rel="noopener">Burton Howard Bloom</a></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h3 id="-1"><a href="#-1" class="headerlink" title=""></a></h3>
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://dingzhenkai.github.io/2020/08/18/bloom-filter-kiss/" data-id="ckecquu8b001oa6j5dkeufdi0"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bloom-filter/" rel="tag">bloom filter</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-whatisyuque" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/08/14/whatisyuque/"
+    >whatisyuque</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/08/14/whatisyuque/" class="article-date">
+  <time datetime="2020-08-14T10:52:20.000Z" itemprop="datePublished">2020-08-14</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p><a href="https://www.yuque.com/yuque/help/group" target="_blank" rel="noopener">https://www.yuque.com/yuque/help/group</a></p>
+<p>调研下 适合我们嘛 替代内部的wiki 对外的appetizer notion文档 甚至部分我们的主页例如隐私政策 请猜测我想知道那些比较内容</p>
+<p>我们对文档编辑软件的要求：</p>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://dingzhenkai.github.io/2020/08/14/whatisyuque/" data-id="ckecquu9k004ka6j5fsnvfdwt"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E2%80%98%E8%AF%AD%E9%9B%80%E2%80%99/" rel="tag">‘语雀’</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-ISC2020" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/08/12/ISC2020/"
+    >ISC2020</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/08/12/ISC2020/" class="article-date">
+  <time datetime="2020-08-12T02:02:48.000Z" itemprop="datePublished">2020-08-12</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%BC%9A%E8%AE%AE/">会议</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>大会议题分为<strong>新基建、战略、信创、技术、产业、人才</strong>六个大板块，这六个大板块下面也分成了几个小版块，每个小版块里面若干个演讲。本文记录有趣的talk，有趣由我定义。</p>
+<h2 id="新基建"><a href="#新基建" class="headerlink" title="新基建"></a>新基建</h2><ul>
+<li>数据安全，包括数据泄露、数据合规、数据所有权等</li>
+<li>云安全，数据上云之后带来的安全问题</li>
+</ul>
+<h3 id="平行——安全孪生的存在方式"><a href="#平行——安全孪生的存在方式" class="headerlink" title="平行——安全孪生的存在方式"></a>平行——安全孪生的存在方式</h3><blockquote>
+<p>传统安全大都是‘直杠’式的，攻防之间的不对称让对攻击者的攻击变得相对简单，平行仿真技术的出现则会打破这种现状，通过模拟出更多、更复杂、更真实的场景，让人员在“平行世界”中修炼，让真实的防御更强韧。</p>
+<p>潘柱廷 安天科技集团资深副总裁 北向智库首席经略师</p>
+</blockquote>
+<p>他提出了一个平行世界的概念。需求是有些防御措施不能立刻应用到现实世界，需要先在平行世界中应用一下，看有没有效，会不会搞坏系统。具体怎么实现这个平行世界，可以通过虚拟化或者直接搭建小范围真实环境，模拟现实环境的所有操作。这个听上去感觉就是个内测平台，不过是一个长期的内测平台。</p>
+<h3 id="新一代网络安全框架-连接云平台"><a href="#新一代网络安全框架-连接云平台" class="headerlink" title="新一代网络安全框架-连接云平台"></a>新一代网络安全框架-连接云平台</h3><blockquote>
+<p>数字时代的来临让云安全的重要性愈加凸显，360根据业务系统数据未打通、设备投入巨大 等行业痛点，提出了端+管+云+网融合为一体的安全解决方案-360连接云，积极助力技术转型</p>
+<p>濮灿 360政企安全云安全事业部总经理 360未来安全研究院云安全研究院院长 沃通电子认证有限公司总经理</p>
+</blockquote>
+<p><a href="https://isc.360.com/2020/detail.html?id=6&amp;vid=16" target="_blank" rel="noopener">https://isc.360.com/2020/detail.html?id=6&amp;vid=16</a></p>
+<p>他指出了云计算时代的安全痛点：云计算时代，数据分布在公有云、私有云、边缘设备上。区别于传统数据存在统一的数据中心，只要给数据中心做个壳就可以保护。分布式云时代，传统方式不适用，不仅仅在于数据的分布，还在于对各种微服务的适配问题、网络时延问题等。</p>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://dingzhenkai.github.io/2020/08/12/ISC2020/" data-id="ckecquu830014a6j52odih0lt"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ISC2020/" rel="tag">ISC2020</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-ubuntu18-server-install" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/08/11/ubuntu18-server-install/"
+    >ubuntu18_server_install</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/08/11/ubuntu18-server-install/" class="article-date">
+  <time datetime="2020-08-11T06:25:46.000Z" itemprop="datePublished">2020-08-11</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%A3%85%E6%9C%BA/">装机</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>记录一下我在服务器上装ubuntu18的步骤，以供下次参考。</p>
+<h2 id="准备u盘系统盘"><a href="#准备u盘系统盘" class="headerlink" title="准备u盘系统盘"></a>准备u盘系统盘</h2><ol>
+<li>下载ubuntu18 iso文件<br>去<a href="http://releases.ubuntu.com/18.04.4/" target="_blank" rel="noopener">官网</a> 下载<a href="http://releases.ubuntu.com/18.04.4/ubuntu-18.04.4-live-server-amd64.iso" target="_blank" rel="noopener">server版的ubuntu</a>，注意这里的amd64就是x86-64</li>
+<li>Windows下载<a href="https://rufus.akeo.ie/" target="_blank" rel="noopener">refus</a>, 将iso刷入u盘</li>
+</ol>
+<p>这样我们就得到了一个u盘系统盘。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ol>
+<li>bios选择u盘启动</li>
+<li>选择安装ubuntu</li>
+<li>选择语言 英语</li>
+<li></li>
+</ol>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://dingzhenkai.github.io/2020/08/11/ubuntu18-server-install/" data-id="ckecquu9j004ga6j52meiemm3"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu18/" rel="tag">ubuntu18</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-network-connect" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -119,7 +554,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/08/06/network-connect/" data-id="ckdikkoeu0026eyj55hbog3z0"
+      <a data-url="https://dingzhenkai.github.io/2020/08/06/network-connect/" data-id="ckecquu9g0046a6j5c69y2gqx"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5/" rel="tag">网络连接</a></li></ul>
@@ -193,6 +628,7 @@
 <p>网卡坏了的话:</p>
 <p>Ifconfig eth1 down,    Ifconfig eth1 up</p>
 <h3 id="intel服务器装机"><a href="#intel服务器装机" class="headerlink" title="intel服务器装机"></a>intel服务器装机</h3><p>哪台机器、装什么系统、怎么分区、怎么装、配置网络、验证可用</p>
+<p>Ubuntu18.04 server amd64 u盘系统盘 </p>
 <h3 id="机房空位-amp-买设备"><a href="#机房空位-amp-买设备" class="headerlink" title="机房空位&amp;买设备"></a>机房空位&amp;买设备</h3><p>机房空位拍照，5402看下机器的规格1u 2u tower，让博士认领下是哪个组的机器，最好带负责的博士去趟信息中心，确认搬迁的事宜</p>
 
       
@@ -200,7 +636,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/08/06/server-install-ubuntu/" data-id="ckdikkoex002feyj599pmhi61"
+      <a data-url="https://dingzhenkai.github.io/2020/08/06/server-install-ubuntu/" data-id="ckecquu9g0048a6j585ceg7ht"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a></li></ul>
@@ -323,7 +759,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/08/03/ChinaJoy2020/" data-id="ckdikkoef0012eyj55d3g5d9z"
+      <a data-url="https://dingzhenkai.github.io/2020/08/03/ChinaJoy2020/" data-id="ckecquu7r000ra6j5b5gpbx7x"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ChinaJoy2020/" rel="tag">ChinaJoy2020</a></li></ul>
@@ -391,7 +827,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/07/29/IOS-begin/" data-id="ckdikkoen001ieyj54yxi7j02"
+      <a data-url="https://dingzhenkai.github.io/2020/07/29/IOS-begin/" data-id="ckecquu7u000ta6j5ai82dbfd"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IOS%E5%85%A5%E9%97%A8/" rel="tag">IOS入门</a></li></ul>
@@ -741,400 +1177,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/06/23/ADS-Notes/" data-id="ckdikkod2000aeyj55m1zan2d"
+      <a data-url="https://dingzhenkai.github.io/2020/06/23/ADS-Notes/" data-id="ckecquu7f0006a6j5g8ek946o"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ADS/" rel="tag">ADS</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-docker迁移-var-lib-docker" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/05/19/docker%E8%BF%81%E7%A7%BB-var-lib-docker/"
-    >docker迁移/var/lib/docker</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/05/19/docker%E8%BF%81%E7%A7%BB-var-lib-docker/" class="article-date">
-  <time datetime="2020-05-19T08:51:26.000Z" itemprop="datePublished">2020-05-19</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/docker/">docker</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>第一步，停止docker服务</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">ps aux | grep -i docker | grep -v grep // 结果为空则说明服务已经停止</span><br></pre></td></tr></table></figure>
-
-<p>第二步，将/var/lib/docker迁移到新的文件夹</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync -aqxP /var/lib/docker /mnt/datadrive/</span><br></pre></td></tr></table></figure>
-
-<p>第三步，修改docker启动脚本</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim /lib/systemd/system/docker.service</span><br><span class="line"></span><br><span class="line">FROM:</span><br><span class="line">ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock</span><br><span class="line">TO:</span><br><span class="line">ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock --graph=/mnt/datadrive/docker</span><br></pre></td></tr></table></figure>
-
-<p>第四步，重启docker</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line"> </span><br><span class="line">systemctl restart docker</span><br><span class="line"> </span><br><span class="line">systemctl enable docker  //开机启动</span><br></pre></td></tr></table></figure>
-
-<p>第五步, 启动后确认没问题，删除旧的/var/lib/docker</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf /var/lib/docker</span><br></pre></td></tr></table></figure>
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://linuxconfig.org/how-to-move-docker-s-default-var-lib-docker-to-another-directory-on-ubuntu-debian-linux" target="_blank" rel="noopener">https://linuxconfig.org/how-to-move-docker-s-default-var-lib-docker-to-another-directory-on-ubuntu-debian-linux</a></p>
-<p><a href="https://my.oschina.net/qbj/blog/2998164" target="_blank" rel="noopener">https://my.oschina.net/qbj/blog/2998164</a></p>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/05/19/docker%E8%BF%81%E7%A7%BB-var-lib-docker/" data-id="ckdikkoet0023eyj52rm1f9zi"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%81%E7%A7%BB-var-lib-docker/" rel="tag">迁移/var/lib/docker</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-微信小程序逆向" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/05/16/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%80%86%E5%90%91/"
-    >微信小程序逆向</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/05/16/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%80%86%E5%90%91/" class="article-date">
-  <time datetime="2020-05-16T05:20:23.000Z" itemprop="datePublished">2020-05-16</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E9%80%86%E5%90%91/">逆向</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>微信小程序基本是js写的，我们的目标就是逆向出其源码，再打包运行</p>
-<p>具体可分为三步：</p>
-<ul>
-<li>获取小程序安装包</li>
-<li>逆向安装包得出源码</li>
-<li>编译运行</li>
-</ul>
-<h2 id="Dump-pkg"><a href="#Dump-pkg" class="headerlink" title="Dump pkg"></a>Dump pkg</h2><p>dump pkg有三种方式</p>
-<ul>
-<li>pkg文件在data/data/com.tencent.mm/MicroMsg/用户名ID<code>（ 类似于 2bc**************b65</code>)/appbrand/pkg下，找一部root设备(模拟器，刷机或者vmos)pull出来即可</li>
-<li><a href="https://jingyan.baidu.com/article/6d704a13529ab728da51ca4f.html" target="_blank" rel="noopener">备份数据</a></li>
-<li>Windows 微信文件夹里面, 不过现在好像不行了</li>
-</ul>
-<h2 id="Decompile"><a href="#Decompile" class="headerlink" title="Decompile"></a>Decompile</h2><p>使用已有<a href="https://github.com/dingzhenkai/wxappUnpacker" target="_blank" rel="noopener">脚本</a>反编译得出源码</p>
-<p>这一步需要node环境，可以用docker</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker pull node:12</span><br><span class="line">docker run -itd --name mynode node:12</span><br><span class="line">docker cp XXX.wxapkg [containerid]:[path]</span><br><span class="line">docker exec -it [containerid] bash</span><br><span class="line">node wuWxapkg.js [-d] &lt;path/to/.wxapkg&gt;</span><br><span class="line">docker cp [containerid]:[path] proj/</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="Compile"><a href="#Compile" class="headerlink" title="Compile"></a>Compile</h2><p>使用微信开发者工具导入并编译</p>
-<h2 id="Refer"><a href="#Refer" class="headerlink" title="Refer"></a>Refer</h2><p><a href="https://github.com/gzh4213/wxappUnpacker/blob/master/README.md" target="_blank" rel="noopener">https://github.com/gzh4213/wxappUnpacker/blob/master/README.md</a></p>
-<p><a href="https://github.com/zhouyu1993/wxappUnpacker" target="_blank" rel="noopener">https://github.com/zhouyu1993/wxappUnpacker</a></p>
-<p><a href="http://lrdcq.com/me/read.php/66.htm" target="_blank" rel="noopener">http://lrdcq.com/me/read.php/66.htm</a></p>
-<p><a href="https://www.52pojie.cn/thread-1092806-1-1.html" target="_blank" rel="noopener">https://www.52pojie.cn/thread-1092806-1-1.html</a></p>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/05/16/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%80%86%E5%90%91/" data-id="ckdikkof60037eyj53mv16uan"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">微信小程序</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-The-Android-Platform-Security-Model" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/05/15/The-Android-Platform-Security-Model/"
-    >The_Android_Platform_Security_Model</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/05/15/The-Android-Platform-Security-Model/" class="article-date">
-  <time datetime="2020-05-15T06:52:46.000Z" itemprop="datePublished">2020-05-15</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://loccs.sjtu.edu.cn/gossip/blog/2019/07/25/the-android-platform-security-model/" target="_blank" rel="noopener">https://loccs.sjtu.edu.cn/gossip/blog/2019/07/25/the-android-platform-security-model/</a></p>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/05/15/The-Android-Platform-Security-Model/" data-id="ckdikkoeq001teyj5eqns2pka"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android-Security/" rel="tag">Android Security</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-Algorithm-Approximation" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/05/13/Algorithm-Approximation/"
-    >Algorithm-Approximation</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/05/13/Algorithm-Approximation/" class="article-date">
-  <time datetime="2020-05-13T09:25:02.000Z" itemprop="datePublished">2020-05-13</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/">算法笔记</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h2 id="lec-17"><a href="#lec-17" class="headerlink" title="lec 17"></a>lec 17</h2><blockquote>
-<p>对于许多的问题的算法，我们通常目标在于设计一个可以在多项式时间内运行的算法。然而，上一节的NP问题告诉我们这样的算法不一定存在。近似算法其实是针对NP难问题的一种退让，对于许多P不等于NP的最优化问题，无法在多项式时间内找到最优解。因此，如果可以只求一个我们可以接受的解，而不是非要最优解，那么可能存在一个多项式时间的算法。因此，这里的“近似”其实就是针对最优化问题而言的。其主要应用也是用来解决最优化的问题，并且要求其时间花销为多项式级别的时间。</p>
-</blockquote>
-<p>对一个NPO问题，设计近似算法的步骤：</p>
-<ul>
-<li>找nature</li>
-<li>设计算法</li>
-<li>factor</li>
-</ul>
-<h2 id="lec-18"><a href="#lec-18" class="headerlink" title="lec 18"></a>lec 18</h2><h3 id="Steiner-tree"><a href="#Steiner-tree" class="headerlink" title="Steiner tree"></a>Steiner tree</h3><h3 id="TSP"><a href="#TSP" class="headerlink" title="TSP"></a>TSP</h3><h2 id="lec-19"><a href="#lec-19" class="headerlink" title="lec 19"></a>lec 19</h2><h2 id="lec-20"><a href="#lec-20" class="headerlink" title="lec 20"></a>lec 20</h2>
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/05/13/Algorithm-Approximation/" data-id="ckdikkocx0004eyj524lld4wj"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%91%E4%BC%BC%E7%AE%97%E6%B3%95/" rel="tag">近似算法</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-Linux用户和用户组管理" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/05/10/Linux%E7%94%A8%E6%88%B7%E5%92%8C%E7%94%A8%E6%88%B7%E7%BB%84%E7%AE%A1%E7%90%86/"
-    >Linux用户和用户组管理</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/05/10/Linux%E7%94%A8%E6%88%B7%E5%92%8C%E7%94%A8%E6%88%B7%E7%BB%84%E7%AE%A1%E7%90%86/" class="article-date">
-  <time datetime="2020-05-10T08:55:40.000Z" itemprop="datePublished">2020-05-10</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">Linux基础知识</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h2 id="为什么要有多用户机制-Motivation"><a href="#为什么要有多用户机制-Motivation" class="headerlink" title="为什么要有多用户机制(Motivation)"></a>为什么要有多用户机制(Motivation)</h2><p>对个人电脑来说，一个用户(机主也就是管理员)</p>
-<h2 id="多用户机制是什么，简单介绍-Introduction"><a href="#多用户机制是什么，简单介绍-Introduction" class="headerlink" title="多用户机制是什么，简单介绍(Introduction)"></a>多用户机制是什么，简单介绍(Introduction)</h2><h2 id="不同用户之间有什么区别，权限或者使用上的-Design"><a href="#不同用户之间有什么区别，权限或者使用上的-Design" class="headerlink" title="不同用户之间有什么区别，权限或者使用上的(Design)"></a>不同用户之间有什么区别，权限或者使用上的(Design)</h2><h2 id="多用户机制是如何实现的，原理是什么-Implementation"><a href="#多用户机制是如何实现的，原理是什么-Implementation" class="headerlink" title="多用户机制是如何实现的，原理是什么(Implementation)"></a>多用户机制是如何实现的，原理是什么(Implementation)</h2><h2 id="多用户机制的安全性，性能-多用户同时使用-Evaluation"><a href="#多用户机制的安全性，性能-多用户同时使用-Evaluation" class="headerlink" title="多用户机制的安全性，性能(多用户同时使用)(Evaluation)"></a>多用户机制的安全性，性能(多用户同时使用)(Evaluation)</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
-<li>兄弟连教育组《细说Linux基础知识》</li>
-</ol>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/05/10/Linux%E7%94%A8%E6%88%B7%E5%92%8C%E7%94%A8%E6%88%B7%E7%BB%84%E7%AE%A1%E7%90%86/" data-id="ckdikkoem001eeyj53n6t249x"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%9A%E7%94%A8%E6%88%B7%E6%9C%BA%E5%88%B6/" rel="tag">多用户机制</a></li></ul>
 
     </footer>
 
@@ -1156,7 +1202,7 @@
   
   <nav class="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
   </nav>
   
 </section>
