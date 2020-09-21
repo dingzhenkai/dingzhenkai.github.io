@@ -109,7 +109,7 @@
 <li>为了查询元素a是否在集合A={a1,a2,..,an}中。同样用k个hash函数计算出a在bit array中的k个位置，如果这k个位置不全为1则a<strong>一定不在</strong>集合A中；如果全为1，则说明a<strong>可能</strong>在集合A中。这里存在false positive，因为对应k个位置的bit全为1可能是其他元素置的。</li>
 </ol>
 <p>如下图所示，构建了一个长度为16的bit array，将集合A中元素用3个hash函数计算位置并将对应bit置为1。查询a1时，同样计算3次hash发现对应位置bit全为1，因此判定a1可能在A中。对实际不在A的两个元素x、y，同样计算3次hash。x对应的3个bit全为1，bloom filter判定x可能在A中，但实际上x不在A中，x对应的三个bit是被a2、a3置为1的，这就造成了bloom filter的false positive；y对应的3个bit中有2个bit为0，因此bloom filter判定y一定不在A中。bloom filter不存在false negative，可以用反证法证明。如果存在false nagetive z，说明z实际在A中，那么z对应的bit全为1，那么bloom filter判断的结果应该是z可能在A中而不是不在，因此矛盾。</p>
-<p><img src="bf.svg" alt=""></p>
+<p><img src="https://dingzhenkai.github.io/2020/08/18/bloom-filter-kiss/bf.svg" alt=""></p>
 <h3 id="3-Bloom-filter会有false-positive吗"><a href="#3-Bloom-filter会有false-positive吗" class="headerlink" title="3. Bloom filter会有false positive吗"></a>3. Bloom filter会有false positive吗</h3><p>会有，原因见问题2。</p>
 <h3 id="4-Bloom-filter会有false-nagetive吗"><a href="#4-Bloom-filter会有false-nagetive吗" class="headerlink" title="4. Bloom filter会有false nagetive吗"></a>4. Bloom filter会有false nagetive吗</h3><p>不会有，原因见问题。</p>
 <h3 id="5-bit-array的大小m如何确定"><a href="#5-bit-array的大小m如何确定" class="headerlink" title="5. bit array的大小m如何确定"></a>5. bit array的大小m如何确定</h3><p>$$ m=-{\frac {n\ln \varepsilon }{(\ln 2)^{2}}} $$</p>
@@ -171,7 +171,7 @@
 </ul>
 <h3 id="10-Bloom-filter可以怎么被用在你的项目上"><a href="#10-Bloom-filter可以怎么被用在你的项目上" class="headerlink" title="10. Bloom filter可以怎么被用在你的项目上"></a>10. Bloom filter可以怎么被用在你的项目上</h3><p>略</p>
 <h3 id="11-Bloom-filter是谁在什么时候发明的"><a href="#11-Bloom-filter是谁在什么时候发明的" class="headerlink" title="11. Bloom filter是谁在什么时候发明的"></a>11. Bloom filter是谁在什么时候发明的</h3><p>1970 <a href="https://en.wikipedia.org/w/index.php?title=Burton_Howard_Bloom&action=edit&redlink=1" target="_blank" rel="noopener">Burton Howard Bloom</a></p>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h3 id="-1"><a href="#-1" class="headerlink" title=""></a></h3>
+
       
       <!-- 打赏 -->
       
@@ -181,7 +181,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/08/18/bloom-filter-kiss/" data-id="ckecquu8b001oa6j5dkeufdi0"
+      <a data-url="https://dingzhenkai.github.io/2020/08/18/bloom-filter-kiss/" data-id="ckfcq7hyn001zinj52zyg7ijn"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bloom-filter/" rel="tag">bloom filter</a></li></ul>
