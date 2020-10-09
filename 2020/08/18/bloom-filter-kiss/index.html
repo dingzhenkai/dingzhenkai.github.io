@@ -108,10 +108,10 @@
 <li>将集合A={a1,a2,..,an}中所有元素插入到bit array中。插入元素ai时，用k个hash函数算出k个位置，将对应位置的bit置为1。</li>
 <li>为了查询元素a是否在集合A={a1,a2,..,an}中。同样用k个hash函数计算出a在bit array中的k个位置，如果这k个位置不全为1则a<strong>一定不在</strong>集合A中；如果全为1，则说明a<strong>可能</strong>在集合A中。这里存在false positive，因为对应k个位置的bit全为1可能是其他元素置的。</li>
 </ol>
-<p>如下图所示，构建了一个长度为16的bit array，将集合A中元素用3个hash函数计算位置并将对应bit置为1。查询a1时，同样计算3次hash发现对应位置bit全为1，因此判定a1可能在A中。对实际不在A的两个元素x、y，同样计算3次hash。x对应的3个bit全为1，bloom filter判定x可能在A中，但实际上x不在A中，x对应的三个bit是被a2、a3置为1的，这就造成了bloom filter的false positive；y对应的3个bit中有2个bit为0，因此bloom filter判定y一定不在A中。bloom filter不存在false negative，可以用反证法证明。如果存在false nagetive z，说明z实际在A中，那么z对应的bit全为1，那么bloom filter判断的结果应该是z可能在A中而不是不在，因此矛盾。</p>
+<p>如下图所示，构建了一个长度为16的bit array，将集合A中元素用3个hash函数计算位置并将对应bit置为1。查询a1时，同样计算3次hash发现对应位置bit全为1，因此判定a1可能在A中。对实际不在A的两个元素x、y，同样计算3次hash。x对应的3个bit全为1，bloom filter判定x可能在A中，但实际上x不在A中，x对应的三个bit是被a2、a3置为1的，这就造成了bloom filter的false positive；y对应的3个bit中有2个bit为0，因此bloom filter判定y一定不在A中。bloom filter不存在false negative，可以用反证法证明。如果存在false negative z，说明z实际在A中，那么z对应的bit全为1，那么bloom filter判断的结果应该是z可能在A中而不是不在，因此矛盾。</p>
 <p><img src="https://dingzhenkai.github.io/2020/08/18/bloom-filter-kiss/bf.svg" alt=""></p>
 <h3 id="3-Bloom-filter会有false-positive吗"><a href="#3-Bloom-filter会有false-positive吗" class="headerlink" title="3. Bloom filter会有false positive吗"></a>3. Bloom filter会有false positive吗</h3><p>会有，原因见问题2。</p>
-<h3 id="4-Bloom-filter会有false-nagetive吗"><a href="#4-Bloom-filter会有false-nagetive吗" class="headerlink" title="4. Bloom filter会有false nagetive吗"></a>4. Bloom filter会有false nagetive吗</h3><p>不会有，原因见问题。</p>
+<h3 id="4-Bloom-filter会有false-negative吗"><a href="#4-Bloom-filter会有false-negative吗" class="headerlink" title="4. Bloom filter会有false negative吗"></a>4. Bloom filter会有false negative吗</h3><p>不会有，原因见问题。</p>
 <h3 id="5-bloom的误判率受什么影响"><a href="#5-bloom的误判率受什么影响" class="headerlink" title="5. bloom的误判率受什么影响"></a>5. bloom的误判率受什么影响</h3><h3 id="6-bit-array的大小m如何确定"><a href="#6-bit-array的大小m如何确定" class="headerlink" title="6. bit array的大小m如何确定"></a>6. bit array的大小m如何确定</h3><p>$$ m=-{\frac {n\ln \varepsilon }{(\ln 2)^{2}}} $$</p>
 <p>其中n为数据集A的size，$\varepsilon$为指定的false positive possibility</p>
 <h3 id="7-hash轮数k如何确定"><a href="#7-hash轮数k如何确定" class="headerlink" title="7. hash轮数k如何确定"></a>7. hash轮数k如何确定</h3><p>$$k={\frac {m}{n}}\ln 2$$</p>
@@ -209,7 +209,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/08/18/bloom-filter-kiss/" data-id="ckg0dp129000zu8j5et1z7p8n"
+      <a data-url="https://dingzhenkai.github.io/2020/08/18/bloom-filter-kiss/" data-id="ckg1xubwa000ok8j5gr9w59ps"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bloom-filter/" rel="tag">bloom filter</a></li></ul>
