@@ -67,7 +67,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">231字</span>
+            <span class="post-count">352字</span>
         </span>
     </span>
 
@@ -103,19 +103,20 @@
 
       
       <h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>微信小程序基本是js写的，我们的目标就是逆向出其源码，再打包运行</p>
-<p>具体可分为三步：</p>
+<p>具体可分为三步(把大象装进冰箱)：</p>
 <ul>
 <li>获取小程序安装包</li>
 <li>逆向安装包得出源码</li>
 <li>编译运行</li>
 </ul>
-<h2 id="Dump-pkg"><a href="#Dump-pkg" class="headerlink" title="Dump pkg"></a>Dump pkg</h2><p>dump pkg有三种方式</p>
+<h2 id="Dump-pkg"><a href="#Dump-pkg" class="headerlink" title="Dump pkg"></a>Dump pkg</h2><p>微信的安装包是.wxapkg文件，同一个小程序可能对应多个.wxapkg文件(一个主包，几个子包，如果需要遍历所有子包，就需要把小程序都点一遍)</p>
+<p>dump pkg有三种方式</p>
 <ul>
-<li>pkg文件在data/data/com.tencent.mm/MicroMsg/用户名ID<code>（ 类似于 2bc**************b65</code>)/appbrand/pkg下，找一部root设备(模拟器，刷机或者vmos)pull出来即可</li>
-<li><a href="https://jingyan.baidu.com/article/6d704a13529ab728da51ca4f.html" target="_blank" rel="noopener">备份数据</a></li>
-<li>Windows 微信文件夹里面, 不过现在好像不行了</li>
+<li>[手机微信] pkg文件在data/data/com.tencent.mm/MicroMsg/用户名ID<code>（ 类似于 2bc**************b65</code>)/appbrand/pkg下，找一部root设备(模拟器，刷机或者vmos)登陆微信pull出来即可</li>
+<li>[手机微信] <a href="https://jingyan.baidu.com/article/6d704a13529ab728da51ca4f.html" target="_blank" rel="noopener">备份数据</a></li>
+<li>[pc微信] 微信文件夹里面, C:\Users&lt;!–￼1–&gt;\Documents\WeChat Files\Applet&lt;!–￼2–&gt;&lt;!–￼3–&gt;_<em>APP_</em>.wxapkg</li>
 </ul>
-<h2 id="Decompile"><a href="#Decompile" class="headerlink" title="Decompile"></a>Decompile</h2><p>使用已有<a href="https://github.com/dingzhenkai/wxappUnpacker" target="_blank" rel="noopener">脚本</a>反编译得出源码</p>
+<h2 id="Decompile"><a href="#Decompile" class="headerlink" title="Decompile"></a>Decompile</h2><p>使用已有<a href="https://github.com/dingzhenkai/wxappUnpacker" target="_blank" rel="noopener">脚本</a>或者<a href="https://github.com/dingzhenkai/wxappUnpacker-1" target="_blank" rel="noopener">支持分包的脚本</a>反编译得出源码(注意这个脚本只适用于手机微信dump出得wxapkg, pc微信dump出的包结构不一样)</p>
 <p>这一步需要node环境，可以用docker</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker pull node:12</span><br><span class="line">docker run -itd --name mynode node:12</span><br><span class="line">docker cp XXX.wxapkg [containerid]:[path]</span><br><span class="line">docker exec -it [containerid] bash</span><br><span class="line">node wuWxapkg.js [-d] &lt;path/to/.wxapkg&gt;</span><br><span class="line">docker cp [containerid]:[path] proj/</span><br></pre></td></tr></table></figure>
 
@@ -136,7 +137,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/05/16/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%80%86%E5%90%91/" data-id="ckg91iasx001xxzj59vci7j5f"
+      <a data-url="https://dingzhenkai.github.io/2020/05/16/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%80%86%E5%90%91/" data-id="ckghnrdmd001vjxj591lg5xon"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">微信小程序</a></li></ul>
