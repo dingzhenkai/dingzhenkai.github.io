@@ -67,7 +67,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.7k字</span>
+            <span class="post-count">1.8k字</span>
         </span>
     </span>
 
@@ -102,17 +102,19 @@
       
 
       
-      <h3 id="1-bloom-filter是用来解决什么问题的"><a href="#1-bloom-filter是用来解决什么问题的" class="headerlink" title="1. bloom filter是用来解决什么问题的"></a>1. bloom filter是用来解决什么问题的</h3><p>快速查询元素a是否在集合A={a1,a2,..,an}里面，例如判断一个用户是否在黑名单中。</p>
+      <p>博客链接 <a href="https://github.com/appetizerio/team-info/wiki/11%E4%B8%AA%E9%97%AE%E9%A2%98%E5%B8%AE%E4%BD%A0%E4%BA%86%E8%A7%A3bloom-filter" target="_blank" rel="noopener">https://github.com/appetizerio/team-info/wiki/11%E4%B8%AA%E9%97%AE%E9%A2%98%E5%B8%AE%E4%BD%A0%E4%BA%86%E8%A7%A3bloom-filter</a></p>
+<h3 id="1-bloom-filter是用来解决什么问题的"><a href="#1-bloom-filter是用来解决什么问题的" class="headerlink" title="1. bloom filter是用来解决什么问题的"></a>1. bloom filter是用来解决什么问题的</h3><p>快速查询元素a是否在集合A={a1,a2,..,an}里面，例如判断一个用户是否在黑名单中。</p>
 <h3 id="2-简述bloom-filter的工作原理"><a href="#2-简述bloom-filter的工作原理" class="headerlink" title="2. 简述bloom filter的工作原理"></a>2. 简述bloom filter的工作原理</h3><ol>
 <li>构建一个长度为m的bit array，初始化其中所有bit为0。</li>
 <li>将集合A={a1,a2,..,an}中所有元素插入到bit array中。插入元素ai时，用k个hash函数算出k个位置，将对应位置的bit置为1。</li>
 <li>为了查询元素a是否在集合A={a1,a2,..,an}中。同样用k个hash函数计算出a在bit array中的k个位置，如果这k个位置不全为1则a<strong>一定不在</strong>集合A中；如果全为1，则说明a<strong>可能</strong>在集合A中。这里存在false positive，因为对应k个位置的bit全为1可能是其他元素置的。</li>
 </ol>
 <p>如下图所示，构建了一个长度为16的bit array，将集合A中元素用3个hash函数计算位置并将对应bit置为1。查询a1时，同样计算3次hash发现对应位置bit全为1，因此判定a1可能在A中。对实际不在A的两个元素x、y，同样计算3次hash。x对应的3个bit全为1，bloom filter判定x可能在A中，但实际上x不在A中，x对应的三个bit是被a2、a3置为1的，这就造成了bloom filter的false positive；y对应的3个bit中有2个bit为0，因此bloom filter判定y一定不在A中。bloom filter不存在false negative，可以用反证法证明。如果存在false negative z，说明z实际在A中，那么z对应的bit全为1，那么bloom filter判断的结果应该是z可能在A中而不是不在，因此矛盾。</p>
-<p><img src="https://dingzhenkai.github.io/2020/08/18/bloom-filter-kiss/bf.svg" alt=""></p>
+<p><img src="bf.svg" alt=""></p>
 <h3 id="3-Bloom-filter会有false-positive吗"><a href="#3-Bloom-filter会有false-positive吗" class="headerlink" title="3. Bloom filter会有false positive吗"></a>3. Bloom filter会有false positive吗</h3><p>会有，原因见问题2。</p>
 <h3 id="4-Bloom-filter会有false-negative吗"><a href="#4-Bloom-filter会有false-negative吗" class="headerlink" title="4. Bloom filter会有false negative吗"></a>4. Bloom filter会有false negative吗</h3><p>不会有，原因见问题。</p>
-<h3 id="5-bloom的误判率受什么影响"><a href="#5-bloom的误判率受什么影响" class="headerlink" title="5. bloom的误判率受什么影响"></a>5. bloom的误判率受什么影响</h3><h3 id="6-bit-array的大小m如何确定"><a href="#6-bit-array的大小m如何确定" class="headerlink" title="6. bit array的大小m如何确定"></a>6. bit array的大小m如何确定</h3><p>$$ m=-{\frac {n\ln \varepsilon }{(\ln 2)^{2}}} $$</p>
+<h3 id="5-bloom的误判率受什么影响"><a href="#5-bloom的误判率受什么影响" class="headerlink" title="5. bloom的误判率受什么影响"></a>5. bloom的误判率受什么影响</h3><p>最优k时，有$${\displaystyle \ln \varepsilon =-{\frac {m}{n}}\left(\ln 2\right)^{2}.}$$</p>
+<h3 id="6-bit-array的大小m如何确定"><a href="#6-bit-array的大小m如何确定" class="headerlink" title="6. bit array的大小m如何确定"></a>6. bit array的大小m如何确定</h3><p>$$ m=-{\frac {n\ln \varepsilon }{(\ln 2)^{2}}} $$</p>
 <p>其中n为数据集A的size，$\varepsilon$为指定的false positive possibility</p>
 <h3 id="7-hash轮数k如何确定"><a href="#7-hash轮数k如何确定" class="headerlink" title="7. hash轮数k如何确定"></a>7. hash轮数k如何确定</h3><p>$$k={\frac {m}{n}}\ln 2$$</p>
 <p>其中m为bit array的size，n为数据集A的size</p>
@@ -209,7 +211,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/08/18/bloom-filter-kiss/" data-id="ckgkj633c000vh9j5h06wcyyj"
+      <a data-url="https://dingzhenkai.github.io/2020/08/18/bloom-filter-kiss/" data-id="ckh2wns4c000ywhj5f3ss9tx5"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bloom-filter/" rel="tag">bloom filter</a></li></ul>
