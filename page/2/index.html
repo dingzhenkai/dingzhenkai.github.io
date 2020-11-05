@@ -71,6 +71,103 @@
     
     
     
+    <article id="post-ssh-remote-tunnel" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/09/26/ssh-remote-tunnel/"
+    >ssh remote tunnel 介绍</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/09/26/ssh-remote-tunnel/" class="article-date">
+  <time datetime="2020-09-26T12:53:24.000Z" itemprop="datePublished">2020-09-26</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p><strong>转载自 <a href="https://blog.csdn.net/blade2001/article/details/8877250" target="_blank" rel="noopener">https://blog.csdn.net/blade2001/article/details/8877250</a></strong></p>
+<p>SSH的的Port Forward，中文可以称为端口转发，是SSH的一项非常重要的功能。它可以建立一条安全的SSH通道，并把任意的TCP连接放到这条通道中。下面仔细就仔细讨论SSH的这种非常有用的功能。</p>
+<p>SSH Tunnel有三种，分别是本地Local（ssh -NfL），远程Remote（ssh -NfR），动态Dynamic（ssh -NfD）。（含义参考<a href="http://linux.die.net/man/1/ssh" target="_blank" rel="noopener">man ssh</a>）</p>
+<p>说明：在我们举例说明用法之前，先假设你有一台SSH机器，它的IP是a.b.c.d。</p>
+<p>1：本地Local（ssh -NfL）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -L &lt;local port&gt;:&lt;remote host&gt;:&lt;remote port&gt; &lt;SSH hostname&gt;</span><br></pre></td></tr></table></figure>
+
+<p>ssh -NfL a.b.c.d : 1234 : <a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> : 80  a.b.c.d</p>
+<p>此时，在浏览器里键入：<a href="http://a.b.c.d:1234" target="_blank" rel="noopener">http://a.b.c.d:1234</a> 就会看到Google的页面了。</p>
+<p>在绑定1234端口的时候，可以省略前面的ip，如此一来，1234端口就仅仅绑定在localhost地址上，更安全：</p>
+<p>ssh -NfL 1234 : <a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> : 80  a.b.c.d</p>
+<p>此时浏览的话就要在a.b.c.d机器上使用<a href="http://localhost:1234" target="_blank" rel="noopener">http://localhost:1234</a> 了。</p>
+<p><strong><em>\</em>何时使用本地Tunnel？\</strong></p>
+<p>*<em>比如说你在本地访问不了某个网络服务（如<a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> ，而有一台机器（如：a.b.c.d）可以，那么你就可以通过这台机器来访问。***</em></p>
+<p>2：远程Remote（ssh -NfR）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -R &lt;local port&gt;:&lt;remote host&gt;:&lt;remote port&gt; &lt;SSH hostname&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在需要被访问的内网机器上运行： ssh -NfR 1234 : localhost : 22  a.b.c.d</p>
+<p>登录到a.b.c.d机器，使用如下命令连接内网机器：</p>
+<p>ssh -p 1234  localhost</p>
+<p>需要注意的是上下两个命令里的localhost不是同一台。这时你会发现自己已经连上最开始命令里的localhost机器了，也就是执行“ssh -NfR”的那台机器。</p>
+<p><strong><em>\</em>何时使用远程Tunnel？\</strong></p>
+<p>*<em>比如当你下班回家后就访问不了公司内网的机器了，遇到这种情况可以事先在公司内网的机器上执行远程Tunnel，连上一台公司外网的机器，等你下班回家后 就可以通过公司外网的机器去访问公司内网的机器了。***</em></p>
+<p>3：动态Dynamic（ssh -NfD）<strong>-\</strong>Socket代理****</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -D</span><br></pre></td></tr></table></figure>
+
+<p>ssh -NfD 1234  a.b.c.d</p>
+<p>a.b.c.c 是server 地址</p>
+<p>如此一来就建立了一台Socket代理机器，接着在浏览器上设置Socket代理：地址是localhost，端口是1234，从此以后，你的访问都是加 密的了！你可以通过访问 <a href="http://www.whatismyip.com/" target="_blank" rel="noopener">WhatIsMyIP</a> 来 确认自己现在的IP，看看是不是已经变成a.b.c.d了。</p>
+<p>测试阶段，也可以把端口绑定在外网地址上，如此一来，你在浏览器上就可以使用外网地址设置Socket代理，但这仅限于测试，否则，你的机器就不安全了， 随时可能成为肉鸡。对于Windows用户来说，如果讨厌命令行，还可以使用MyEnTunnel来实现同样的功能，配合Firefox的 FoxyPorxy，基本就无敌了，至于具体的配置方法，小崔已经写好了： <a href="http://fendou.org/2010/01/19/firefox-foxyproxy-ssh/" target="_blank" rel="noopener">使用Firefox+foxyProxy+SSH翻山越岭</a> 。如果你使用的是Chrome的话，则可以选择 Proxy Switchy!来实现同样的效果，恕不多言。</p>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://dingzhenkai.github.io/2020/09/26/ssh-remote-tunnel/" data-id="ckh4h5gis001sq8j5h9jk3ynl"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh-tunnel/" rel="tag">ssh tunnel</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-batch为啥快" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -121,7 +218,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/09/26/batch%E4%B8%BA%E5%95%A5%E5%BF%AB/" data-id="ckh2wns4e0013whj5a5rfguau"
+      <a data-url="https://dingzhenkai.github.io/2020/09/26/batch%E4%B8%BA%E5%95%A5%E5%BF%AB/" data-id="ckh4h5gim0014q8j5bf4mgqw4"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" rel="tag">批处理</a></li></ul>
@@ -189,7 +286,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/09/25/paper-review-skill/" data-id="ckh2wns4l001pwhj50pk0e9ra"
+      <a data-url="https://dingzhenkai.github.io/2020/09/25/paper-review-skill/" data-id="ckh4h5git001vq8j5c3kn4x40"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Paper-Review/" rel="tag">Paper Review</a></li></ul>
@@ -259,7 +356,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/09/25/%E9%98%BF%E9%87%8C%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%A4%8F%E7%94%B3%E8%AF%B7%E8%AE%B0%E5%BD%95/" data-id="ckh2wns4s002ewhj55j0edkvd"
+      <a data-url="https://dingzhenkai.github.io/2020/09/25/%E9%98%BF%E9%87%8C%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%A4%8F%E7%94%B3%E8%AF%B7%E8%AE%B0%E5%BD%95/" data-id="ckh4h5giz002kq8j55yoj4rvr"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ASoC/" rel="tag">ASoC</a></li></ul>
@@ -343,7 +440,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/09/15/DeFi/" data-id="ckh2wns40000hwhj56uhp7stc"
+      <a data-url="https://dingzhenkai.github.io/2020/09/15/DeFi/" data-id="ckh4h5gi40008q8j553lr3fya"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DeFi/" rel="tag">DeFi</a></li></ul>
@@ -509,7 +606,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/08/18/bloom-filter-kiss/" data-id="ckh2wns4c000ywhj5f3ss9tx5"
+      <a data-url="https://dingzhenkai.github.io/2020/08/18/bloom-filter-kiss/" data-id="ckh4h5gih000vq8j5hqokennc"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bloom-filter/" rel="tag">bloom filter</a></li></ul>
@@ -589,7 +686,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/08/14/whatisyuque/" data-id="ckh2wns4p0025whj5fkehfwzr"
+      <a data-url="https://dingzhenkai.github.io/2020/08/14/whatisyuque/" data-id="ckh4h5giu001yq8j5fnfu4ts7"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%AD%E9%9B%80/" rel="tag">语雀</a></li></ul>
@@ -712,7 +809,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/08/03/ChinaJoy2020/" data-id="ckh2wns3u0008whj5h49adbl5"
+      <a data-url="https://dingzhenkai.github.io/2020/08/03/ChinaJoy2020/" data-id="ckh4h5gic000nq8j5blnognze"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ChinaJoy2020/" rel="tag">ChinaJoy2020</a></li></ul>
@@ -780,7 +877,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/07/29/IOS-begin/" data-id="ckh2wns3x000dwhj58fmyh15o"
+      <a data-url="https://dingzhenkai.github.io/2020/07/29/IOS-begin/" data-id="ckh4h5gie000pq8j57ezvcmbq"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IOS%E5%85%A5%E9%97%A8/" rel="tag">IOS入门</a></li></ul>
@@ -1129,94 +1226,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/06/23/ADS-Notes/" data-id="ckh2wns3o0002whj5bh0lddyd"
+      <a data-url="https://dingzhenkai.github.io/2020/06/23/ADS-Notes/" data-id="ckh4h5ghz0002q8j53qbt8o75"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ADS/" rel="tag">ADS</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-docker迁移-var-lib-docker" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/05/19/docker%E8%BF%81%E7%A7%BB-var-lib-docker/"
-    >docker迁移/var/lib/docker</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/05/19/docker%E8%BF%81%E7%A7%BB-var-lib-docker/" class="article-date">
-  <time datetime="2020-05-19T08:51:26.000Z" itemprop="datePublished">2020-05-19</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/docker/">docker</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>第一步，停止docker服务</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">ps aux | grep -i docker | grep -v grep // 结果为空则说明服务已经停止</span><br></pre></td></tr></table></figure>
-
-<p>第二步，将/var/lib/docker迁移到新的文件夹</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync -aqxP /var/lib/docker /mnt/datadrive/</span><br></pre></td></tr></table></figure>
-
-<p>第三步，修改docker启动脚本</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim /lib/systemd/system/docker.service</span><br><span class="line"></span><br><span class="line">FROM:</span><br><span class="line">ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock</span><br><span class="line">TO:</span><br><span class="line">ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock --graph=/mnt/datadrive/docker</span><br></pre></td></tr></table></figure>
-
-<p>第四步，重启docker</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line"> </span><br><span class="line">systemctl restart docker</span><br><span class="line"> </span><br><span class="line">systemctl enable docker  //开机启动</span><br></pre></td></tr></table></figure>
-
-<p>第五步, 启动后确认没问题，删除旧的/var/lib/docker</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf /var/lib/docker</span><br></pre></td></tr></table></figure>
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://linuxconfig.org/how-to-move-docker-s-default-var-lib-docker-to-another-directory-on-ubuntu-debian-linux" target="_blank" rel="noopener">https://linuxconfig.org/how-to-move-docker-s-default-var-lib-docker-to-another-directory-on-ubuntu-debian-linux</a></p>
-<p><a href="https://my.oschina.net/qbj/blog/2998164" target="_blank" rel="noopener">https://my.oschina.net/qbj/blog/2998164</a></p>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/05/19/docker%E8%BF%81%E7%A7%BB-var-lib-docker/" data-id="ckh2wns4d0011whj583uf5wnm"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%81%E7%A7%BB-var-lib-docker/" rel="tag">迁移/var/lib/docker</a></li></ul>
 
     </footer>
 

@@ -71,6 +71,90 @@
     
     
     
+    <article id="post-docker迁移-var-lib-docker" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/05/19/docker%E8%BF%81%E7%A7%BB-var-lib-docker/"
+    >docker迁移/var/lib/docker</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/05/19/docker%E8%BF%81%E7%A7%BB-var-lib-docker/" class="article-date">
+  <time datetime="2020-05-19T08:51:26.000Z" itemprop="datePublished">2020-05-19</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/docker/">docker</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>第一步，停止docker服务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">ps aux | grep -i docker | grep -v grep // 结果为空则说明服务已经停止</span><br></pre></td></tr></table></figure>
+
+<p>第二步，将/var/lib/docker迁移到新的文件夹</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync -aqxP /var/lib/docker /mnt/datadrive/</span><br></pre></td></tr></table></figure>
+
+<p>第三步，修改docker启动脚本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim /lib/systemd/system/docker.service</span><br><span class="line"></span><br><span class="line">FROM:</span><br><span class="line">ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock</span><br><span class="line">TO:</span><br><span class="line">ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock --graph=/mnt/datadrive/docker</span><br></pre></td></tr></table></figure>
+
+<p>第四步，重启docker</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line"> </span><br><span class="line">systemctl restart docker</span><br><span class="line"> </span><br><span class="line">systemctl enable docker  //开机启动</span><br></pre></td></tr></table></figure>
+
+<p>第五步, 启动后确认没问题，删除旧的/var/lib/docker</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf /var/lib/docker</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://linuxconfig.org/how-to-move-docker-s-default-var-lib-docker-to-another-directory-on-ubuntu-debian-linux" target="_blank" rel="noopener">https://linuxconfig.org/how-to-move-docker-s-default-var-lib-docker-to-another-directory-on-ubuntu-debian-linux</a></p>
+<p><a href="https://my.oschina.net/qbj/blog/2998164" target="_blank" rel="noopener">https://my.oschina.net/qbj/blog/2998164</a></p>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://dingzhenkai.github.io/2020/05/19/docker%E8%BF%81%E7%A7%BB-var-lib-docker/" data-id="ckh4h5gii000yq8j56ofe5c5i"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%81%E7%A7%BB-var-lib-docker/" rel="tag">迁移/var/lib/docker</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-微信小程序逆向" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -144,7 +228,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/05/16/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%80%86%E5%90%91/" data-id="ckh2wns4q0028whj55j4w529v"
+      <a data-url="https://dingzhenkai.github.io/2020/05/16/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%80%86%E5%90%91/" data-id="ckh4h5giy002dq8j5bbbw0pbh"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">微信小程序</a></li></ul>
@@ -223,7 +307,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/04/17/20200417-gov-notes/" data-id="ckh2wns3j0000whj55csb68m3"
+      <a data-url="https://dingzhenkai.github.io/2020/04/17/20200417-gov-notes/" data-id="ckh4h5ghv0000q8j5hvvv8s2x"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%BD%E5%8A%A1%E4%BC%9A%E8%AE%AE/" rel="tag">国务会议</a></li></ul>
@@ -357,7 +441,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/04/14/Algorithm-Network-Flow/" data-id="ckh2wns3s0006whj521ikdzbp"
+      <a data-url="https://dingzhenkai.github.io/2020/04/14/Algorithm-Network-Flow/" data-id="ckh4h5gi30007q8j54qfa5vy3"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E6%B5%81/" rel="tag">网络流</a></li></ul>
@@ -400,7 +484,7 @@
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%BF%BB%E5%A2%99/">翻墙</a>
+    <a class="article-category-link" href="/categories/%E4%BB%A3%E7%90%86/">代理</a>
   </div>
 
       
@@ -432,7 +516,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/03/28/%E9%85%8D%E7%BD%AEbash%E4%B8%8Egit%E4%BB%A3%E7%90%86%E7%BF%BB%E5%A2%99/" data-id="ckh2wns4t002hwhj56yqq2dlz"
+      <a data-url="https://dingzhenkai.github.io/2020/03/28/%E9%85%8D%E7%BD%AEbash%E4%B8%8Egit%E4%BB%A3%E7%90%86%E7%BF%BB%E5%A2%99/" data-id="ckh4h5giv0024q8j578nx0c6q"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bash/" rel="tag">bash</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li></ul>
@@ -710,7 +794,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/03/22/elasticsearch%E5%85%AC%E5%BC%80%E8%AF%BE%E9%98%AE%E4%B8%80%E9%B8%A3/" data-id="ckh2wns4i001fwhj5ghrm25m3"
+      <a data-url="https://dingzhenkai.github.io/2020/03/22/elasticsearch%E5%85%AC%E5%BC%80%E8%AF%BE%E9%98%AE%E4%B8%80%E9%B8%A3/" data-id="ckh4h5giq001lq8j5atxrhxki"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a></li></ul>
@@ -792,7 +876,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/03/21/Cuttlefish%E4%BB%8B%E7%BB%8D/" data-id="ckh2wns41000jwhj5dhv8h7f5"
+      <a data-url="https://dingzhenkai.github.io/2020/03/21/Cuttlefish%E4%BB%8B%E7%BB%8D/" data-id="ckh4h5gi5000cq8j55lwp2jty"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Cuttlefish/" rel="tag">Cuttlefish</a></li></ul>
@@ -871,7 +955,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/03/17/%E5%9F%BA%E9%87%91%E6%8A%95%E8%B5%84%E5%85%A5%E9%97%A8/" data-id="ckh2wns4n001ywhj59qa205ik"
+      <a data-url="https://dingzhenkai.github.io/2020/03/17/%E5%9F%BA%E9%87%91%E6%8A%95%E8%B5%84%E5%85%A5%E9%97%A8/" data-id="ckh4h5giw0027q8j55gbycd51"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9F%BA%E9%87%91%E6%8A%95%E8%B5%84/" rel="tag">基金投资</a></li></ul>
@@ -962,7 +1046,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/03/04/elasticsearch%E5%AE%89%E8%A3%85%E4%B8%8E%E5%88%9D%E4%BD%93%E9%AA%8C/" data-id="ckh2wns4h001dwhj5bckf7ooh"
+      <a data-url="https://dingzhenkai.github.io/2020/03/04/elasticsearch%E5%AE%89%E8%A3%85%E4%B8%8E%E5%88%9D%E4%BD%93%E9%AA%8C/" data-id="ckh4h5gip001fq8j564sbbk0l"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%89%E8%A3%85/" rel="tag">安装</a></li></ul>
@@ -1045,104 +1129,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/02/18/Google%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%A4%8F%E7%94%B3%E8%AF%B7%E8%AE%B0%E5%BD%95/" data-id="ckh2wns3w000cwhj54yw24h9r"
+      <a data-url="https://dingzhenkai.github.io/2020/02/18/Google%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%A4%8F%E7%94%B3%E8%AF%B7%E8%AE%B0%E5%BD%95/" data-id="ckh4h5gi6000dq8j5aecuf7d6"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GSoC/" rel="tag">GSoC</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-域名解析那些事儿" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/02/02/%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/"
-    >域名解析那些事儿</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/02/02/%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/" class="article-date">
-  <time datetime="2020-02-02T02:43:47.000Z" itemprop="datePublished">2020-02-02</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>使用github page+hexo搭建完博客之后，博客可以通过url <code>dingzhenkai.github.io</code> 访问，但是这样还留下两个缺点：</p>
-<ul>
-<li>github访问速度太慢</li>
-<li>url太长，比较难记</li>
-</ul>
-<p>对于这两个缺点，其一，github太慢这一点，两个优化方法：分析network traffic，找出性能瓶颈，例如请求首页却额外返回了不需要的具体文章，或者是文章用的图片太大等；迁移至gitee或者自建git平台，这样访问速度会更快一点。</p>
-<p>其二，对于url太难记这一点，可以买一个简单好记的域名，然后域名解析，将url转发到原来的url。域名解析两种方式：一种是CNAME（别名）解析，一种是显性/隐性url解析。显性/隐性url解析需要网站备案，很烦。</p>
-<p>目前我用CNAME解析来实现，步骤参考知乎[严晟嘉的回答](github怎么绑定自己的域名？ - 严晟嘉的回答 - 知乎 <a href="https://www.zhihu.com/question/31377141/answer/103056861" target="_blank" rel="noopener">https://www.zhihu.com/question/31377141/answer/103056861</a>)</p>
-<blockquote>
-<p><strong>1. 向你的 Github Pages 仓库添加一个CNAME(一定要*大写*)文件</strong><br>其中只能包含一个顶级域名，像这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">example.com</span><br></pre></td></tr></table></figure>
-<p>这个步骤可以在<a href="https://github.com/xxx/xxx.github.io/settings" target="_blank" rel="noopener">https://github.com/xxx/xxx.github.io/settings</a> 里面直接改 Custom domain实现。<br><strong>2. 向你的 DNS 配置中添加 3 条记录</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@          A             192.30.252.153</span><br><span class="line">@          A             192.30.252.154</span><br><span class="line">www      CNAME           username.github.io.</span><br></pre></td></tr></table></figure>
-<p>用你自己的 Github 用户名替换 username<br>配置 DNS 推荐使用 DNSPOD 的服务，使用国外的 DNS 解析服务可能有被墙的风险。<br>至于如何使用 DNSPOD 解析域名，参考<br><a href="https://link.zhihu.com/?target=http%3A//jingyan.baidu.com/article/546ae1857c4ee81149f28cbe.html">http://jingyan.baidu.com/article/546ae1857c4ee81149f28cbe.htmljingyan.baidu.com</a><br><strong>3. 等待你的 DNS 配置生效</strong><br>对DNS的配置不是立即生效的，过10分钟再去访问你的域名看看有没有配置成功 : )D<br><strong>4. 启用 HTTPS</strong><br>自 2018 年 5 月 1 日，Github 支持自定义域名的 HTTPS 请求了。<br>详情见：<br><a href="https://link.zhihu.com/?target=https%3A//blog.github.com/2018-05-01-github-pages-custom-domains-https/">https://blog.github.com/2018-05-01-github-pages-custom-domains-https/blog.github.com</a><br>配置也相当简单，只需要更新 DNS 配置里的 A 记录，将其指向以下4个 IP 地址中的至少一个。</p>
-<ul>
-<li><p>185.199.108.153</p>
-</li>
-<li><p>185.199.109.153</p>
-</li>
-<li><p>185.199.110.153</p>
-</li>
-<li><p>185.199.111.153</p>
-</li>
-</ul>
-<p>HTTPS 让你的网站和网站访客更安全，并且 Github 提供的这些 IP 地址自动将你的站点加入了 CDN，提高了访问速度。<br>  你还可以在 GiHub Pages 仓库的设置里勾选 ‘Enforce HTTPS’，这样所有访问你站点的请求都会走 HTTPS。<br>  不得不说，GitHub 是真的良心。</p>
-</blockquote>
-<p>DNSPOD的<a href="https://domaintool.cloud.tencent.com/result" target="_blank" rel="noopener">域名检测</a>挺好用，域名解析出bug可以去检测下。</p>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/02/02/%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/" data-id="ckh2wns4o0022whj5f2wod1ax"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9F%9F%E5%90%8D/" rel="tag">域名</a></li></ul>
 
     </footer>
 
