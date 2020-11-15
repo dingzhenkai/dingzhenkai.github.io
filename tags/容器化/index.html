@@ -10,7 +10,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    美团Hadoop、Spark系统实践 |  丁星乐
+    Tag: 容器化 |  丁星乐
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -35,174 +35,55 @@
   <div id="app">
     <main class="content">
       <section class="outer">
-  <article id="post-meituan-bigdata-3" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
+  <article class="articles">
     
-    <header class="article-header">
+    
+    <h1 class="page-type-title">#&nbsp容器化</h1>
+    
+    
+  
+  
+  
+  
+  
+  
+  <div class="archives-wrap">
+    <div class="archive-year-wrap">
+      <a href="/archives/2020" class="archive-year">2020</a>
+    </div>
+    <div class="archives">
+      
+      <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/2020/11/13/%E5%A4%96%E5%8D%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AE%B9%E5%99%A8%E5%8C%96%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/" class="archive-article-date">
+  <time datetime="2020-11-13T13:21:13.000Z" itemprop="datePublished">11/13</time>
+</a>
        
-<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  美团Hadoop、Spark系统实践
-</h1>
+<h2 itemprop="name">
+  <a class="archive-article-title" href="/2020/11/13/%E5%A4%96%E5%8D%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AE%B9%E5%99%A8%E5%8C%96%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/"
+    >外卖客户端容器化架构的演进</a
+  >
+</h2>
   
 
     </header>
     
+    
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%B9%E5%99%A8%E5%8C%96/" rel="tag">容器化</a></li></ul>
 
     
-    <div class="article-meta">
-      <a href="/2020/10/21/meituan-bigdata-3/" class="article-date">
-  <time datetime="2020-10-21T05:44:06.000Z" itemprop="datePublished">2020-10-21</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a>
   </div>
-
-      
-      
-<div class="word_count">
-    <span class="post-time">
-        <span class="post-meta-item-icon">
-            <i class="ri-quill-pen-line"></i>
-            <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">0字</span>
-        </span>
-    </span>
-
-    <span class="post-time">
-        &nbsp; | &nbsp;
-        <span class="post-meta-item-icon">
-            <i class="ri-book-open-line"></i>
-            <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1分钟</span>
-        </span>
-    </span>
-</div>
-
-      
-    </div>
-    
-
-    
-    
-
-
-
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p><img src="1020_3.png" alt=""><br><img src="1020_4.png" alt=""><br><img src="1020_5.png" alt=""><br><img src="1020_6.png" alt=""><br><img src="1020_7.png" alt=""><br><img src="1020_8.png" alt=""><br><img src="1020_9.png" alt=""><br><img src="1020_10.png" alt=""><br><img src="1020_11.png" alt=""><br><img src="1020_12.png" alt=""><br><img src="1020_13.png" alt=""><br><img src="1020_14.png" alt=""><br><img src="1020_15.png" alt=""><br><img src="1020_16.png" alt=""><br><img src="1020_17.png" alt=""><br><img src="1020_18.png" alt=""><br><img src="1020_19.png" alt=""><br><img src="1020_20.png" alt=""><br><img src="1020_21.png" alt=""><br><img src="1020_22.png" alt=""><br><img src="1020_23.png" alt=""><br><img src="1020_24.png" alt=""><br><img src="1020_25.png" alt=""><br><img src="1020_26.png" alt=""><br><img src="1020_27.png" alt=""><br><img src="1020_28.png" alt=""><br><img src="1020_29.png" alt=""><br><img src="1020_30.png" alt=""><br><img src="1020_31.png" alt=""><br><img src="1020_32.png" alt=""><br><img src="1020_33.png" alt=""><br><img src="1020_34.png" alt=""><br><img src="1020_35.png" alt=""><br><img src="1020_36.png" alt=""><br><img src="1020_37.png" alt=""><br><img src="1020_38.png" alt=""><br><img src="1020_39.png" alt=""><br><img src="1020_40.png" alt=""><br><img src="1020_41.png" alt=""><br><img src="1020_42.png" alt=""><br><img src="1020_43.png" alt=""><br><img src="1020_44.png" alt=""><br><img src="1020_45.png" alt=""><br><img src="1020_46.png" alt=""><br><img src="1020_47.png" alt=""><br><img src="1020_48.png" alt=""><br><img src="1020_49.png" alt=""><br><img src="1020_50.png" alt=""><br><img src="1020_51.png" alt=""><br><img src="1020_52.png" alt=""><br><img src="1020_53.png" alt=""><br><img src="1020_54.png" alt=""><br><img src="1020_55.png" alt=""><br><img src="1020_56.png" alt=""><br><img src="1020_57.png" alt=""><br><img src="1020_58.png" alt=""><br><img src="1020_59.png" alt=""><br><img src="1020_60.png" alt=""><br><img src="1020_61.png" alt=""><br><img src="1020_62.png" alt=""><br><img src="1020_63.png" alt=""><br><img src="1020_64.png" alt=""><br><img src="1020_65.png" alt=""><br><img src="1020_66.png" alt=""><br><img src="1020_67.png" alt=""><br><img src="1020_68.png" alt=""><br><img src="1020_69.png" alt=""><br><img src="1020_70.png" alt=""><br><img src="1020_71.png" alt=""><br><img src="1020_72.png" alt=""><br><img src="1020_73.png" alt=""></p>
-
-      
-      <!-- 打赏 -->
-      
-      <div id="reward-btn">
-        打赏
-      </div>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/10/21/meituan-bigdata-3/" data-id="ckhiu7tnr001lmaj52avu4jek"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E7%9A%84%E5%95%86%E4%B8%9A%E5%BA%94%E7%94%A8%E4%B8%8E%E5%AE%9E%E8%B7%B5/" rel="tag">大数据技术的商业应用与实践</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-  
-  <nav class="article-nav">
-    
-      <a href="/2020/10/23/kanxue2020/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            kanxue2020
-          
-        </div>
-      </a>
-    
-    
-      <a href="/2020/10/13/meituan-bigdata-1/" class="article-nav-link">
-        <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">美团实时数据收集与处理技术实践</div>
-      </a>
-    
-  </nav>
-
-
-  
-
-  
-  
-<!-- valine评论 -->
-<div id="vcomments-box">
-    <div id="vcomments">
-    </div>
-</div>
-<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
-<script>
-    new Valine({
-        el: '#vcomments',
-        notify: false,
-        verify: '',
-        app_id: '',
-        app_key: '',
-        path: window.location.pathname,
-        avatar: 'mp',
-        placeholder: '给我的文章加点评论吧~',
-        recordIP: true
-    });
-    const infoEle = document.querySelector('#vcomments .info');
-    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
-        infoEle.childNodes.forEach(function (item) {
-            item.parentNode.removeChild(item);
-        });
-    }
-</script>
-<style>
-    #vcomments-box {
-        padding: 5px 30px;
-    }
-
-    @media screen and (max-width: 800px) {
-        #vcomments-box {
-            padding: 5px 0px;
-        }
-    }
-
-    #vcomments-box #vcomments {
-        background-color: #fff;
-    }
-
-    .v .vlist .vcard .vh {
-        padding-right: 20px;
-    }
-
-    .v .vlist .vcard {
-        padding-left: 10px;
-    }
-</style>
-
-  
-
-  
-  
-  
-
 </article>
+      
+      
+    </div>
+  </div>
+  
+  
+
+  
 </section>
       <footer class="footer">
   <div class="outer">
@@ -348,30 +229,6 @@
 </script>
 
 
-
-
-<script src="/js/tocbot.min.js"></script>
-
-<script>
-  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
-  tocbot.init({
-    tocSelector: '.tocbot',
-    contentSelector: '.article-entry',
-    headingSelector: 'h1, h2, h3, h4, h5, h6',
-    hasInnerContainers: true,
-    scrollSmooth: true,
-    scrollContainer:'main',
-    positionFixedSelector: '.tocbot',
-    positionFixedClass: 'is-position-fixed',
-    fixedSidebarOffset: 'auto',
-    onClick: (e) => {
-      $('.toc-link').removeClass('is-active-link');
-      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
-      $(e.target.hash).scrollIntoView();
-      return false;
-    }
-  });
-</script>
 
 
 <script>
