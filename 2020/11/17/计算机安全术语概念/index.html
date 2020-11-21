@@ -67,7 +67,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">580字</span>
+            <span class="post-count">1.9k字</span>
         </span>
     </span>
 
@@ -76,7 +76,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">2分钟</span>
+            <span class="post-count">6分钟</span>
         </span>
     </span>
 </div>
@@ -110,6 +110,18 @@
 <p>也可以在中文社区<a href="http://www.scap.org.cn/上搜索关于漏洞的介绍" target="_blank" rel="noopener">http://www.scap.org.cn/上搜索关于漏洞的介绍</a></p>
 <p><strong>5.0DAY漏洞和0DAY攻击</strong></p>
 <p>在计算机领域中，零日漏洞或零时差漏洞（英语：Zero-dayexploit）通常是指还没有补丁的安全漏洞，而零日攻击或零时差攻击（英语：Zero-dayattack）则是指利用这种漏洞进行的攻击。提供该漏洞细节或者利用程序的人通常是该漏洞的发现者。零日漏洞的利用程序对网络安全具有巨大威胁，因此零日漏洞不但是黑客的最爱，掌握多少零日漏洞也成为评价黑客技术水平的一个重要参数。<br>零日漏洞及其利用代码不仅对犯罪黑客而言，具有极高的利用价值，一些国家间谍和网军部队，例如美国国家安全局和美国网战司令部也非常重视这些信息[1]。据路透社报告称美国政府是零日漏洞黑市的最大买家。</p>
+<p><strong>6.APT攻击</strong></p>
+<p>APT攻击是一个集合了多种常见攻击方式的综合攻击。综合多种攻击途径来尝试突破网络防御，通常是通过Web或电子邮件传递，利用应用程序或操作系统的漏洞，利用传统的网络保护机制无法提供统一的防御。除了使用多种途径，高级定向攻击还采用多个阶段穿透一个网络，然后提取有价值的信息，这使得它的攻击更不容易被发现。</p>
+<p><strong>7.ARP攻击</strong></p>
+<p>地址解析协议，即ARP（Address Resolution Protocol），是根据<a href="https://baike.baidu.com/item/IP地址" target="_blank" rel="noopener">IP地址</a>获取<a href="https://baike.baidu.com/item/物理地址/2129" target="_blank" rel="noopener">物理地址</a>的一个<a href="https://baike.baidu.com/item/TCP%2FIP协议" target="_blank" rel="noopener">TCP/IP协议</a>。<a href="https://baike.baidu.com/item/主机/455151" target="_blank" rel="noopener">主机</a>发送信息时将包含目标IP地址的ARP请求广播到局域网络上的所有主机，并接收返回消息，以此确定目标的物理地址；收到返回消息后将该IP地址和物理地址存入本机ARP缓存中并保留一定时间，下次请求时直接查询ARP缓存以节约资源。地址解析协议是建立在网络中各个主机互相信任的基础上的，局域网络上的主机可以自主发送ARP应答消息，其他主机收到应答报文时不会检测该报文的真实性就会将其记入本机ARP缓存；由此攻击者就可以向某一主机发送伪ARP应答报文，使其发送的信息无法到达预期的主机或到达错误的主机，这就构成了一个<a href="https://baike.baidu.com/item/ARP欺骗" target="_blank" rel="noopener">ARP欺骗</a>。<a href="https://baike.baidu.com/item/ARP命令" target="_blank" rel="noopener">ARP命令</a>可用于查询本机ARP缓存中IP地址和<a href="https://baike.baidu.com/item/MAC地址" target="_blank" rel="noopener">MAC地址</a>的对应关系、添加或删除静态对应关系等。相关协议有<a href="https://baike.baidu.com/item/RARP" target="_blank" rel="noopener">RARP</a>、<a href="https://baike.baidu.com/item/代理ARP" target="_blank" rel="noopener">代理ARP</a>。<a href="https://baike.baidu.com/item/NDP" target="_blank" rel="noopener">NDP</a>用于在<a href="https://baike.baidu.com/item/IPv6" target="_blank" rel="noopener">IPv6</a>中代替地址解析协议。</p>
+<p><strong>8.ROP攻击</strong></p>
+<p>ROP全称为Return-oriented Programming（面向返回的编程）是一种新型的基于代码复用技术的攻击，攻击者从已有的库或可执行文件中提取指令片段，构建恶意代码。</p>
+<p>ROP的核心思想：攻击者扫描已有的<a href="https://baike.baidu.com/item/动态链接库/100352" target="_blank" rel="noopener">动态链接库</a>和可执行文件，提取出可以利用的指令片段(gadget)，这些指令片段均以ret指令结尾，即用ret指令实现指令片段执行流的衔接。操作系统通过栈来进行函数的调用和返回。函数的调用和返回就是通过压栈和出栈来实现的。每个程序都会维护一个程序运行栈，栈为所有函数共享，每次函数调用，系统会分配一个栈桢给当前被调用函数，用于参数的传递、局部变量的维护、返回地址的填入等。栈帧是程序运行栈的一部分 ，在<a href="https://baike.baidu.com/item/Linux" target="_blank" rel="noopener">Linux</a>中 ，通过%esp和 %ebp寄存器维护栈顶指针和栈帧的起始地址 ，%eip是程序计数器寄存器 [1] 。而ROP攻击则是利用以ret结尾的程序片段 ，操作这些栈相关寄存器，控制程序的流程，执行相应的gadget，实施攻击者预设目标 。ROP不同于retum-to-libc攻击之处在于，ROP攻击以ret指令结尾的函数代码片段 ，而不是整个函数本身去完成预定的操作。从广义角度讲 ，return-to-libc攻击是ROP攻的特例。最初ROP攻击实现在x86体系结构下，随后扩展到各种体系结构.。与以往攻击技术不同的是，ROP恶意代码不包含任何指令，将自己的恶意代码隐藏在正常代码中。因而，它可以绕过W⊕X的防御技术。</p>
+<p><strong>9.buffer overflow攻击</strong></p>
+<p><a href="https://baike.baidu.com/item/缓冲区" target="_blank" rel="noopener">缓冲区</a>溢出是指当<a href="https://baike.baidu.com/item/计算机/140338" target="_blank" rel="noopener">计算机</a>向缓冲区内填充数据位数时超过了缓冲区本身的容量，溢出的数据覆盖在合法数据上。理想的情况是：程序会检查数据长度，而且并不允许输入超过缓冲区长度的字符。但是绝大多数程序都会假设数据长度总是与所分配的储存空间相匹配，这就为缓冲区溢出埋下隐患。操作系统所使用的缓冲区，又被称为“<a href="https://baike.baidu.com/item/堆栈" target="_blank" rel="noopener">堆栈</a>”，在各个操作进程之间，指令会被临时储存在“堆栈”当中，“堆栈”也会出现<a href="https://baike.baidu.com/item/缓冲区溢出/678453" target="_blank" rel="noopener">缓冲区溢出</a>。</p>
+<p><strong>10.RCE漏洞</strong></p>
+<p>远程代码执行漏洞</p>
+<p>该生热爱祖国、热爱集体，拥护中国共产党的领导，在日常学习生活中，起到党员模范带头作用，政治立场坚定，组织观念强，坚决贯彻党的路线方针政策。<br>该生在研究生期间学习努力认真，已完成研究生毕业的学分要求。成绩优异。在实验室里刻苦钻研，踏实肯干，具有较强的科研能力和实践能力，目前已完成巨型虚拟机项目，发表小论文1篇，毕业设计方向为数据中心与分布式系统。<br>该生勤俭节约，尊重师长，团结同学，积极参加班级活动，与同学们相处融洽。<br>综上所述，该生在校期间各方面表现良好。</p>
 
       
       <!-- 打赏 -->
@@ -120,7 +132,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/11/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AE%89%E5%85%A8%E6%9C%AF%E8%AF%AD%E6%A6%82%E5%BF%B5/" data-id="ckhlhllvs002jfaj5cp907qy3"
+      <a data-url="https://dingzhenkai.github.io/2020/11/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AE%89%E5%85%A8%E6%9C%AF%E8%AF%AD%E6%A6%82%E5%BF%B5/" data-id="ckhrdovl9002wt5j52xpb5umw"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%AF%E8%AF%AD/" rel="tag">术语</a></li></ul>
@@ -132,6 +144,15 @@
   
   
   <nav class="article-nav">
+    
+      <a href="/2020/11/17/Android-Webview-%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E%E6%B1%87%E6%80%BB%E4%B8%8E%E5%AE%A1%E8%AE%A1%E8%A6%81%E7%82%B9/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            Android_Webview_安全漏洞汇总与审计要点
+          
+        </div>
+      </a>
     
     
       <a href="/2020/11/13/%E5%A4%96%E5%8D%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AE%B9%E5%99%A8%E5%8C%96%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/" class="article-nav-link">

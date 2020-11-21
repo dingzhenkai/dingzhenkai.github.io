@@ -10,7 +10,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    elasticsearch安装与初体验 |  丁星乐
+    Tag: POSIX |  丁星乐
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -35,199 +35,55 @@
   <div id="app">
     <main class="content">
       <section class="outer">
-  <article id="post-elasticsearch安装与初体验" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
+  <article class="articles">
     
-    <header class="article-header">
+    
+    <h1 class="page-type-title">#&nbspPOSIX</h1>
+    
+    
+  
+  
+  
+  
+  
+  
+  <div class="archives-wrap">
+    <div class="archive-year-wrap">
+      <a href="/archives/2020" class="archive-year">2020</a>
+    </div>
+    <div class="archives">
+      
+      <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/2020/11/18/POSIX%E8%A7%84%E8%8C%83%E4%BB%8B%E7%BB%8D/" class="archive-article-date">
+  <time datetime="2020-11-18T08:13:39.000Z" itemprop="datePublished">11/18</time>
+</a>
        
-<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  elasticsearch安装与初体验
-</h1>
+<h2 itemprop="name">
+  <a class="archive-article-title" href="/2020/11/18/POSIX%E8%A7%84%E8%8C%83%E4%BB%8B%E7%BB%8D/"
+    >POSIX规范介绍</a
+  >
+</h2>
   
 
     </header>
     
+    
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/POSIX/" rel="tag">POSIX</a></li></ul>
 
     
-    <div class="article-meta">
-      <a href="/2020/03/04/elasticsearch%E5%AE%89%E8%A3%85%E4%B8%8E%E5%88%9D%E4%BD%93%E9%AA%8C/" class="article-date">
-  <time datetime="2020-03-04T02:47:35.000Z" itemprop="datePublished">2020-03-04</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/elasticsearch/">elasticsearch</a>
   </div>
-
-      
-      
-<div class="word_count">
-    <span class="post-time">
-        <span class="post-meta-item-icon">
-            <i class="ri-quill-pen-line"></i>
-            <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">236字</span>
-        </span>
-    </span>
-
-    <span class="post-time">
-        &nbsp; | &nbsp;
-        <span class="post-meta-item-icon">
-            <i class="ri-book-open-line"></i>
-            <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1分钟</span>
-        </span>
-    </span>
-</div>
-
-      
-    </div>
-    
-
-    
-    
-    <div class="tocbot"></div>
-
-
-
-
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h2 id="elasticsearch简介"><a href="#elasticsearch简介" class="headerlink" title="elasticsearch简介"></a>elasticsearch简介</h2><p>官网：<a href="https://www.elastic.co/cn/elasticsearch" target="_blank" rel="noopener">https://www.elastic.co/cn/elasticsearch</a></p>
-<p>这几篇文章介绍elasticsearch比较好</p>
-<ul>
-<li><a href="https://zhuanlan.zhihu.com/p/62892586" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/62892586</a></li>
-<li><a href="https://www.jianshu.com/p/b0e9b8cd6d45" target="_blank" rel="noopener">https://www.jianshu.com/p/b0e9b8cd6d45</a></li>
-</ul>
-<p><a href="https://data.aliyun.com/product/elasticsearch" target="_blank" rel="noopener">阿里云elasticsearch</a> </p>
-<p><a href="https://es.xiaoleilu.com/index.html" target="_blank" rel="noopener">Elasticsearch 权威指南</a></p>
-<p><a href="https://developer.aliyun.com/topic/elasticsearch" target="_blank" rel="noopener">Elasticsearch公开课 阮一鸣</a></p>
-<h3 id="与普通检索的区别"><a href="#与普通检索的区别" class="headerlink" title="与普通检索的区别"></a>与普通检索的区别</h3><p>聚合分析功能是亮点</p>
-<h2 id="docker-安装-elk"><a href="#docker-安装-elk" class="headerlink" title="docker 安装 elk"></a>docker 安装 elk</h2><p>已有前人整理好在github <a href="https://github.com/deviantony/docker-elk" target="_blank" rel="noopener">https://github.com/deviantony/docker-elk</a></p>
-<p>elk版本可在<code>.env</code>文件中修改，20200325下载时<code>.env</code>中版本号为7.6.0</p>
-<p>当前默认用的是30天试用版本，可以在es配置文件es.yml中修改trial为basic改成免费版</p>
-<p>The stack is pre-configured with the following <strong>privileged</strong> bootstrap user:</p>
-<ul>
-<li>user: <em>elastic</em></li>
-<li>password: <em>changeme</em></li>
-</ul>
-<p>docker-compose up 拉取镜像并生成容器</p>
-<p>docker-compose down -v 删除容器、镜像和数据</p>
-<p>插入数据可以在elk都配好之后</p>
-<p><code>cat data.csv | nc -c localhost 5000</code> 通过logstash插入到es中</p>
-<p>可以在logstash配置文件logstash.conf中配置fliter来将原始数据变成结构化数据</p>
-<p>然后kibana打开</p>
-
-      
-      <!-- 打赏 -->
-      
-      <div id="reward-btn">
-        打赏
-      </div>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/03/04/elasticsearch%E5%AE%89%E8%A3%85%E4%B8%8E%E5%88%9D%E4%BD%93%E9%AA%8C/" data-id="ckhrdovkw001pt5j5a0c19v9q"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%89%E8%A3%85/" rel="tag">安装</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-  
-  <nav class="article-nav">
-    
-      <a href="/2020/03/17/%E5%9F%BA%E9%87%91%E6%8A%95%E8%B5%84%E5%85%A5%E9%97%A8/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            基金投资笔记
-          
-        </div>
-      </a>
-    
-    
-      <a href="/2020/02/18/Google%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%A4%8F%E7%94%B3%E8%AF%B7%E8%AE%B0%E5%BD%95/" class="article-nav-link">
-        <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">Google编程之夏申请记录</div>
-      </a>
-    
-  </nav>
-
-
-  
-
-  
-  
-<!-- valine评论 -->
-<div id="vcomments-box">
-    <div id="vcomments">
-    </div>
-</div>
-<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
-<script>
-    new Valine({
-        el: '#vcomments',
-        notify: false,
-        verify: '',
-        app_id: '',
-        app_key: '',
-        path: window.location.pathname,
-        avatar: 'mp',
-        placeholder: '给我的文章加点评论吧~',
-        recordIP: true
-    });
-    const infoEle = document.querySelector('#vcomments .info');
-    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
-        infoEle.childNodes.forEach(function (item) {
-            item.parentNode.removeChild(item);
-        });
-    }
-</script>
-<style>
-    #vcomments-box {
-        padding: 5px 30px;
-    }
-
-    @media screen and (max-width: 800px) {
-        #vcomments-box {
-            padding: 5px 0px;
-        }
-    }
-
-    #vcomments-box #vcomments {
-        background-color: #fff;
-    }
-
-    .v .vlist .vcard .vh {
-        padding-right: 20px;
-    }
-
-    .v .vlist .vcard {
-        padding-left: 10px;
-    }
-</style>
-
-  
-
-  
-  
-  
-
 </article>
+      
+      
+    </div>
+  </div>
+  
+  
+
+  
 </section>
       <footer class="footer">
   <div class="outer">
@@ -373,30 +229,6 @@
 </script>
 
 
-
-
-<script src="/js/tocbot.min.js"></script>
-
-<script>
-  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
-  tocbot.init({
-    tocSelector: '.tocbot',
-    contentSelector: '.article-entry',
-    headingSelector: 'h1, h2, h3, h4, h5, h6',
-    hasInnerContainers: true,
-    scrollSmooth: true,
-    scrollContainer:'main',
-    positionFixedSelector: '.tocbot',
-    positionFixedClass: 'is-position-fixed',
-    fixedSidebarOffset: 'auto',
-    onClick: (e) => {
-      $('.toc-link').removeClass('is-active-link');
-      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
-      $(e.target.hash).scrollIntoView();
-      return false;
-    }
-  });
-</script>
 
 
 <script>
