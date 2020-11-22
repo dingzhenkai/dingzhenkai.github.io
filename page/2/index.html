@@ -71,6 +71,95 @@
     
     
     
+    <article id="post-Mac-manage-mul-sshkey" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/10/24/Mac-manage-mul-sshkey/"
+    >Mac_manage_mul_sshkey</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/10/24/Mac-manage-mul-sshkey/" class="article-date">
+  <time datetime="2020-10-24T10:54:20.000Z" itemprop="datePublished">2020-10-24</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>转载 <a href="https://gitee.com/help/articles/4229" target="_blank" rel="noopener">https://gitee.com/help/articles/4229</a></p>
+<blockquote>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>当有多个git账号时，比如：</p>
+<p>a. 一个gitee，用于公司内部的工作开发；<br>b. 一个github，用于自己进行一些开发活动；</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
+<li>生成一个公司用的SSH-Key</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C &#39;xxxxx@company.com&#39; -f ~&#x2F;.ssh&#x2F;gitee_id_rsa</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>生成一个github用的SSH-Key</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C &#39;xxxxx@qq.com&#39; -f ~&#x2F;.ssh&#x2F;github_id_rsa</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>在 ~/.ssh 目录下新建一个config文件，添加如下内容（其中Host和HostName填写git服务器的域名，IdentityFile指定私钥的路径）</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># gitee</span><br><span class="line">Host gitee.com</span><br><span class="line">HostName gitee.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~&#x2F;.ssh&#x2F;gitee_id_rsa</span><br><span class="line"># github</span><br><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~&#x2F;.ssh&#x2F;github_id_rsa</span><br></pre></td></tr></table></figure>
+
+<p>4.用ssh命令分别测试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -T git@gitee.com</span><br><span class="line">$ ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+</blockquote>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://dingzhenkai.github.io/2020/10/24/Mac-manage-mul-sshkey/" data-id="ckhsu1j3p000t3rj5guulak5e"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E6%9C%BA%E7%AE%A1%E7%90%86%E5%A4%9A%E4%B8%AAssh-key/" rel="tag">单机管理多个ssh-key</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-meituan-bigdata-3" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -120,7 +209,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/10/21/meituan-bigdata-3/" data-id="ckhrdovkv001mt5j54xcm64d4"
+      <a data-url="https://dingzhenkai.github.io/2020/10/21/meituan-bigdata-3/" data-id="ckhsu1j42001m3rj5ebdrakbd"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E7%9A%84%E5%95%86%E4%B8%9A%E5%BA%94%E7%94%A8%E4%B8%8E%E5%AE%9E%E8%B7%B5/" rel="tag">大数据技术的商业应用与实践</a></li></ul>
@@ -194,7 +283,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/10/13/meituan-bigdata-1/" data-id="ckhrdovkt001gt5j51vgjcd19"
+      <a data-url="https://dingzhenkai.github.io/2020/10/13/meituan-bigdata-1/" data-id="ckhsu1j3z001j3rj5fa2s3299"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E7%9A%84%E5%95%86%E4%B8%9A%E5%BA%94%E7%94%A8%E4%B8%8E%E5%AE%9E%E8%B7%B5/" rel="tag">大数据技术的商业应用与实践</a></li></ul>
@@ -266,7 +355,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/10/12/%E5%8F%91%E7%8E%B0%E5%BC%82%E5%B8%B8/" data-id="ckhrdovl4002gt5j5fa1t6va0"
+      <a data-url="https://dingzhenkai.github.io/2020/10/12/%E5%8F%91%E7%8E%B0%E5%BC%82%E5%B8%B8/" data-id="ckhsu1j5u00453rj5100fhleh"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8F%91%E7%8E%B0%E5%BC%82%E5%B8%B8/" rel="tag">发现异常</a></li></ul>
@@ -346,7 +435,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/10/08/get-rid-of-confusion/" data-id="ckhrdovkv001kt5j51ugwah2b"
+      <a data-url="https://dingzhenkai.github.io/2020/10/08/get-rid-of-confusion/" data-id="ckhsu1j3y001g3rj50iqtdyqd"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%97%B6%E9%97%B4%E7%AE%A1%E7%90%86/" rel="tag">时间管理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%80%89%E6%8B%A9%E5%9B%B0%E9%9A%BE%E7%97%87/" rel="tag">选择困难症</a></li></ul>
@@ -418,7 +507,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/10/02/Mac-install-office/" data-id="ckhrdovkl000wt5j5anatb003"
+      <a data-url="https://dingzhenkai.github.io/2020/10/02/Mac-install-office/" data-id="ckhsu1j3l000h3rj54da1dy4d"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/office/" rel="tag">office</a></li></ul>
@@ -491,7 +580,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/09/30/Android-Dumpdex/" data-id="ckhrdovkc000ct5j5cb56arcg"
+      <a data-url="https://dingzhenkai.github.io/2020/09/30/Android-Dumpdex/" data-id="ckhsu1j3n000n3rj58c8sdlrj"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%84%B1%E5%A3%B3/" rel="tag">脱壳</a></li></ul>
@@ -563,7 +652,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/09/29/android-type3-error/" data-id="ckhrdovkq0013t5j59x2q217x"
+      <a data-url="https://dingzhenkai.github.io/2020/09/29/android-type3-error/" data-id="ckhsu1j3v00163rj55ddq9odg"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Debug/" rel="tag">Debug</a></li></ul>
@@ -660,7 +749,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/09/26/ssh-remote-tunnel/" data-id="ckhrdovl10025t5j52oiy123m"
+      <a data-url="https://dingzhenkai.github.io/2020/09/26/ssh-remote-tunnel/" data-id="ckhsu1j5k003q3rj5fye4fuy8"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh-tunnel/" rel="tag">ssh tunnel</a></li></ul>
@@ -729,78 +818,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/09/26/batch%E4%B8%BA%E5%95%A5%E5%BF%AB/" data-id="ckhrdovks0019t5j55mtkaem3"
+      <a data-url="https://dingzhenkai.github.io/2020/09/26/batch%E4%B8%BA%E5%95%A5%E5%BF%AB/" data-id="ckhsu1j3x001a3rj5dcqoh6qs"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" rel="tag">批处理</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-paper-review-skill" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/09/25/paper-review-skill/"
-    >paper_review_skill</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/09/25/paper-review-skill/" class="article-date">
-  <time datetime="2020-09-25T07:23:04.000Z" itemprop="datePublished">2020-09-25</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>review一篇paper，可以从以下角度着手</p>
-<h3 id="Summary-of-the-paper"><a href="#Summary-of-the-paper" class="headerlink" title="Summary of the paper"></a>Summary of the paper</h3><h3 id="Pros-what-you-like-about-the-paper"><a href="#Pros-what-you-like-about-the-paper" class="headerlink" title="Pros: what you like about the paper"></a>Pros: what you like about the paper</h3><h3 id="Cons-what-you-don’t-like-about-the-paper"><a href="#Cons-what-you-don’t-like-about-the-paper" class="headerlink" title="Cons: what you don’t like about the paper"></a>Cons: what you don’t like about the paper</h3><h3 id="Criticism-of-the-work"><a href="#Criticism-of-the-work" class="headerlink" title="Criticism of the work"></a>Criticism of the work</h3><h3 id="Comment-paper-section-by-section"><a href="#Comment-paper-section-by-section" class="headerlink" title="Comment paper section-by-section"></a>Comment paper section-by-section</h3><h3 id="Minor-issues-that-should-be-fixed-grammar-typos-etc"><a href="#Minor-issues-that-should-be-fixed-grammar-typos-etc" class="headerlink" title="Minor issues that should be fixed(grammar, typos, etc)"></a>Minor issues that should be fixed(grammar, typos, etc)</h3><h3 id="Questions-to-the-author"><a href="#Questions-to-the-author" class="headerlink" title="Questions to the author"></a>Questions to the author</h3><h3 id="Future-work"><a href="#Future-work" class="headerlink" title="Future work"></a>Future work</h3>
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/09/25/paper-review-skill/" data-id="ckhrdovkz001zt5j51vfy2c2k"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Paper-Review/" rel="tag">Paper Review</a></li></ul>
 
     </footer>
 
@@ -822,7 +843,7 @@
   
   <nav class="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">下一页</a>
+    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">下一页</a>
   </nav>
   
 </section>
