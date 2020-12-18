@@ -71,6 +71,104 @@
     
     
     
+    <article id="post-docker-volume迁移" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/11/25/docker-volume%E8%BF%81%E7%A7%BB/"
+    >docker容器迁移————volume迁移</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/11/25/docker-volume%E8%BF%81%E7%A7%BB/" class="article-date">
+  <time datetime="2020-11-25T12:30:20.000Z" itemprop="datePublished">2020-11-25</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/docker/">docker</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>问题描述：出于性能考虑，我们准备将elasticsearch服务(用docker部署)迁移到一台配置更高的机器，所以就需要将elasticsearch里面的数据传到新的机器上并重新挂载然后重新服务。</p>
+<h2 id="数据存储路径是什么"><a href="#数据存储路径是什么" class="headerlink" title="数据存储路径是什么"></a>数据存储路径是什么</h2><p>这里建议看下<a href="https://docs.docker.com/storage/" target="_blank" rel="noopener">docker官方文档对于数据管理的说明</a>。</p>
+<p>这个要看一开始你的容器配置。</p>
+<p>如果你的容器启动时没有挂载任何目录，那么所有的数据都是储存在容器实例里面。以elasticsearch为例，数据存储在elasticsearch容器的<code>/usr/share/elasticsearch/data</code>目录下。这时候要把数据pull出来是一件比较困难的事情，一般这个时候就直接迁移整个container了。</p>
+<p>把数据(以数据分析场景为例就是数据分析程序、原属log数据、分析结果)存储在容器内其实是一种不正确的容器使用方式。docker容器其实就是个runtime，容器里面不应该放跟runtime无关的东西。例如你可以在一个elasticsearch的容器里面配置新的python，但是没必要把你写的数据处理的python脚本也放进去，python脚本应该mount到容器上。并且读写container内的数据性能是比读写本地文件差的，参考<a href="https://docs.docker.com/storage/storagedriver/" target="_blank" rel="noopener">docker storagedriver文档</a>。</p>
+<p>docker支持三种mount方式: volume、bind mount和tmpfs mount。这三种方式的共同点是他们都是把本地文件系统的空间mount到docker容器上，docker和host都可以对这部分空间进行读写造作，不同点在于到底是mount的host上的哪部分空间。</p>
+<p><img src="https://docs.docker.com/storage/images/types-of-mounts.png" alt=""></p>
+<p>这是docker文档上介绍三种mount方式的图，可以明显看出三者mount方式的异同。</p>
+<ul>
+<li><p>volume<br>volume方式是在host文件系统上分配给docker的目录内新建一个目录，然后将这个目录挂载到容器上。linux上这个目录是<code>/var/lib/docker/volumes</code>。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">elasticsearch:</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">volume</span> <span class="comment"># volume 挂载</span></span><br><span class="line">        <span class="attr">source:</span> <span class="string">elasticsearch</span></span><br><span class="line">        <span class="attr">target:</span> <span class="string">/usr/share/elasticsearch/data</span></span><br></pre></td></tr></table></figure>
+
+<p>这里docker就会在<code>/var/lib/docker/volumes</code>目录下新建一个elasticsearch目录，然后将这个目录mount到容器上。<br>docker命令行也提供了一些命令来管理volume:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">xxxxx@xxxx:~$ docker volume COMMAND --help</span><br><span class="line"></span><br><span class="line">Usage:	docker volume COMMAND</span><br><span class="line"></span><br><span class="line">Manage volumes</span><br><span class="line"></span><br><span class="line">Commands:</span><br><span class="line">  create      Create a volume</span><br><span class="line">  inspect     Display detailed information on one or more volumes</span><br><span class="line">  ls          List volumes</span><br><span class="line">  prune       Remove all unused local volumes</span><br><span class="line">  rm          Remove one or more volumes</span><br><span class="line"></span><br><span class="line">Run 'docker volume COMMAND --help' for more information on a command.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>bind mount<br>bind mount可以挂载文件系统上任意一个目的到容器，例如<code>/home/xxx/docker-elastic-mount</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">elasticsearch:</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">bind</span> <span class="comment"># bind mount</span></span><br><span class="line">        <span class="attr">source:</span> <span class="string">/home/xxx/docker-elastic-mount</span></span><br><span class="line">        <span class="attr">target:</span> <span class="string">/usr/share/elasticsearch/data</span></span><br></pre></td></tr></table></figure>
+
+<p>这里就把/home/xxx/docker-elastic-mount目录挂载到elasticsearch容器上，elasticsearch的数据都会存储到这个文件夹。bind mount方式相比于volume方式，优点在于可选的目录范围更广，并且host也可以对挂载的空间进行读写。volume方式挂载时目录只允许docker进行读写，host除非是root用户否则不能读写。</p>
+</li>
+<li><p>tmpfs mount<br>tmpfs mount是把内存里面的一块区域mount到容器上。这个读写肯定是最快的，但是显然也不可扩展，内存就那么大，而且一旦断电，数据也都没了。</p>
+</li>
+</ul>
+<p>综上，如果是为了迁移方面考虑的话，推荐bind mount的方式。</p>
+<h2 id="怎么快速并且完整的将数据传到新机器上"><a href="#怎么快速并且完整的将数据传到新机器上" class="headerlink" title="怎么快速并且完整的将数据传到新机器上"></a>怎么快速并且完整的将数据传到新机器上</h2><p>数据从老机器同步到新机器推荐用rsync进行同步，rsync同步的时候不会改变文件的权限，并且传输过程中还可以压缩，降低导出流量。</p>
+<p>rsync -avzhP src des</p>
+<h2 id="如何重新挂载"><a href="#如何重新挂载" class="headerlink" title="如何重新挂载"></a>如何重新挂载</h2><p>当数据目录同步到新机器上后，就可以用bind mount的方式重新挂载上去，例如</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">elasticsearch:</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">bind</span> <span class="comment"># bind mount</span></span><br><span class="line">        <span class="attr">source:</span> <span class="string">/home/xxx/docker-elastic-mount</span></span><br><span class="line">        <span class="attr">target:</span> <span class="string">/usr/share/elasticsearch/data</span></span><br></pre></td></tr></table></figure>
+
+<p>这里需要注意的是，如果你的老机器是volume挂载的，你是把老机器上/var/lib/docker/volumes里面的volume同步到新机器上然后bind mount，会有一个权限问题。volume的权限是drwxr-xr-x，只有root才可以读写，所以需要改一下权限。</p>
+<p>最简单的方法是<code>chmod -R 777 &lt;volume&gt;</code>，当然这非常不安全。推荐还是改一下文件拥有者<code>chown -R whoami:groups &lt;volume&gt;</code>。</p>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://dingzhenkai.github.io/2020/11/25/docker-volume%E8%BF%81%E7%A7%BB/" data-id="ckitop5ss001cx7j5354749dk"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/volume/" rel="tag">volume</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-adbuninstall与在桌面卸载的区别" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -134,7 +232,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/11/22/adbuninstall%E4%B8%8E%E5%9C%A8%E6%A1%8C%E9%9D%A2%E5%8D%B8%E8%BD%BD%E7%9A%84%E5%8C%BA%E5%88%AB/" data-id="ckht6q9fe0014rbj5f66wgjma"
+      <a data-url="https://dingzhenkai.github.io/2020/11/22/adbuninstall%E4%B8%8E%E5%9C%A8%E6%A1%8C%E9%9D%A2%E5%8D%B8%E8%BD%BD%E7%9A%84%E5%8C%BA%E5%88%AB/" data-id="ckitop5sp0011x7j54odle8ii"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/adb/" rel="tag">adb</a></li></ul>
@@ -218,7 +316,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/11/21/%E5%88%B6%E4%BD%9CU%E7%9B%98%E7%B3%BB%E7%BB%9F%E7%9B%98/" data-id="ckht6q9ft002brbj52aqq4iox"
+      <a data-url="https://dingzhenkai.github.io/2020/11/21/%E5%88%B6%E4%BD%9CU%E7%9B%98%E7%B3%BB%E7%BB%9F%E7%9B%98/" data-id="ckitop5t4002jx7j5brkr7t5j"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%88%B6%E4%BD%9Cu%E7%9B%98%E7%B3%BB%E7%BB%9F%E7%9B%98/" rel="tag">制作u盘系统盘</a></li></ul>
@@ -299,7 +397,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/11/18/POSIX%E8%A7%84%E8%8C%83%E4%BB%8B%E7%BB%8D/" data-id="ckht6q9f4000nrbj5797nfegm"
+      <a data-url="https://dingzhenkai.github.io/2020/11/18/POSIX%E8%A7%84%E8%8C%83%E4%BB%8B%E7%BB%8D/" data-id="ckitop5sn000yx7j5cdwn8s44"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/POSIX/" rel="tag">POSIX</a></li></ul>
@@ -417,7 +515,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/11/17/Android-Webview-%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E%E6%B1%87%E6%80%BB%E4%B8%8E%E5%AE%A1%E8%AE%A1%E8%A6%81%E7%82%B9/" data-id="ckht6q9eu0004rbj5db6fb0kg"
+      <a data-url="https://dingzhenkai.github.io/2020/11/17/Android-Webview-%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E%E6%B1%87%E6%80%BB%E4%B8%8E%E5%AE%A1%E8%AE%A1%E8%A6%81%E7%82%B9/" data-id="ckitop5sc000dx7j5bxkia5ti"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Webview%E6%BC%8F%E6%B4%9E/" rel="tag">Webview漏洞</a></li></ul>
@@ -506,7 +604,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/11/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AE%89%E5%85%A8%E6%9C%AF%E8%AF%AD%E6%A6%82%E5%BF%B5/" data-id="ckht6q9g1002yrbj59t410h7i"
+      <a data-url="https://dingzhenkai.github.io/2020/11/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AE%89%E5%85%A8%E6%9C%AF%E8%AF%AD%E6%A6%82%E5%BF%B5/" data-id="ckitop5tb0035x7j5bd9x9b3m"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%AF%E8%AF%AD/" rel="tag">术语</a></li></ul>
@@ -735,7 +833,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/11/13/%E5%A4%96%E5%8D%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AE%B9%E5%99%A8%E5%8C%96%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/" data-id="ckht6q9gb0036rbj5ho1dghhj"
+      <a data-url="https://dingzhenkai.github.io/2020/11/13/%E5%A4%96%E5%8D%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AE%B9%E5%99%A8%E5%8C%96%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/" data-id="ckitop5td003bx7j5dqdagqhb"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%B9%E5%99%A8%E5%8C%96/" rel="tag">容器化</a></li></ul>
@@ -803,7 +901,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/11/13/CCF2019/" data-id="ckht6q9ey000arbj505l7eyib"
+      <a data-url="https://dingzhenkai.github.io/2020/11/13/CCF2019/" data-id="ckitop5s40006x7j5hm3wbfb6"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CCF%E6%8E%A8%E8%8D%90%E5%AD%A6%E6%9C%AF%E4%BC%9A%E8%AE%AE2019/" rel="tag">CCF推荐学术会议2019</a></li></ul>
@@ -1007,7 +1105,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/11/12/%E4%BB%8E%E6%8A%80%E6%9C%AF%E6%BC%94%E5%8F%98%E7%9A%84%E8%A7%92%E5%BA%A6%E7%9C%8B%E4%BA%92%E8%81%94%E7%BD%91%E5%90%8E%E5%8F%B0%E6%9E%B6%E6%9E%84/" data-id="ckht6q9fz002rrbj51afpahk7"
+      <a data-url="https://dingzhenkai.github.io/2020/11/12/%E4%BB%8E%E6%8A%80%E6%9C%AF%E6%BC%94%E5%8F%98%E7%9A%84%E8%A7%92%E5%BA%A6%E7%9C%8B%E4%BA%92%E8%81%94%E7%BD%91%E5%90%8E%E5%8F%B0%E6%9E%B6%E6%9E%84/" data-id="ckitop5t5002mx7j573hkgatq"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%90%8E%E7%AB%AF%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98/" rel="tag">后端架构演变</a></li></ul>
@@ -1080,91 +1178,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/11/06/nodejs-kiss/" data-id="ckht6q9fm001nrbj5djvy5m7s"
+      <a data-url="https://dingzhenkai.github.io/2020/11/06/nodejs-kiss/" data-id="ckitop5t00024x7j5e19a1ttz"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs%E5%85%A5%E9%97%A8/" rel="tag">nodejs入门</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-trojan-proxy-gfw" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/11/05/trojan-proxy-gfw/"
-    >使用trojan来连接代理服务器</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/11/05/trojan-proxy-gfw/" class="article-date">
-  <time datetime="2020-11-04T16:38:15.000Z" itemprop="datePublished">2020-11-05</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E4%BB%A3%E7%90%86/">代理</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p><strong>当配置好代理服务器之后，如何在客户端配置连接代理服务器？本文讲解trojan方案。</strong></p>
-<h2 id="1-下载trojan"><a href="#1-下载trojan" class="headerlink" title="1. 下载trojan"></a>1. 下载trojan</h2><p>github地址 <a href="https://github.com/trojan-gfw/trojan/releases" target="_blank" rel="noopener">https://github.com/trojan-gfw/trojan/releases</a></p>
-<p>下载之后解压文件结构如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── CONTRIBUTORS.md</span><br><span class="line">├── LICENSE</span><br><span class="line">├── README.md</span><br><span class="line">├── config.json &#x2F;&#x2F; 配置文件</span><br><span class="line">├── examples &#x2F;&#x2F; 配置文件样例</span><br><span class="line">│   ├── client.json-example</span><br><span class="line">│   ├── forward.json-example</span><br><span class="line">│   └── server.json-example</span><br><span class="line">├── start.command</span><br><span class="line">└── trojan &#x2F;&#x2F; 可执行文件</span><br><span class="line"></span><br><span class="line">1 directory, 9 files</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-修改config-json并启动trojan"><a href="#2-修改config-json并启动trojan" class="headerlink" title="2. 修改config.json并启动trojan"></a>2. 修改config.json并启动trojan</h2><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"run_type"</span>: <span class="string">"client"</span>, <span class="comment">// 不需要改</span></span><br><span class="line">    <span class="attr">"local_addr"</span>: <span class="string">"127.0.0.1"</span>, <span class="comment">// 不需要改</span></span><br><span class="line">    <span class="attr">"local_port"</span>: <span class="number">1080</span>, <span class="comment">// 可以改也可以不改，建议改成个性端口例如自己生日，防止1080端口被其他进程占用</span></span><br><span class="line">    <span class="attr">"remote_addr"</span>: <span class="string">"example.com"</span>, <span class="comment">// 需要改成自己代理服务器的地址，如果是ip，下面的verify与verify_hostname需要改成false</span></span><br><span class="line">    <span class="attr">"remote_port"</span>: <span class="number">443</span>, <span class="comment">// 需要改成自己代理服务器的监听端口，一般都是443</span></span><br><span class="line">    <span class="attr">"password"</span>: [ <span class="comment">// 需要改成自己代理服务器的密码</span></span><br><span class="line">        <span class="string">"password1"</span> </span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"log_level"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"ssl"</span>: &#123;</span><br><span class="line">        <span class="attr">"verify"</span>: <span class="literal">true</span>, <span class="comment">// remote_addr是ip的话，设置为false</span></span><br><span class="line">        <span class="attr">"verify_hostname"</span>: <span class="literal">true</span>, <span class="comment">// remote_addr是ip的话，设置为false</span></span><br><span class="line">        <span class="comment">// 下面都不要改</span></span><br><span class="line">        <span class="attr">"cert"</span>: <span class="string">""</span>,</span><br><span class="line">        <span class="attr">"cipher"</span>: <span class="string">"ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES128-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA:AES128-SHA:AES256-SHA:DES-CBC3-SHA"</span>,</span><br><span class="line">        <span class="attr">"cipher_tls13"</span>: <span class="string">"TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_256_GCM_SHA384"</span>,</span><br><span class="line">        <span class="attr">"sni"</span>: <span class="string">""</span>,</span><br><span class="line">        <span class="attr">"alpn"</span>: [</span><br><span class="line">            <span class="string">"h2"</span>,</span><br><span class="line">            <span class="string">"http/1.1"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"reuse_session"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"session_ticket"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">"curves"</span>: <span class="string">""</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"tcp"</span>: &#123;</span><br><span class="line">        <span class="attr">"no_delay"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"keep_alive"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"reuse_port"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">"fast_open"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">"fast_open_qlen"</span>: <span class="number">20</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>注：mac上查看端口命令为lsof，例如我想将端口设置为1225，就需要执行命令<code>lsof -i:1225</code>，没有输出就说明端口1225未被其他进程占用，可被trojan使用。</p>
-<p>config.json改完之后就可以启动trojan了，命令是<code>./trojan -c config.json</code></p>
-<h2 id="3-设置全局代理-Mac版本"><a href="#3-设置全局代理-Mac版本" class="headerlink" title="3. 设置全局代理(Mac版本)"></a>3. 设置全局代理(Mac版本)</h2><p>trojan是socks代理，所以我们只要在设置里面修改socks代理设置即可。</p>
-<p>打开<strong>设置——网络——WiFi高级——代理——SOCKS代理</strong>，填写config中的local_addr和local_port，应用即可。</p>
-<p><img src="trojan-socks.png" alt=""></p>
-<p>然后你就可以上网冲浪了。</p>
-<p>参考 <a href="https://ssrvps.org/archives/1262" target="_blank" rel="noopener">https://ssrvps.org/archives/1262</a></p>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/11/05/trojan-proxy-gfw/" data-id="ckht6q9fv002erbj5a78j0qt2"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/trojan/" rel="tag">trojan</a></li></ul>
 
     </footer>
 
