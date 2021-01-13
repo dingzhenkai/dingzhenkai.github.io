@@ -10,7 +10,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    Algorithm_Network_Flow |  丁星乐
+    Linux_shell_符号 |  丁星乐
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -35,7 +35,7 @@
   <div id="app">
     <main class="content">
       <section class="outer">
-  <article id="post-Algorithm-Network-Flow" class="article article-type-post" itemscope
+  <article id="post-Linux-shell-符号" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -43,7 +43,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  Algorithm_Network_Flow
+  Linux_shell_符号
 </h1>
   
 
@@ -52,12 +52,12 @@
 
     
     <div class="article-meta">
-      <a href="/2020/04/14/Algorithm-Network-Flow/" class="article-date">
-  <time datetime="2020-04-14T15:31:34.000Z" itemprop="datePublished">2020-04-14</time>
+      <a href="/2021/01/13/Linux-shell-%E7%AC%A6%E5%8F%B7/" class="article-date">
+  <time datetime="2021-01-13T14:43:26.000Z" itemprop="datePublished">2021-01-13</time>
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a>
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
   </div>
 
       
@@ -67,7 +67,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.4k字</span>
+            <span class="post-count">1.1k字</span>
         </span>
     </span>
 
@@ -76,7 +76,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">5分钟</span>
+            <span class="post-count">4分钟</span>
         </span>
     </span>
 </div>
@@ -87,8 +87,6 @@
 
     
     
-    <div class="tocbot"></div>
-
 
 
 
@@ -102,73 +100,50 @@
       
 
       
-      <h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p><img src="sample.svg" alt=""></p>
-<p><strong>容量网络</strong>:设G(V,E),是一个有向网络,在V中指定了一个顶点,称为源点(记为Vs),以及另一个顶点,称为汇点(记为Vt);对于每一条弧&lt;u,v&gt;属于E,对应有一个权值c(u,v)&gt;0,称为弧的容量.通常吧这样的有向网络G称为容量网络.</p>
-<p><strong>弧的流量</strong>:通过容量网络G中每条弧&lt;u,v&gt;,上的实际流量(简称流量),记为f(u,v);</p>
-<p><strong>网络流</strong>:所有弧上流量的集合f={f(u,v)},称为该容量网络的一个网络流.</p>
-<p><strong>可行流</strong>:在容量网络G中满足以下条件的网络流f,称为可行流.</p>
-<p>​    a.弧流量限制条件:   0&lt;=f(u,v)&lt;=c(u,v);</p>
-<p>​    b:平衡条件:即流入一个点的流量要等于流出这个点的流量,(源点和汇点除外).</p>
-<p>若网络流上每条弧上的流量都为0,则该网络流称为零流.</p>
-<p><strong>伪流</strong>:如果一个网络流只满足弧流量限制条件,不满足平衡条件,则这种网络流为伪流,或称为容量可行流.(预流推进<a href="http://lib.csdn.net/base/31" target="_blank" rel="noopener">算法</a>有用)</p>
-<p><strong>最大流</strong>:</p>
-<p><img src="max-flow-desc.png" alt=""></p>
-<p>流的概念在数学上是一个函数，y(e, f ) = 0, f为边e的流量。</p>
-<p><strong>弧的类型</strong>:</p>
-<p>a.饱和弧:即f(u,v)=c(u,v);</p>
-<p>b.非饱和弧:即f(u,v)&lt;c(u,v);</p>
-<p>c.零流弧:即f(u,v)=0;</p>
-<p>d.非零流弧:即f(u,v)&gt;0.</p>
-<p><strong>链</strong>:在容量网络中,称顶点序列(u1,u2,u3,u4,..,un,v)为一条链要求相邻的两个顶点之间有一条弧.</p>
-<p>设P是G中一条从Vs到Vt的链,约定从Vs指向Vt的方向为正方向.在链中并不要求所有的弧的方向都与链的方向相同.</p>
-<p>a.前向弧:(方向与链的正方向一致的弧),其集合记为P+,</p>
-<p>b.后向弧:(方向与链的正方向相反的弧),其集合记为P-.</p>
-<p><strong>增广路(Augment Path)</strong>:</p>
-<p>设f是一个容量网络G中的一个可行流,P是从Vs到Vt 的一条链,若P满足以下条件:</p>
-<p>a.P中所有前向弧都是非饱和弧,</p>
-<p>b.P中所有后向弧都是非零弧.</p>
-<p>则称P为关于可行流f 的一条增广路.</p>
-<p>沿这增广路改进可行流的操作称为增广.</p>
-<p><strong>残留容量</strong>:给定容量网络G(V,E),及可行流f,弧&lt;u,v&gt;上的残留容量记为cl(u,v)=c(u,v)-f(u,v).每条弧上的残留容量表示这条弧上可以增加的流量.因为从顶点u到顶点v的流量减少,等效与从顶点v到顶点u的流量增加,所以每条弧&lt;u,v&gt;上还有一个反方向的残留容量cl(v,u)=-f(u,v).</p>
-<p><strong>剩余网络(Residual Network)</strong>:设有容量网络G(V,E)及其上的网络流f。G关于f的剩余网络记为G(V’,E’).其中G’的顶点集V’和G中顶点集G相同,V’=V.对于G中任何一条弧&lt;u,v&gt;,如果f(u,v)&lt;c(u,v),那么在G’中有一条弧&lt;u,v&gt;属于E’,其容量为c’(u,v)=c(u,v)-f(u,v),如果f(u,v)&gt;0,则在G’中有一条弧&lt;v,u&gt;属于E’,其容量为c’(v,u)=f(u,v)</p>
-<p><strong>最小割</strong>:</p>
-<p><img src="min-cut-desc.png" alt=""></p>
-<p>割概念应用在数学上是两个集合U, V    </p>
-<p><strong>最大流最小割定理</strong>:</p>
-<p>对于一个网络流，从源点到汇点的最大的流量等于最小割的每一条边权重的和。</p>
-<h2 id="lec-10"><a href="#lec-10" class="headerlink" title="lec 10"></a>lec 10</h2><p><strong>Ford-Fulkerson算法</strong></p>
-<p><img src="Ford-Fulkerson.png" alt=""></p>
-<p><img src="Flow-and-Cut.png" alt=""></p>
-<p><strong>最大流最小割理论</strong></p>
-<p>流 &lt;= 割</p>
-<blockquote>
-<p>Let f be a flow and let (A, B) be any cut. If val(f) = cap(A, B), then f is a max flow and (A, B) is a min cut.</p>
-<p>Value of a max flow = capacity of a min cut</p>
-</blockquote>
-<p>由最大流求最小割:</p>
-<p>首先对图G求最大流，得到剩余网络G’</p>
-<p>在G’中从s点bfs，找到所有s点reachable的点组成点集S，剩下点组成点集合T。S，T即为最小割。</p>
-<p>由最小割求最大流：？？？</p>
-<p><strong>Ford-Fulkerson算法的改进</strong></p>
-<p>Ford-Fulkerson限制边权值为整数，并且时间复杂度为O(mnC). C为最大流量，说明Ford-Fulkerson可以无限坏（例如C为2^100）</p>
-<h2 id="lec-11"><a href="#lec-11" class="headerlink" title="lec 11"></a>lec 11</h2><h2 id="lec-12"><a href="#lec-12" class="headerlink" title="lec 12"></a>lec 12</h2><p>二分图的匹配</p>
-<p><strong>二分图：</strong></p>
-<p>设G=(V,E)是一个无向图，如果顶点V可分割为两个互不相交的子集(A,B)，并且图中的每条边（i，j）所关联的两个顶点i和j分别属于这两个不同的顶点集(i in A,j in B)，则称图G为一个二分图。</p>
-<p><img src="Simple-bipartite-graph.svg" alt=""></p>
-<p><strong>匹配：</strong></p>
-<p>匹配是指一组边的集合，集合里面的所有边都没有共同顶点。<strong>最大匹配</strong>就是指不能再加边的匹配。</p>
-<p><strong>极大匹配：</strong></p>
-<p>最大匹配可以有好几个，其中边数最多的最大匹配为极大匹配。</p>
-<p><strong>完美匹配：</strong></p>
-<p>首先是一个匹配，其次所有的顶点都跟其中一条边相连。</p>
-<p><strong>点覆盖：</strong></p>
-<p>点覆盖是指一组点的集合，图里面每条边都跟集合里面至少一个点相连。<strong>最小点覆盖</strong>就是指基数最小也就是点最少的集合。</p>
-<p><strong>二分图匹配</strong>：</p>
-<p>找一个二分图的最大匹配</p>
-<h2 id="lec-13"><a href="#lec-13" class="headerlink" title="lec 13"></a>lec 13</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://zhuanlan.zhihu.com/p/122375531" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/122375531</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/91127849" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/91127849</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/80567318" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/80567318</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/38737473" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/38737473</a></p>
+      <p>转载：<a href="https://zhuanlan.zhihu.com/p/101752614" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/101752614</a> 和 <a href="https://www.cnblogs.com/eshizhan/archive/2011/11/30/2269325.html" target="_blank" rel="noopener">https://www.cnblogs.com/eshizhan/archive/2011/11/30/2269325.html</a></p>
+<p>在用linux命令时候,我们可以一行执行多条命令或者有条件的执行下一条命令，下面我们讲解一下linux命令分号&amp;&amp;和&amp;，|和||的用法</p>
+<p><strong>“;”分号用法</strong></p>
+<p>方式：command1 ; command2</p>
+<p>用;号隔开每个命令, 每个命令按照从左到右的顺序,顺序执行， 彼此之间不关心是否失败， 所有命令都会执行。</p>
+<p><strong>“| ”管道符用法</strong></p>
+<p>上一条命令的输出，作为下一条命令参数</p>
+<p>方式：command1 | command2</p>
+<p>Linux所提供的管道符“|”将两个命令隔开，管道符左边命令的输出就会作为管道符右边命令的输入。连续使用管道意味着第一个命令的输出会作为 第二个命令的输入，第二个命令的输出又会作为第三个命令的输入，依此类推</p>
+<p>利用一个管道<br># rpm -qa|grep licq<br>这条命令使用一个管道符“|”建立了一个管道。管道将rpm -qa命令的输出（包括系统中所有安装的RPM包）作为grep命令的输入，从而列出带有licq字符的RPM包来。</p>
+<p>利用多个管道<br># cat /etc/passwd | grep /bin/bash | wc -l<br>这条命令使用了两个管道，利用第一个管道将cat命令（显示passwd文件的内容）的输出送给grep命令，grep命令找出含有“/bin /bash”的所有行；第二个管道将grep的输出送给wc命令，wc命令统计出输入中的行数。这个命令的功能在于找出系统中有多少个用户使用bash</p>
+<p><strong>“&amp;”符号用法</strong></p>
+<p>&amp;放在启动参数后面表示设置此进程为后台进程</p>
+<p>方式：command1 &amp;</p>
+<p>默认情况下，进程是前台进程，这时就把Shell给占据了，我们无法进行其他操作，对于那些没有交互的进程，很多时候，我们希望将其在后台启动，可以在启动参数的时候加一个’&amp;’实现这个目的。</p>
+<p><strong>“&amp;&amp;”符号用法</strong></p>
+<p>shell 在执行某个命令的时候，会返回一个返回值，该返回值保存在 shell 变量 $? 中。当 $? == 0 时，表示执行成功；当 $? == 1 时（我认为是非0的数，返回值在0-255间），表示执行失败。</p>
+<p>有时候，下一条命令依赖前一条命令是否执行成功。如：在成功地执行一条命令之后再执行另一条命令，或者在一条命令执行失败后再执行另一条命令等。shell 提供了 &amp;&amp; 和 || 来实现命令执行控制的功能，shell 将根据 &amp;&amp; 或 || 前面命令的返回值来控制其后面命令的执行。</p>
+<p>语法格式如下：</p>
+<p>command1 &amp;&amp; command2 [&amp;&amp; command3 …]</p>
+<p>命令之间使用 &amp;&amp; 连接，实现逻辑与的功能。<br>只有在 &amp;&amp; 左边的命令返回真（命令返回值 $? == 0），&amp;&amp; 右边的命令才会被执行。<br>只要有一个命令返回假（命令返回值 $? == 1），后面的命令就不会被执行。</p>
+<p><strong>“||”符号用法</strong></p>
+<p>逻辑或的功能</p>
+<p>语法格式如下：</p>
+<p>command1 || command2 [|| command3 …]</p>
+<p>命令之间使用 || 连接，实现逻辑或的功能。<br>只有在 || 左边的命令返回假（命令返回值 $? == 1），|| 右边的命令才会被执行。这和 c 语言中的逻辑或语法功能相同，即实现短路逻辑或操作。<br>只要有一个命令返回真（命令返回值 $? == 0），后面的命令就不会被执行。 –直到返回真的地方停止执行。</p>
+<p>举例，ping命令判断存活主机</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ping -c 1 -w 1 192.168.1.1 &amp;&gt; /dev/null &amp;&amp; result=0 ||result=1</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$result</span>"</span> == 0 ];<span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"192.168.1.1 is UP!"</span>    </span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"192.168.2.1 is DOWN!"</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<p>注意 &amp;&gt;要连起来写。</p>
+<p><strong>“`”符号用法</strong></p>
+<p>位置：反引号（`）这个字符一般在键盘的左上角，数字1的左边，与（~）在同一键上，不要将其同单引号（’）混淆</p>
+<p>作用：反引号括起来的字符串被shell解释为命令行，在执行时，shell首先执行该命令行，并以它的标准输出结果取代整个反引号（包括两个反引号）部分</p>
+<p>举例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[eshizhan@localhost usr]$ echo &#96;date&#96;</span><br><span class="line">2011年 11月 30日 星期三 16:37:23 CST</span><br></pre></td></tr></table></figure>
+
+<p><strong>“$”符号用法</strong></p>
+<p>与反引号`类似</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo $(date)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
 
       
       <!-- 打赏 -->
@@ -179,10 +154,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/04/14/Algorithm-Network-Flow/" data-id="ckjvkgpbu0002h3j5fk18ft25"
+      <a data-url="https://dingzhenkai.github.io/2021/01/13/Linux-shell-%E7%AC%A6%E5%8F%B7/" data-id="ckjvkgpcc000qh3j55k4q2beo"
         class="article-share-link">分享</a>
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E6%B5%81/" rel="tag">网络流</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/" rel="tag">shell</a></li></ul>
 
     </footer>
 
@@ -192,19 +167,10 @@
   
   <nav class="article-nav">
     
-      <a href="/2020/04/17/20200417-gov-notes/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            20200417_政府信息经济相关概要
-          
-        </div>
-      </a>
     
-    
-      <a href="/2020/03/28/%E9%85%8D%E7%BD%AEbash%E4%B8%8Egit%E4%BB%A3%E7%90%86%E7%BF%BB%E5%A2%99/" class="article-nav-link">
+      <a href="/2021/01/13/Linux-kill-signal/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">配置bash与git代理</div>
+        <div class="article-nav-title">Linux Signals介绍</div>
       </a>
     
   </nav>
