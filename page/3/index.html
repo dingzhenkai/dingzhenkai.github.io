@@ -71,6 +71,249 @@
     
     
     
+    <article id="post-nodejs-kiss" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/11/06/nodejs-kiss/"
+    >nodejs_kiss</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/11/06/nodejs-kiss/" class="article-date">
+  <time datetime="2020-11-05T16:48:58.000Z" itemprop="datePublished">2020-11-06</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h2 id="基础篇"><a href="#基础篇" class="headerlink" title="基础篇"></a>基础篇</h2><p>参考资料</p>
+<ol>
+<li><a href="https://eggjs.org/zh-cn/intro/index.html" target="_blank" rel="noopener">egg官网教程</a></li>
+<li><a href="https://www.runoob.com/nodejs/nodejs-tutorial.html" target="_blank" rel="noopener">nodejs菜鸟教程</a></li>
+<li>网上的视频</li>
+</ol>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://dingzhenkai.github.io/2020/11/06/nodejs-kiss/" data-id="cklt1fign002lkvj5etvcamse"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs%E5%85%A5%E9%97%A8/" rel="tag">nodejs入门</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-trojan-proxy-gfw" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/11/05/trojan-proxy-gfw/"
+    >使用trojan来连接代理服务器</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/11/05/trojan-proxy-gfw/" class="article-date">
+  <time datetime="2020-11-04T16:38:15.000Z" itemprop="datePublished">2020-11-05</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%BB%A3%E7%90%86/">代理</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p><strong>当配置好代理服务器之后，如何在客户端配置连接代理服务器？本文讲解trojan方案。</strong></p>
+<h2 id="1-下载trojan"><a href="#1-下载trojan" class="headerlink" title="1. 下载trojan"></a>1. 下载trojan</h2><p>github地址 <a href="https://github.com/trojan-gfw/trojan/releases" target="_blank" rel="noopener">https://github.com/trojan-gfw/trojan/releases</a></p>
+<p>下载之后解压文件结构如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── CONTRIBUTORS.md</span><br><span class="line">├── LICENSE</span><br><span class="line">├── README.md</span><br><span class="line">├── config.json &#x2F;&#x2F; 配置文件</span><br><span class="line">├── examples &#x2F;&#x2F; 配置文件样例</span><br><span class="line">│   ├── client.json-example</span><br><span class="line">│   ├── forward.json-example</span><br><span class="line">│   └── server.json-example</span><br><span class="line">├── start.command</span><br><span class="line">└── trojan &#x2F;&#x2F; 可执行文件</span><br><span class="line"></span><br><span class="line">1 directory, 9 files</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-修改config-json并启动trojan"><a href="#2-修改config-json并启动trojan" class="headerlink" title="2. 修改config.json并启动trojan"></a>2. 修改config.json并启动trojan</h2><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"run_type"</span>: <span class="string">"client"</span>, <span class="comment">// 不需要改</span></span><br><span class="line">    <span class="attr">"local_addr"</span>: <span class="string">"127.0.0.1"</span>, <span class="comment">// 不需要改</span></span><br><span class="line">    <span class="attr">"local_port"</span>: <span class="number">1080</span>, <span class="comment">// 可以改也可以不改，建议改成个性端口例如自己生日，防止1080端口被其他进程占用</span></span><br><span class="line">    <span class="attr">"remote_addr"</span>: <span class="string">"example.com"</span>, <span class="comment">// 需要改成自己代理服务器的地址，如果是ip，下面的verify与verify_hostname需要改成false</span></span><br><span class="line">    <span class="attr">"remote_port"</span>: <span class="number">443</span>, <span class="comment">// 需要改成自己代理服务器的监听端口，一般都是443</span></span><br><span class="line">    <span class="attr">"password"</span>: [ <span class="comment">// 需要改成自己代理服务器的密码</span></span><br><span class="line">        <span class="string">"password1"</span> </span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"log_level"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"ssl"</span>: &#123;</span><br><span class="line">        <span class="attr">"verify"</span>: <span class="literal">true</span>, <span class="comment">// remote_addr是ip的话，设置为false</span></span><br><span class="line">        <span class="attr">"verify_hostname"</span>: <span class="literal">true</span>, <span class="comment">// remote_addr是ip的话，设置为false</span></span><br><span class="line">        <span class="comment">// 下面都不要改</span></span><br><span class="line">        <span class="attr">"cert"</span>: <span class="string">""</span>,</span><br><span class="line">        <span class="attr">"cipher"</span>: <span class="string">"ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES128-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA:AES128-SHA:AES256-SHA:DES-CBC3-SHA"</span>,</span><br><span class="line">        <span class="attr">"cipher_tls13"</span>: <span class="string">"TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_256_GCM_SHA384"</span>,</span><br><span class="line">        <span class="attr">"sni"</span>: <span class="string">""</span>,</span><br><span class="line">        <span class="attr">"alpn"</span>: [</span><br><span class="line">            <span class="string">"h2"</span>,</span><br><span class="line">            <span class="string">"http/1.1"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"reuse_session"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"session_ticket"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">"curves"</span>: <span class="string">""</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"tcp"</span>: &#123;</span><br><span class="line">        <span class="attr">"no_delay"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"keep_alive"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"reuse_port"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">"fast_open"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">"fast_open_qlen"</span>: <span class="number">20</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注：mac上查看端口命令为lsof，例如我想将端口设置为1225，就需要执行命令<code>lsof -i:1225</code>，没有输出就说明端口1225未被其他进程占用，可被trojan使用。</p>
+<p>config.json改完之后就可以启动trojan了，命令是<code>./trojan -c config.json</code></p>
+<h2 id="3-设置全局代理-Mac版本"><a href="#3-设置全局代理-Mac版本" class="headerlink" title="3. 设置全局代理(Mac版本)"></a>3. 设置全局代理(Mac版本)</h2><p>trojan是socks代理，所以我们只要在设置里面修改socks代理设置即可。</p>
+<p>打开<strong>设置——网络——WiFi高级——代理——SOCKS代理</strong>，填写config中的local_addr和local_port，应用即可。</p>
+<p><img src="trojan-socks.png" alt=""></p>
+<p>然后你就可以上网冲浪了。</p>
+<p>参考 <a href="https://ssrvps.org/archives/1262" target="_blank" rel="noopener">https://ssrvps.org/archives/1262</a></p>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://dingzhenkai.github.io/2020/11/05/trojan-proxy-gfw/" data-id="cklt1figq002ykvj565h0d8gy"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/trojan/" rel="tag">trojan</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-Mac-manage-mul-sshkey" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/10/24/Mac-manage-mul-sshkey/"
+    >Mac_manage_mul_sshkey</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/10/24/Mac-manage-mul-sshkey/" class="article-date">
+  <time datetime="2020-10-24T10:54:20.000Z" itemprop="datePublished">2020-10-24</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>转载 <a href="https://gitee.com/help/articles/4229" target="_blank" rel="noopener">https://gitee.com/help/articles/4229</a></p>
+<blockquote>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>当有多个git账号时，比如：</p>
+<p>a. 一个gitee，用于公司内部的工作开发；<br>b. 一个github，用于自己进行一些开发活动；</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
+<li>生成一个公司用的SSH-Key</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C &#39;xxxxx@company.com&#39; -f ~&#x2F;.ssh&#x2F;gitee_id_rsa</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>生成一个github用的SSH-Key</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C &#39;xxxxx@qq.com&#39; -f ~&#x2F;.ssh&#x2F;github_id_rsa</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>在 ~/.ssh 目录下新建一个config文件，添加如下内容（其中Host和HostName填写git服务器的域名，IdentityFile指定私钥的路径）</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># gitee</span><br><span class="line">Host gitee.com</span><br><span class="line">HostName gitee.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~&#x2F;.ssh&#x2F;gitee_id_rsa</span><br><span class="line"># github</span><br><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~&#x2F;.ssh&#x2F;github_id_rsa</span><br></pre></td></tr></table></figure>
+
+<p>4.用ssh命令分别测试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -T git@gitee.com</span><br><span class="line">$ ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+</blockquote>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://dingzhenkai.github.io/2020/10/24/Mac-manage-mul-sshkey/" data-id="cklt1figb001fkvj56uoj99s0"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E6%9C%BA%E7%AE%A1%E7%90%86%E5%A4%9A%E4%B8%AAssh-key/" rel="tag">单机管理多个ssh-key</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-meituan-bigdata-3" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -120,7 +363,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/10/21/meituan-bigdata-3/" data-id="ckl4kdcwg002969j50s6mac8d"
+      <a data-url="https://dingzhenkai.github.io/2020/10/21/meituan-bigdata-3/" data-id="cklt1figl002fkvj54wgw5fil"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E7%9A%84%E5%95%86%E4%B8%9A%E5%BA%94%E7%94%A8%E4%B8%8E%E5%AE%9E%E8%B7%B5/" rel="tag">大数据技术的商业应用与实践</a></li></ul>
@@ -194,7 +437,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/10/13/meituan-bigdata-1/" data-id="ckl4kdcwg002769j5f2yv128j"
+      <a data-url="https://dingzhenkai.github.io/2020/10/13/meituan-bigdata-1/" data-id="cklt1figk002akvj5brmjhnul"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E7%9A%84%E5%95%86%E4%B8%9A%E5%BA%94%E7%94%A8%E4%B8%8E%E5%AE%9E%E8%B7%B5/" rel="tag">大数据技术的商业应用与实践</a></li></ul>
@@ -266,7 +509,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/10/12/%E5%8F%91%E7%8E%B0%E5%BC%82%E5%B8%B8/" data-id="ckl4kdcwp003869j58dno1j9v"
+      <a data-url="https://dingzhenkai.github.io/2020/10/12/%E5%8F%91%E7%8E%B0%E5%BC%82%E5%B8%B8/" data-id="cklt1fih0003fkvj57ot9gc2z"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8F%91%E7%8E%B0%E5%BC%82%E5%B8%B8/" rel="tag">发现异常</a></li></ul>
@@ -346,7 +589,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/10/08/get-rid-of-confusion/" data-id="ckl4kdcwf002469j50q8r5dwk"
+      <a data-url="https://dingzhenkai.github.io/2020/10/08/get-rid-of-confusion/" data-id="cklt1figm002ikvj5gwj72bk6"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%97%B6%E9%97%B4%E7%AE%A1%E7%90%86/" rel="tag">时间管理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%80%89%E6%8B%A9%E5%9B%B0%E9%9A%BE%E7%97%87/" rel="tag">选择困难症</a></li></ul>
@@ -418,7 +661,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/10/02/Mac-install-office/" data-id="ckl4kdcw4000z69j55w5s7b3w"
+      <a data-url="https://dingzhenkai.github.io/2020/10/02/Mac-install-office/" data-id="cklt1fig80017kvj5cqq327f1"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/office/" rel="tag">office</a></li></ul>
@@ -491,7 +734,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/09/30/Android-Dumpdex/" data-id="ckl4kdcvk000669j5gr1e12ml"
+      <a data-url="https://dingzhenkai.github.io/2020/09/30/Android-Dumpdex/" data-id="cklt1fify000hkvj557xd0sd2"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%84%B1%E5%A3%B3/" rel="tag">脱壳</a></li></ul>
@@ -563,244 +806,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/09/29/android-type3-error/" data-id="ckl4kdcw7001a69j5doyd6at5"
+      <a data-url="https://dingzhenkai.github.io/2020/09/29/android-type3-error/" data-id="cklt1figg001ukvj5h2m91ndk"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Debug/" rel="tag">Debug</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-ssh-remote-tunnel" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/09/26/ssh-remote-tunnel/"
-    >ssh remote tunnel 介绍</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/09/26/ssh-remote-tunnel/" class="article-date">
-  <time datetime="2020-09-26T12:53:24.000Z" itemprop="datePublished">2020-09-26</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p><strong>转载自 <a href="https://blog.csdn.net/blade2001/article/details/8877250" target="_blank" rel="noopener">https://blog.csdn.net/blade2001/article/details/8877250</a></strong></p>
-<p>SSH的的Port Forward，中文可以称为端口转发，是SSH的一项非常重要的功能。它可以建立一条安全的SSH通道，并把任意的TCP连接放到这条通道中。下面仔细就仔细讨论SSH的这种非常有用的功能。</p>
-<p>SSH Tunnel有三种，分别是本地Local（ssh -NfL），远程Remote（ssh -NfR），动态Dynamic（ssh -NfD）。（含义参考<a href="http://linux.die.net/man/1/ssh" target="_blank" rel="noopener">man ssh</a>）</p>
-<p>说明：在我们举例说明用法之前，先假设你有一台SSH机器，它的IP是a.b.c.d。</p>
-<p>1：本地Local（ssh -NfL）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -L &lt;local port&gt;:&lt;remote host&gt;:&lt;remote port&gt; &lt;SSH hostname&gt;</span><br></pre></td></tr></table></figure>
-
-<p>ssh -NfL a.b.c.d : 1234 : <a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> : 80  a.b.c.d</p>
-<p>此时，在浏览器里键入：<a href="http://a.b.c.d:1234" target="_blank" rel="noopener">http://a.b.c.d:1234</a> 就会看到Google的页面了。</p>
-<p>在绑定1234端口的时候，可以省略前面的ip，如此一来，1234端口就仅仅绑定在localhost地址上，更安全：</p>
-<p>ssh -NfL 1234 : <a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> : 80  a.b.c.d</p>
-<p>此时浏览的话就要在a.b.c.d机器上使用<a href="http://localhost:1234" target="_blank" rel="noopener">http://localhost:1234</a> 了。</p>
-<p><strong><em>\</em>何时使用本地Tunnel？\</strong></p>
-<p>*<em>比如说你在本地访问不了某个网络服务（如<a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> ，而有一台机器（如：a.b.c.d）可以，那么你就可以通过这台机器来访问。***</em></p>
-<p>2：远程Remote（ssh -NfR）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -R &lt;local port&gt;:&lt;remote host&gt;:&lt;remote port&gt; &lt;SSH hostname&gt;</span><br></pre></td></tr></table></figure>
-
-<p>在需要被访问的内网机器上运行： ssh -NfR 1234 : localhost : 22  a.b.c.d</p>
-<p>登录到a.b.c.d机器，使用如下命令连接内网机器：</p>
-<p>ssh -p 1234  localhost</p>
-<p>需要注意的是上下两个命令里的localhost不是同一台。这时你会发现自己已经连上最开始命令里的localhost机器了，也就是执行“ssh -NfR”的那台机器。</p>
-<p><strong><em>\</em>何时使用远程Tunnel？\</strong></p>
-<p>*<em>比如当你下班回家后就访问不了公司内网的机器了，遇到这种情况可以事先在公司内网的机器上执行远程Tunnel，连上一台公司外网的机器，等你下班回家后 就可以通过公司外网的机器去访问公司内网的机器了。***</em></p>
-<p>3：动态Dynamic（ssh -NfD）<strong>-\</strong>Socket代理****</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -D</span><br></pre></td></tr></table></figure>
-
-<p>ssh -NfD 1234  a.b.c.d</p>
-<p>a.b.c.c 是server 地址</p>
-<p>如此一来就建立了一台Socket代理机器，接着在浏览器上设置Socket代理：地址是localhost，端口是1234，从此以后，你的访问都是加 密的了！你可以通过访问 <a href="http://www.whatismyip.com/" target="_blank" rel="noopener">WhatIsMyIP</a> 来 确认自己现在的IP，看看是不是已经变成a.b.c.d了。</p>
-<p>测试阶段，也可以把端口绑定在外网地址上，如此一来，你在浏览器上就可以使用外网地址设置Socket代理，但这仅限于测试，否则，你的机器就不安全了， 随时可能成为肉鸡。对于Windows用户来说，如果讨厌命令行，还可以使用MyEnTunnel来实现同样的功能，配合Firefox的 FoxyPorxy，基本就无敌了，至于具体的配置方法，小崔已经写好了： <a href="http://fendou.org/2010/01/19/firefox-foxyproxy-ssh/" target="_blank" rel="noopener">使用Firefox+foxyProxy+SSH翻山越岭</a> 。如果你使用的是Chrome的话，则可以选择 Proxy Switchy!来实现同样的效果，恕不多言。</p>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/09/26/ssh-remote-tunnel/" data-id="ckl4kdcwj002i69j596evh3b3"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh-tunnel/" rel="tag">ssh tunnel</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-batch为啥快" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/09/26/batch%E4%B8%BA%E5%95%A5%E5%BF%AB/"
-    >batch为啥快</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/09/26/batch%E4%B8%BA%E5%95%A5%E5%BF%AB/" class="article-date">
-  <time datetime="2020-09-26T09:54:30.000Z" itemprop="datePublished">2020-09-26</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E6%9D%82%E8%B0%88/">计算机基础杂谈</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>batch其实不一定快，所谓快，一个是throughput，一个是latency。batch的throughput肯定更高，但是latency也更高，所以这也算是个tradeoff。</p>
-<p>那batch的throughput为什么会更高呢？简单说，batch读的时候cache hit率会更高，batch写的时候寻址会更快，也许会写到同一个block里面。</p>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/09/26/batch%E4%B8%BA%E5%95%A5%E5%BF%AB/" data-id="ckl4kdcw9001j69j52t1jh5n1"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" rel="tag">批处理</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-paper-review-skill" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/09/25/paper-review-skill/"
-    >paper_review_skill</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/09/25/paper-review-skill/" class="article-date">
-  <time datetime="2020-09-25T07:23:04.000Z" itemprop="datePublished">2020-09-25</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>review一篇paper，可以从以下角度着手</p>
-<h3 id="Summary-of-the-paper"><a href="#Summary-of-the-paper" class="headerlink" title="Summary of the paper"></a>Summary of the paper</h3><h3 id="Pros-what-you-like-about-the-paper"><a href="#Pros-what-you-like-about-the-paper" class="headerlink" title="Pros: what you like about the paper"></a>Pros: what you like about the paper</h3><h3 id="Cons-what-you-don’t-like-about-the-paper"><a href="#Cons-what-you-don’t-like-about-the-paper" class="headerlink" title="Cons: what you don’t like about the paper"></a>Cons: what you don’t like about the paper</h3><h3 id="Criticism-of-the-work"><a href="#Criticism-of-the-work" class="headerlink" title="Criticism of the work"></a>Criticism of the work</h3><h3 id="Comment-paper-section-by-section"><a href="#Comment-paper-section-by-section" class="headerlink" title="Comment paper section-by-section"></a>Comment paper section-by-section</h3><h3 id="Minor-issues-that-should-be-fixed-grammar-typos-etc"><a href="#Minor-issues-that-should-be-fixed-grammar-typos-etc" class="headerlink" title="Minor issues that should be fixed(grammar, typos, etc)"></a>Minor issues that should be fixed(grammar, typos, etc)</h3><h3 id="Questions-to-the-author"><a href="#Questions-to-the-author" class="headerlink" title="Questions to the author"></a>Questions to the author</h3><h3 id="Future-work"><a href="#Future-work" class="headerlink" title="Future work"></a>Future work</h3>
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/09/25/paper-review-skill/" data-id="ckl4kdcwi002f69j5068vgyem"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Paper-Review/" rel="tag">Paper Review</a></li></ul>
 
     </footer>
 
@@ -822,7 +831,7 @@
   
   <nav class="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/2/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">下一页</a>
+    <a class="extend prev" rel="prev" href="/page/2/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/">下一页</a>
   </nav>
   
 </section>
