@@ -67,7 +67,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">196字</span>
+            <span class="post-count">371字</span>
         </span>
     </span>
 
@@ -115,13 +115,16 @@
 <li><p>常量<br>驼峰命名法(大驼峰) MaxCount</p>
 </li>
 </ol>
+<h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><ul>
+<li>删除一个对象不能仅仅靠解绑引用，等GC；要手动强制删除对象 ，但是手动强制删除对象也会有问题，万一哪里忘记删除引用，程序就会挂，不过开发阶段挂也没事。</li>
+</ul>
 <h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><ul>
 <li>参数校验<br>统一在函数内部对参数进行校验，校验失败在函数返回值里面体现</li>
 <li>error<br>函数内部遇到错误时，如果是函数自己运行生成的error，统一向上抛</li>
 </ul>
 <h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><ul>
 <li>一个类不应该直接访问另一个类的属性，而是应该封装一个函数给外部类调用<br>例如class Referee 想访问 class Battle的status [waiting, going, end]，不能直接访问battleObj.status，而是应该调用battleObj.isWaiting(), battleObj.isGoing(), battleObj.isEnd()</li>
-<li></li>
+<li>对象之前允许套娃引用。worker 创建了 room，然后转发消息给room， room如果突然要把消息传给worker的话，两种方式：其一，函数返回值，worker 里面 ret = worker.onReceiveMessage(msg) ；其二，在room里面加一个指向worker的引用，然后在 room里面调用 worker.onReceiveRoomMessage。第二种方式更好，不要怕引用产生套娃，没事的，面向对象是可以这样的。</li>
 </ul>
 
       
@@ -133,7 +136,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2021/01/21/Code-Style/" data-id="cklt1fig0000nkvj51nfn0kx9"
+      <a data-url="https://dingzhenkai.github.io/2021/01/21/Code-Style/" data-id="ckluizwpb000m19j5f1jd2koe"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Code-Style/" rel="tag">Code Style</a></li></ul>

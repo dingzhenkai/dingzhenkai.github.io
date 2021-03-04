@@ -71,6 +71,159 @@
     
     
     
+    <article id="post-alibaba-code-style" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/03/03/alibaba-code-style/"
+    >转载阿里巴巴Java开发手册</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/03/03/alibaba-code-style/" class="article-date">
+  <time datetime="2021-03-03T07:09:16.000Z" itemprop="datePublished">2021-03-03</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>这是转载的阿里Java开发手册。</p>
+<h2 id="值得注意的"><a href="#值得注意的" class="headerlink" title="值得注意的"></a>值得注意的</h2><h3 id="Integer之前的比较要用equal，而不是"><a href="#Integer之前的比较要用equal，而不是" class="headerlink" title="Integer之前的比较要用equal，而不是=="></a>Integer之前的比较要用equal，而不是==</h3><p>对基础数据类型byte,short,char,int,long,float,double,boolean， == 比较的是value</p>
+<p>对非基础类型 == 比较的是指针，也就是内存地址</p>
+<p>equal比较的是指针，但是Integer这个类重写了equal方法，所以比较的就是value</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Integer a = <span class="number">111111</span>;</span><br><span class="line">Integer b = <span class="number">111111</span>;</span><br><span class="line">a == b; <span class="comment">// false</span></span><br><span class="line">a.equal(b); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="浮点数之间的等值判断，基本数据类型不能用-来比较，包装数据类型不能用-equals-来判断"><a href="#浮点数之间的等值判断，基本数据类型不能用-来比较，包装数据类型不能用-equals-来判断" class="headerlink" title="浮点数之间的等值判断，基本数据类型不能用==来比较，包装数据类型不能用 equals 来判断"></a>浮点数之间的等值判断，基本数据类型不能用==来比较，包装数据类型不能用 equals 来判断</h3><p>核心原因在于二进制无法精确表示浮点数，总是有误差，自然不能equal</p>
+<h3 id="字符串修改用StringBuilder"><a href="#字符串修改用StringBuilder" class="headerlink" title="字符串修改用StringBuilder"></a>字符串修改用StringBuilder</h3><p>直接 String a = ‘this is head ‘+ ‘this is tail’; 编译成字节码的时候是会new StringBuilder 然后 append ‘this is head’ 和 ‘this is tail’</p>
+<h3 id="Object-clone-是对象浅拷贝"><a href="#Object-clone-是对象浅拷贝" class="headerlink" title="Object.clone() 是对象浅拷贝"></a>Object.clone() 是对象浅拷贝</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Teacher</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String name; <span class="comment">// 名字</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> School school; <span class="comment">// 毕业院校，这是是一个之前school对象的引用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>浅拷贝：</strong></p>
+<p>对象浅拷贝会new 一个新的对象，复制原对象的属性，原对象引用类型的属性只会复制引用，不会复制被引用的对象。例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Teacher alice = <span class="keyword">new</span> Teacher();</span><br><span class="line">alice.setName(<span class="string">'alice'</span>);</span><br><span class="line">alice.setSchool(<span class="keyword">new</span> School(<span class="string">'THU'</span>));</span><br><span class="line"><span class="comment">// alice2 是复制的alice，所以name和school都一样，注意school对象是个对象，但这里只是个指针，对象浅拷贝也只是复制了这个指针，相当于给school对象加了个引用</span></span><br><span class="line">Teacher alice2 = (Teacher)alice.clone();</span><br><span class="line">alice2.getName() == <span class="string">'alice'</span>; <span class="comment">// true</span></span><br><span class="line">alice2.getSchool().getName() == <span class="string">'THU'</span>; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p><strong>深拷贝：</strong></p>
+<p>深拷贝会将引用类型指向的对象也复制一遍。例如上面的alice对象深拷贝的话，就会在堆上再new 一个school对象，然后将指针填到alice2里面。</p>
+<embed src="ali_java.pdf" width="100%" height="960">
+
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://dingzhenkai.github.io/2021/03/03/alibaba-code-style/" data-id="ckluizwpw001s19j53ma58w0v"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Code-Style/" rel="tag">Code Style</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-Java设计模式" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/03/03/Java%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"
+    >Java设计模式</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/03/03/Java%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="article-date">
+  <time datetime="2021-03-03T06:07:40.000Z" itemprop="datePublished">2021-03-03</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://dingzhenkai.github.io/2021/03/03/Java%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" data-id="ckluizwpq001619j52kihh074"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-CPU-Threads" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -119,7 +272,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2021/02/24/CPU-Threads/" data-id="cklt1fifz000jkvj541d9almk"
+      <a data-url="https://dingzhenkai.github.io/2021/02/24/CPU-Threads/" data-id="ckluizwp9000g19j585az7l4u"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CPU/" rel="tag">CPU</a></li></ul>
@@ -252,7 +405,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2021/02/24/Java-Keyword/" data-id="cklt1fig3000vkvj50jkjf534"
+      <a data-url="https://dingzhenkai.github.io/2021/02/24/Java-Keyword/" data-id="ckluizwpp001219j55tt2b4v8"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%85%B3%E9%94%AE%E5%AD%97/" rel="tag">关键字</a></li></ul>
@@ -323,7 +476,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2021/02/16/write-resume-skills/" data-id="cklt1figs0033kvj5491ghqd0"
+      <a data-url="https://dingzhenkai.github.io/2021/02/16/write-resume-skills/" data-id="ckluizwqa003e19j58fxch59n"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%80%E5%8E%86%E5%86%99%E4%BD%9C/" rel="tag">简历写作</a></li></ul>
@@ -394,7 +547,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2021/02/14/BlockChain-Invest-Notes/" data-id="cklt1fift0007kvj58cmxhqx5"
+      <a data-url="https://dingzhenkai.github.io/2021/02/14/BlockChain-Invest-Notes/" data-id="ckluizwp7000c19j538kj9f9i"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8A%95%E8%B5%84%E7%AC%94%E8%AE%B0/" rel="tag">投资笔记</a></li></ul>
@@ -460,7 +613,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2021/01/24/BlockChain-kiss/" data-id="cklt1fifv000ckvj5ezpw67ha"
+      <a data-url="https://dingzhenkai.github.io/2021/01/24/BlockChain-kiss/" data-id="ckluizwp6000b19j5f3i27lp6"
         class="article-share-link">分享</a>
       
     </footer>
@@ -521,7 +674,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2021/01/22/vim%E6%8F%92%E4%BB%B6%E4%B8%8E%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95/" data-id="cklt1figr0031kvj53vbrh1rb"
+      <a data-url="https://dingzhenkai.github.io/2021/01/22/vim%E6%8F%92%E4%BB%B6%E4%B8%8E%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95/" data-id="ckluizwq9003b19j58o8x9a58"
         class="article-share-link">分享</a>
       
     </footer>
@@ -593,13 +746,16 @@
 <li><p>常量<br>驼峰命名法(大驼峰) MaxCount</p>
 </li>
 </ol>
+<h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><ul>
+<li>删除一个对象不能仅仅靠解绑引用，等GC；要手动强制删除对象 ，但是手动强制删除对象也会有问题，万一哪里忘记删除引用，程序就会挂，不过开发阶段挂也没事。</li>
+</ul>
 <h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><ul>
 <li>参数校验<br>统一在函数内部对参数进行校验，校验失败在函数返回值里面体现</li>
 <li>error<br>函数内部遇到错误时，如果是函数自己运行生成的error，统一向上抛</li>
 </ul>
 <h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><ul>
 <li>一个类不应该直接访问另一个类的属性，而是应该封装一个函数给外部类调用<br>例如class Referee 想访问 class Battle的status [waiting, going, end]，不能直接访问battleObj.status，而是应该调用battleObj.isWaiting(), battleObj.isGoing(), battleObj.isEnd()</li>
-<li></li>
+<li>对象之前允许套娃引用。worker 创建了 room，然后转发消息给room， room如果突然要把消息传给worker的话，两种方式：其一，函数返回值，worker 里面 ret = worker.onReceiveMessage(msg) ；其二，在room里面加一个指向worker的引用，然后在 room里面调用 worker.onReceiveRoomMessage。第二种方式更好，不要怕引用产生套娃，没事的，面向对象是可以这样的。</li>
 </ul>
 
       
@@ -607,7 +763,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2021/01/21/Code-Style/" data-id="cklt1fig0000nkvj51nfn0kx9"
+      <a data-url="https://dingzhenkai.github.io/2021/01/21/Code-Style/" data-id="ckluizwpb000m19j5f1jd2koe"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Code-Style/" rel="tag">Code Style</a></li></ul>
@@ -670,181 +826,9 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2021/01/15/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" data-id="cklt1figz003ckvj575h443uh"
+      <a data-url="https://dingzhenkai.github.io/2021/01/15/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" data-id="ckluizwqc003n19j56sjn6fmi"
         class="article-share-link">分享</a>
       
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-用git进行开发" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/01/14/%E7%94%A8git%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/"
-    >用git进行开发</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2021/01/14/%E7%94%A8git%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/" class="article-date">
-  <time datetime="2021-01-14T13:59:03.000Z" itemprop="datePublished">2021-01-14</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2021/01/14/%E7%94%A8git%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/" data-id="cklt1fih3003skvj522850ipq"
-        class="article-share-link">分享</a>
-      
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-Linux-shell-符号" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/01/13/Linux-shell-%E7%AC%A6%E5%8F%B7/"
-    >Linux_shell_符号</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2021/01/13/Linux-shell-%E7%AC%A6%E5%8F%B7/" class="article-date">
-  <time datetime="2021-01-13T14:43:26.000Z" itemprop="datePublished">2021-01-13</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Linux/">Linux</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>转载：<a href="https://zhuanlan.zhihu.com/p/101752614" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/101752614</a> 和 <a href="https://www.cnblogs.com/eshizhan/archive/2011/11/30/2269325.html" target="_blank" rel="noopener">https://www.cnblogs.com/eshizhan/archive/2011/11/30/2269325.html</a></p>
-<p>在用linux命令时候,我们可以一行执行多条命令或者有条件的执行下一条命令，下面我们讲解一下linux命令分号&amp;&amp;和&amp;，|和||的用法</p>
-<p><strong>“;”分号用法</strong></p>
-<p>方式：command1 ; command2</p>
-<p>用;号隔开每个命令, 每个命令按照从左到右的顺序,顺序执行， 彼此之间不关心是否失败， 所有命令都会执行。</p>
-<p><strong>“| ”管道符用法</strong></p>
-<p>上一条命令的输出，作为下一条命令参数</p>
-<p>方式：command1 | command2</p>
-<p>Linux所提供的管道符“|”将两个命令隔开，管道符左边命令的输出就会作为管道符右边命令的输入。连续使用管道意味着第一个命令的输出会作为 第二个命令的输入，第二个命令的输出又会作为第三个命令的输入，依此类推</p>
-<p>利用一个管道<br># rpm -qa|grep licq<br>这条命令使用一个管道符“|”建立了一个管道。管道将rpm -qa命令的输出（包括系统中所有安装的RPM包）作为grep命令的输入，从而列出带有licq字符的RPM包来。</p>
-<p>利用多个管道<br># cat /etc/passwd | grep /bin/bash | wc -l<br>这条命令使用了两个管道，利用第一个管道将cat命令（显示passwd文件的内容）的输出送给grep命令，grep命令找出含有“/bin /bash”的所有行；第二个管道将grep的输出送给wc命令，wc命令统计出输入中的行数。这个命令的功能在于找出系统中有多少个用户使用bash</p>
-<p><strong>“&amp;”符号用法</strong></p>
-<p>&amp;放在启动参数后面表示设置此进程为后台进程</p>
-<p>方式：command1 &amp;</p>
-<p>默认情况下，进程是前台进程，这时就把Shell给占据了，我们无法进行其他操作，对于那些没有交互的进程，很多时候，我们希望将其在后台启动，可以在启动参数的时候加一个’&amp;’实现这个目的。</p>
-<p><strong>“&amp;&amp;”符号用法</strong></p>
-<p>shell 在执行某个命令的时候，会返回一个返回值，该返回值保存在 shell 变量 $? 中。当 $? == 0 时，表示执行成功；当 $? == 1 时（我认为是非0的数，返回值在0-255间），表示执行失败。</p>
-<p>有时候，下一条命令依赖前一条命令是否执行成功。如：在成功地执行一条命令之后再执行另一条命令，或者在一条命令执行失败后再执行另一条命令等。shell 提供了 &amp;&amp; 和 || 来实现命令执行控制的功能，shell 将根据 &amp;&amp; 或 || 前面命令的返回值来控制其后面命令的执行。</p>
-<p>语法格式如下：</p>
-<p>command1 &amp;&amp; command2 [&amp;&amp; command3 …]</p>
-<p>命令之间使用 &amp;&amp; 连接，实现逻辑与的功能。<br>只有在 &amp;&amp; 左边的命令返回真（命令返回值 $? == 0），&amp;&amp; 右边的命令才会被执行。<br>只要有一个命令返回假（命令返回值 $? == 1），后面的命令就不会被执行。</p>
-<p><strong>“||”符号用法</strong></p>
-<p>逻辑或的功能</p>
-<p>语法格式如下：</p>
-<p>command1 || command2 [|| command3 …]</p>
-<p>命令之间使用 || 连接，实现逻辑或的功能。<br>只有在 || 左边的命令返回假（命令返回值 $? == 1），|| 右边的命令才会被执行。这和 c 语言中的逻辑或语法功能相同，即实现短路逻辑或操作。<br>只要有一个命令返回真（命令返回值 $? == 0），后面的命令就不会被执行。 –直到返回真的地方停止执行。</p>
-<p>举例，ping命令判断存活主机</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ping -c 1 -w 1 192.168.1.1 &amp;&gt; /dev/null &amp;&amp; result=0 ||result=1</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$result</span>"</span> == 0 ];<span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"192.168.1.1 is UP!"</span>    </span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"192.168.2.1 is DOWN!"</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
-
-<p>注意 &amp;&gt;要连起来写。</p>
-<p><strong>“`”符号用法</strong></p>
-<p>位置：反引号（`）这个字符一般在键盘的左上角，数字1的左边，与（~）在同一键上，不要将其同单引号（’）混淆</p>
-<p>作用：反引号括起来的字符串被shell解释为命令行，在执行时，shell首先执行该命令行，并以它的标准输出结果取代整个反引号（包括两个反引号）部分</p>
-<p>举例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[eshizhan@localhost usr]$ echo &#96;date&#96;</span><br><span class="line">2011年 11月 30日 星期三 16:37:23 CST</span><br></pre></td></tr></table></figure>
-
-<p><strong>“$”符号用法</strong></p>
-<p>与反引号`类似</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo $(date)</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2021/01/13/Linux-shell-%E7%AC%A6%E5%8F%B7/" data-id="cklt1figa001dkvj57tccbmrb"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/" rel="tag">shell</a></li></ul>
-
     </footer>
 
   </div>
