@@ -71,205 +71,6 @@
     
     
     
-    <article id="post-POSIX规范介绍" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/11/18/POSIX%E8%A7%84%E8%8C%83%E4%BB%8B%E7%BB%8D/"
-    >POSIX规范介绍</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/11/18/POSIX%E8%A7%84%E8%8C%83%E4%BB%8B%E7%BB%8D/" class="article-date">
-  <time datetime="2020-11-18T08:13:39.000Z" itemprop="datePublished">2020-11-18</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E6%9D%82%E8%B0%88/">计算机基础杂谈</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>wikipedia定义：</p>
-<blockquote>
-<p><strong>可移植操作系统接口</strong>（英语：Portable Operating System Interface，缩写为<strong>POSIX</strong>）是<a href="https://zh.wikipedia.org/wiki/IEEE" target="_blank" rel="noopener">IEEE</a>为要在各种<a href="https://zh.wikipedia.org/wiki/UNIX" target="_blank" rel="noopener">UNIX</a><a href="https://zh.wikipedia.org/wiki/操作系统" target="_blank" rel="noopener">操作系统</a>上运行软件，而定义<a href="https://zh.wikipedia.org/wiki/API" target="_blank" rel="noopener">API</a>的一系列互相关联的标准的总称，其正式称呼为IEEE Std 1003，而国际标准名称为<a href="https://zh.wikipedia.org/wiki/ISO" target="_blank" rel="noopener">ISO</a>/<a href="https://zh.wikipedia.org/wiki/IEC" target="_blank" rel="noopener">IEC</a> 9945。此标准源于一个大约开始于1985年的项目。POSIX这个名称是由<a href="https://zh.wikipedia.org/wiki/理查德·斯托曼" target="_blank" rel="noopener">理查德·斯托曼</a>（RMS）应IEEE的要求而提议的一个易于记忆的名称。它基本上是Portable Operating System Interface（可移植操作系统接口）的缩写，而<strong>X</strong>则表明其对Unix API的传承。</p>
-<p><a href="https://zh.wikipedia.org/wiki/Linux" target="_blank" rel="noopener">Linux</a>基本上逐步实现了POSIX兼容，但并没有参加正式的POSIX认证。<a href="https://zh.wikipedia.org/wiki/可移植操作系统接口#cite_note-1" target="_blank" rel="noopener">[1]</a></p>
-<p><a href="https://zh.wikipedia.org/wiki/微软" target="_blank" rel="noopener">微软</a>的<a href="https://zh.wikipedia.org/wiki/Windows_NT" target="_blank" rel="noopener">Windows NT</a>声称部分实现了POSIX标准。</p>
-<p>当前的POSIX主要分为四个部分<a href="https://zh.wikipedia.org/wiki/可移植操作系统接口#cite_note-2" target="_blank" rel="noopener">[2]</a>：Base Definitions、System Interfaces、Shell and Utilities和Rationale。</p>
-</blockquote>
-<p>《深入理解计算机系统》第二版 p11</p>
-<blockquote>
-<p>20世纪60年代是大型、复杂操作系统盛行的年代，比如IBM的OS/360和Honeywell的Multics系统。OS/360是历史上最成功的软件项目之一，而 Multics虽然持续存在了多年，却从来没有被广泛应用过。贝尔实验室曾经是Multics项目的最初参与者，但是因为考虑到该项目的复杂性和缺乏进展而于1969年退出。鉴于Mutics项目不愉快的经历，一群贝尔实验室的研究人员Ken Thompson、 Dennis Ritchie、 Doug Mcllroy和 Joe Ossanna，从1969年开始在DEC PDP-7计算机上完全用机器语言编写了一个简单得多的操作系统。这个新系统中的很多思想，比如层次文件系统、作为用户级进程的 shell概念，都是来自于 Multics，只不过在一个更小、更简单的程序包里实现。1970年，Brian Kernighan给新系统命名为“Unix”，这也是一个双关语，暗指“Multics”的复杂性。1973年用C重新编写其内核，1974年，Unix开始正式对外发布。</p>
-<p>贝尔实验室以慷慨的条件向学校提供源代码，所以Unix在大专院校里获得了很多支持并得以持续发展。最有影响的工作发生在20世纪70年代晚期到80年代早期，在美国加州大学伯克利分校，研究人员在一系列发布版本中增加了虚拟内存和Internet协议，称为Unix4.xBSD(Berkeley Software Distribution)。与此同时，贝尔实验室也在发布自己的版本，称为System V Unix。其他厂商的版本，比如Sun Microsystems的Solaris系统,则是从这些原始的BSD和System V版本中衍生而来。</p>
-<p>20世纪80年代中期，Unix厂商试图通过加入新的、往往不兼容的特性来使它们的程序与众不同，麻烦也就随之而来了。为了阻止这种趋势，IEEE(电气和电子工程师协会)开始努力标准化Unix的开发，后来由 Richard Stallman命名为“Posix”。结果就得到了一系列的标准，称作Posix标准。这套标准涵盖了很多方面，比如Unix系统调用的C语言接口、shell程序和工具、线程及网络编程。最近，一个被称为“标准Unix规范”的独立标准化工作已经与Posix一起创建了统一的Unix系统标准。这些标准化工作的结果是Unix版本之间的差异已经基本消失。</p>
-</blockquote>
-<p>简单说，POSIX是一个规范，规范操作系统对应用层提供的API。背景是当时Unix碎片化，各家厂商都维护自家的Unix系统，给自家Unix里面加各种特色功能，导致应用层软件开发者们很无奈，所以IEEE站出来说，为了软件开发者们少操心，大家统一一下接口。</p>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/11/18/POSIX%E8%A7%84%E8%8C%83%E4%BB%8B%E7%BB%8D/" data-id="ckm0jnhh10016kmj56o9d7vof"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/POSIX/" rel="tag">POSIX</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-Android-Webview-安全漏洞汇总与审计要点" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/11/17/Android-Webview-%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E%E6%B1%87%E6%80%BB%E4%B8%8E%E5%AE%A1%E8%AE%A1%E8%A6%81%E7%82%B9/"
-    >Android_Webview_安全漏洞汇总与审计要点</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/11/17/Android-Webview-%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E%E6%B1%87%E6%80%BB%E4%B8%8E%E5%AE%A1%E8%AE%A1%E8%A6%81%E7%82%B9/" class="article-date">
-  <time datetime="2020-11-17T07:16:07.000Z" itemprop="datePublished">2020-11-17</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android%E5%AE%89%E5%85%A8/">Android安全</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <blockquote>
-<p><strong>WebView是App中的一个核心组件</strong>，也是App内部与Web世界交互并呈现给用户的一个窗口，目前已广泛应用于很多 App中。</p>
-<p>但<strong>自诞生伊始，Android WebView就充斥着各种各样的重大漏洞</strong>，这既与系统WebView有关，也与WebView复杂的使用有关，导致其<strong>容易被开发者误用</strong>。</p>
-<p>毫不夸张的说，<strong>WebView已成为Android App中最重要的远程攻击面，也是最容易出现重大漏洞的薄弱环节</strong>。</p>
-</blockquote>
-<p>如何控制WebVIew访问假的</p>
-<h2 id="漏洞汇总"><a href="#漏洞汇总" class="headerlink" title="漏洞汇总"></a>漏洞汇总</h2><h3 id="addJavascriptInterface-接口-lt-17"><a href="#addJavascriptInterface-接口-lt-17" class="headerlink" title="addJavascriptInterface()接口 &lt;=17"></a>addJavascriptInterface()接口 &lt;=17</h3><p>产生原因：</p>
-<p>Android API level 17以及之前的系统版本，由于程序没有正确限制使用addJavascriptInterface方法，远程攻击者可通过使用Java Reflection API利用该漏洞执行任意Java对象的方法。 通过addJavascriptInterface给WebView加入一个JavaScript桥接接口，JavaScript通过调用这个接口可以直接与本地的Java接口进行交互。就有可能出现手机被安装木马程序、发送扣费短信、通信录和短信被窃取、获取本地设备的SD卡中的文件等信息，从而造成信息泄露，甚至手机被远程控制等安全问题。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 参数1：Android的本地对象</span><br><span class="line">&#x2F;&#x2F; 参数2：JS的对象</span><br><span class="line">&#x2F;&#x2F; 通过对象映射将Android中的本地对象和JS中的对象进行关联，从而实现JS调用Android的对象和方法</span><br><span class="line">webview.addJavascriptInterface(new MyJavaScriptInterface(), &quot;myandroid&quot;);</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
-
-<p>当JS拿到Android这个对象后，通过Java反射机制，就可以调用这个Android对象中所有的方法，包括系统类（java.lang.Runtime类），从而进行任意代码执行。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Java反射机制：</span><br><span class="line">反射机制其实就是指程序在运行的时候能够获取自身的信息。</span><br><span class="line">如果知道一个类的名称&#x2F;或者它的一个实例对象， 就能把这个类的所有方法和变量的信息</span><br><span class="line">(方法名，变量名，方法，修饰符，类型，方法参数等等所有信息)找出来。</span><br><span class="line">反射最重要的功能是：在运行时，动态创建类的对象</span><br><span class="line"></span><br><span class="line">如何获取Class类</span><br><span class="line">Class c &#x3D; Class.forName(&quot;类的路径&quot;); </span><br><span class="line">Class c &#x3D; 类名.class;</span><br><span class="line">Class c &#x3D; 实例.getClass();</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
-
-<p>Android中的对象的getClass()可以获取到当前类Class，当前类Class的forName()可加载java.lang.Runtime类，从而得到Runtime类，而Runtime是可以执行本地命令的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function execute(cmdArgs)</span><br><span class="line">      &#123;</span><br><span class="line">       for (var obj in window) &#123;</span><br><span class="line">           console.log(obj);</span><br><span class="line">           if (&quot;getClass&quot; in window[obj]) &#123;</span><br><span class="line">               alert(obj);</span><br><span class="line">               return window[obj].getClass().forName(&quot;java.lang.Runtime&quot;).</span><br><span class="line">                   getMethod(&quot;getRuntime&quot;,null).invoke(null,null).exec(cmdArgs);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; </span><br><span class="line">     &#x2F;&#x2F;从执行命令后返回的输入流中得到字符串，</span><br><span class="line">     从而得到文件名的信息,有很严重暴露隐私的危险。</span><br><span class="line">     var p &#x3D; execute([&quot;ls&quot;,&quot;&#x2F;mnt&#x2F;sdcard&#x2F;&quot;]);</span><br><span class="line">     document.write(getInputStream2String(p.getInputStream()));</span><br></pre></td></tr></table></figure>
-
-<p>解决方案：</p>
-<p>如果一定要使用addJavascriptInterface接口，需使用以下方法：Android4.2以上，允许被JavaScript调用的方法必须以@JavascriptInterface进行注解声明，从而避免漏洞攻击。Android4.2以下，采用setWebChromeClient重新onJsPrompt()拦截prompt()消息进行交互。</p>
-<h3 id="WebView内置导出的searchBoxJavaBridge-对象和内置导出的accessibility和accessibilityTraversalObject对象-lt-19"><a href="#WebView内置导出的searchBoxJavaBridge-对象和内置导出的accessibility和accessibilityTraversalObject对象-lt-19" class="headerlink" title="WebView内置导出的searchBoxJavaBridge_对象和内置导出的accessibility和accessibilityTraversalObject对象 &lt;=19"></a>WebView内置导出的searchBoxJavaBridge_对象和内置导出的accessibility和accessibilityTraversalObject对象 &lt;=19</h3><p>产生原因</p>
-<p>在Android 4.4 以下的系统中存在一共三个有远程代码执行漏洞的隐藏接口。分别是位于android/webkit/webview中的“searchBoxJavaBridge”接口和android/webkit/AccessibilityInjector.java中的“accessibility”接口和“accessibilityTraversal”接口。调用此三个接口的APP在开启辅助功能选项中第三方服务的Android系统上将面临远程代码执行漏洞。</p>
-<p>解决方案</p>
-<p>在创建WebView时使用 webView.removeJavascriptInterface(String name)方法移除searchBoxJavaBridge、accessibility、accessibilityTraversal这三个接口。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">webView.removeJavascriptInterface(&quot;searchBoxJavaBridge_&quot;);</span><br><span class="line">webView.removeJavascriptInterface(&quot;accessibility&quot;);</span><br><span class="line">webView.removeJavascriptInterface(&quot;accessibilityTraversal&quot;);</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="密码明文存储"><a href="#密码明文存储" class="headerlink" title="密码明文存储"></a>密码明文存储</h3><p>产生原因</p>
-<p>WebView默认开启密码保存功能 ：mWebView.setSavePassword(true) 开启后，在用户输入密码时，会弹出提示框：询问用户是否保存密码； 如果选择”是”，密码会被明文保到 /data/data/com.package.name/databases/webview.db 中，这样就有被盗取密码的危险。</p>
-<p>解决方案</p>
-<p>通过 WebSettings.setSavePassword(false) 关闭密码保存提醒功能，防止明文密码存在本地被盗用。</p>
-<h3 id="域控制不严格漏洞"><a href="#域控制不严格漏洞" class="headerlink" title="域控制不严格漏洞"></a>域控制不严格漏洞</h3><p>产生原因</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class WebViewActivity extends Activity &#123;</span><br><span class="line">    private WebView webView;</span><br><span class="line">    public void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_webview);</span><br><span class="line">        webView &#x3D; (WebView) findViewById(R.id.webView);</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;webView.getSettings().setAllowFileAccess(false);                    (1)</span><br><span class="line">        &#x2F;&#x2F;webView.getSettings().setAllowFileAccessFromFileURLs(true);         (2)</span><br><span class="line">        &#x2F;&#x2F;webView.getSettings().setAllowUniversalAccessFromFileURLs(true);    (3)</span><br><span class="line">        </span><br><span class="line">        Intent intent &#x3D; getIntent();</span><br><span class="line">        String url &#x3D; intent.getData().toString(); </span><br><span class="line">        webView.loadUrl(url);</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
-
-<p>将该WebViewActivity 在Mainifest.xml设置android:exported=”true”表示：当前Activity是否可以被另一个Application的组件启动。</p>
-<p>例如：</p>
-<p>A应用可以通过B应用导出的Activity（android:exported=”true”），让B应用加载一个恶意的file 协议的url，从而可以获取B应用的内部私有文件，从而带来数据泄露威胁。</p>
-<ul>
-<li>同源策略跨域访问：对私有目录文件进行访问</li>
-<li>针对 IM 类产品，泄露的是聊天信息、联系人等等</li>
-<li>针对浏览器类软件，泄露的是cookie 信息泄露。</li>
-</ul>
-<p>WebView 默认是可以使用 File 协议的，也就是setAllowFileAccess(true)。 所以我们应该是主动设置为 setAllowFileAccess(false)，防止加载应用本地文件，移动版的 Chrome 默认禁止加载file协议的文件。</p>
-<p>如果不允许使用 file 协议，则不会存在上述的威胁，但同时也限制了WebView的功能，使其不能加载想要加载的本地html文件。</p>
-<p>解决方案</p>
-<p>对于不需要使用file协议的应用，禁用file协议，setAllowFileAccess(false); 对于需要使用 file 协议的应用，允许file协议加载 JavaScript。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">setAllowFileAccess(true);&#x2F;&#x2F;设置为 false 将不能加载本地 html 文件</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 设置是否允许通过 file url 加载的 Js代码读取其他的本地文件</span><br><span class="line">setAllowFileAccessFromFileURLs(false);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;设置是否允许通过fileurl加载的Javascript可以访问其他任何的源，</span><br><span class="line">也就是说，它包括其他的文件和http,https等其他的源（同源跨域访问）</span><br><span class="line">setAllowUniversalAccessFromFileURLs(false);</span><br><span class="line"></span><br><span class="line">if (url.startsWith(&quot;file:&#x2F;&#x2F;&quot;) &#123;</span><br><span class="line">    setJavaScriptEnabled(false);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    setJavaScriptEnabled(true);</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h3 id="URL校验不当，从而导致加载任意网页或者是调用一些特权接口"><a href="#URL校验不当，从而导致加载任意网页或者是调用一些特权接口" class="headerlink" title="URL校验不当，从而导致加载任意网页或者是调用一些特权接口"></a>URL校验不当，从而导致加载任意网页或者是调用一些特权接口</h3><h2 id="审计要点"><a href="#审计要点" class="headerlink" title="审计要点"></a>审计要点</h2>
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/11/17/Android-Webview-%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E%E6%B1%87%E6%80%BB%E4%B8%8E%E5%AE%A1%E8%AE%A1%E8%A6%81%E7%82%B9/" data-id="ckm0jnhgf000akmj5hd0lcvsa"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Webview%E6%BC%8F%E6%B4%9E/" rel="tag">Webview漏洞</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
     <article id="post-计算机安全术语概念" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -340,7 +141,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/11/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AE%89%E5%85%A8%E6%9C%AF%E8%AF%AD%E6%A6%82%E5%BF%B5/" data-id="ckm0jnhhp003rkmj5c2e8c7b3"
+      <a data-url="https://zkdingme.github.io/2020/11/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%AE%89%E5%85%A8%E6%9C%AF%E8%AF%AD%E6%A6%82%E5%BF%B5/" data-id="ckm0prb3d0037ylj5fqxd1xwd"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%AF%E8%AF%AD/" rel="tag">术语</a></li></ul>
@@ -569,7 +370,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/11/13/%E5%A4%96%E5%8D%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AE%B9%E5%99%A8%E5%8C%96%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/" data-id="ckm0jnhho003nkmj571u5cfde"
+      <a data-url="https://zkdingme.github.io/2020/11/13/%E5%A4%96%E5%8D%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AE%B9%E5%99%A8%E5%8C%96%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/" data-id="ckm0prb3b0030ylj5e7v07tpe"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AE%B9%E5%99%A8%E5%8C%96/" rel="tag">容器化</a></li></ul>
@@ -637,7 +438,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/11/13/CCF2019/" data-id="ckm0jnhge0006kmj5fvnv7bby"
+      <a data-url="https://zkdingme.github.io/2020/11/13/CCF2019/" data-id="ckm0prb280006ylj594aq6fnu"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CCF%E6%8E%A8%E8%8D%90%E5%AD%A6%E6%9C%AF%E4%BC%9A%E8%AE%AE2019/" rel="tag">CCF推荐学术会议2019</a></li></ul>
@@ -841,83 +642,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/11/12/%E4%BB%8E%E6%8A%80%E6%9C%AF%E6%BC%94%E5%8F%98%E7%9A%84%E8%A7%92%E5%BA%A6%E7%9C%8B%E4%BA%92%E8%81%94%E7%BD%91%E5%90%8E%E5%8F%B0%E6%9E%B6%E6%9E%84/" data-id="ckm0jnhhj0031kmj5agdh3l0s"
+      <a data-url="https://zkdingme.github.io/2020/11/12/%E4%BB%8E%E6%8A%80%E6%9C%AF%E6%BC%94%E5%8F%98%E7%9A%84%E8%A7%92%E5%BA%A6%E7%9C%8B%E4%BA%92%E8%81%94%E7%BD%91%E5%90%8E%E5%8F%B0%E6%9E%B6%E6%9E%84/" data-id="ckm0prb37002kylj54or68d5z"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%90%8E%E7%AB%AF%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98/" rel="tag">后端架构演变</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-nodejs-kiss" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/11/06/nodejs-kiss/"
-    >nodejs_kiss</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/11/06/nodejs-kiss/" class="article-date">
-  <time datetime="2020-11-05T16:48:58.000Z" itemprop="datePublished">2020-11-06</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h2 id="基础篇"><a href="#基础篇" class="headerlink" title="基础篇"></a>基础篇</h2><p>参考资料</p>
-<ol>
-<li><a href="https://eggjs.org/zh-cn/intro/index.html" target="_blank" rel="noopener">egg官网教程</a></li>
-<li><a href="https://www.runoob.com/nodejs/nodejs-tutorial.html" target="_blank" rel="noopener">nodejs菜鸟教程</a></li>
-<li>网上的视频</li>
-</ol>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/11/06/nodejs-kiss/" data-id="ckm0jnhhc002fkmj5c6i06xvu"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs%E5%85%A5%E9%97%A8/" rel="tag">nodejs入门</a></li></ul>
 
     </footer>
 
@@ -995,7 +723,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/11/05/trojan-proxy-gfw/" data-id="ckm0jnhhf002okmj57wnmfc07"
+      <a data-url="https://zkdingme.github.io/2020/11/05/trojan-proxy-gfw/" data-id="ckm0prb35002bylj5ffa335gf"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/trojan/" rel="tag">trojan</a></li></ul>
@@ -1023,7 +751,7 @@
        
 <h2 itemprop="name">
   <a class="article-title" href="/2020/10/24/Mac-manage-mul-sshkey/"
-    >Mac_manage_mul_sshkey</a
+    >Mac管理多个ssh key</a
   >
 </h2>
   
@@ -1084,7 +812,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/10/24/Mac-manage-mul-sshkey/" data-id="ckm0jnhh00014kmj520727p3x"
+      <a data-url="https://zkdingme.github.io/2020/10/24/Mac-manage-mul-sshkey/" data-id="ckm0prb2r000zylj59awmhxd1"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E6%9C%BA%E7%AE%A1%E7%90%86%E5%A4%9A%E4%B8%AAssh-key/" rel="tag">单机管理多个ssh-key</a></li></ul>
@@ -1103,7 +831,7 @@
 
 </article>
     
-    <article id="post-meituan-bigdata-3" class="article article-type-post" itemscope
+    <article id="post-发现异常" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -1111,8 +839,8 @@
     <header class="article-header">
        
 <h2 itemprop="name">
-  <a class="article-title" href="/2020/10/21/meituan-bigdata-3/"
-    >美团Hadoop、Spark系统实践</a
+  <a class="article-title" href="/2020/10/12/%E5%8F%91%E7%8E%B0%E5%BC%82%E5%B8%B8/"
+    >发现异常</a
   >
 </h2>
   
@@ -1122,12 +850,12 @@
 
     
     <div class="article-meta">
-      <a href="/2020/10/21/meituan-bigdata-3/" class="article-date">
-  <time datetime="2020-10-21T05:44:06.000Z" itemprop="datePublished">2020-10-21</time>
+      <a href="/2020/10/12/%E5%8F%91%E7%8E%B0%E5%BC%82%E5%B8%B8/" class="article-date">
+  <time datetime="2020-10-12T02:56:21.000Z" itemprop="datePublished">2020-10-12</time>
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a>
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/">数据挖掘</a>
   </div>
 
       
@@ -1145,17 +873,246 @@
       
 
       
-      <p><img src="1020_3.png" alt=""><br><img src="1020_4.png" alt=""><br><img src="1020_5.png" alt=""><br><img src="1020_6.png" alt=""><br><img src="1020_7.png" alt=""><br><img src="1020_8.png" alt=""><br><img src="1020_9.png" alt=""><br><img src="1020_10.png" alt=""><br><img src="1020_11.png" alt=""><br><img src="1020_12.png" alt=""><br><img src="1020_13.png" alt=""><br><img src="1020_14.png" alt=""><br><img src="1020_15.png" alt=""><br><img src="1020_16.png" alt=""><br><img src="1020_17.png" alt=""><br><img src="1020_18.png" alt=""><br><img src="1020_19.png" alt=""><br><img src="1020_20.png" alt=""><br><img src="1020_21.png" alt=""><br><img src="1020_22.png" alt=""><br><img src="1020_23.png" alt=""><br><img src="1020_24.png" alt=""><br><img src="1020_25.png" alt=""><br><img src="1020_26.png" alt=""><br><img src="1020_27.png" alt=""><br><img src="1020_28.png" alt=""><br><img src="1020_29.png" alt=""><br><img src="1020_30.png" alt=""><br><img src="1020_31.png" alt=""><br><img src="1020_32.png" alt=""><br><img src="1020_33.png" alt=""><br><img src="1020_34.png" alt=""><br><img src="1020_35.png" alt=""><br><img src="1020_36.png" alt=""><br><img src="1020_37.png" alt=""><br><img src="1020_38.png" alt=""><br><img src="1020_39.png" alt=""><br><img src="1020_40.png" alt=""><br><img src="1020_41.png" alt=""><br><img src="1020_42.png" alt=""><br><img src="1020_43.png" alt=""><br><img src="1020_44.png" alt=""><br><img src="1020_45.png" alt=""><br><img src="1020_46.png" alt=""><br><img src="1020_47.png" alt=""><br><img src="1020_48.png" alt=""><br><img src="1020_49.png" alt=""><br><img src="1020_50.png" alt=""><br><img src="1020_51.png" alt=""><br><img src="1020_52.png" alt=""><br><img src="1020_53.png" alt=""><br><img src="1020_54.png" alt=""><br><img src="1020_55.png" alt=""><br><img src="1020_56.png" alt=""><br><img src="1020_57.png" alt=""><br><img src="1020_58.png" alt=""><br><img src="1020_59.png" alt=""><br><img src="1020_60.png" alt=""><br><img src="1020_61.png" alt=""><br><img src="1020_62.png" alt=""><br><img src="1020_63.png" alt=""><br><img src="1020_64.png" alt=""><br><img src="1020_65.png" alt=""><br><img src="1020_66.png" alt=""><br><img src="1020_67.png" alt=""><br><img src="1020_68.png" alt=""><br><img src="1020_69.png" alt=""><br><img src="1020_70.png" alt=""><br><img src="1020_71.png" alt=""><br><img src="1020_72.png" alt=""><br><img src="1020_73.png" alt=""></p>
+      <ul>
+<li>根据已有异常关联未发现的异常<br>ip在黑名单的用户的其他特征像wifi数量、设备指纹和登陆时间段都可能是异常</li>
+<li>随时间变化不稳定<br>正常用户的属性随时间变化都是稳定的，异常用户是不稳定的</li>
+<li>聚类<br>正常人聚类在一起一大团，异常人聚类一小团</li>
+</ul>
 
       
       <!-- 打赏 -->
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/10/21/meituan-bigdata-3/" data-id="ckm0jnhhb002ckmj5dxpx4cvc"
+      <a data-url="https://zkdingme.github.io/2020/10/12/%E5%8F%91%E7%8E%B0%E5%BC%82%E5%B8%B8/" data-id="ckm0prb38002qylj555w46595"
         class="article-share-link">分享</a>
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E7%9A%84%E5%95%86%E4%B8%9A%E5%BA%94%E7%94%A8%E4%B8%8E%E5%AE%9E%E8%B7%B5/" rel="tag">大数据技术的商业应用与实践</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8F%91%E7%8E%B0%E5%BC%82%E5%B8%B8/" rel="tag">发现异常</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-get-rid-of-confusion" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/10/08/get-rid-of-confusion/"
+    >如何摆脱迷茫</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/10/08/get-rid-of-confusion/" class="article-date">
+  <time datetime="2020-10-07T16:13:13.000Z" itemprop="datePublished">2020-10-08</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%BA%BA%E7%94%9F%E7%BB%8F%E9%AA%8C/">人生经验</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>18年下半年，我刚大四。我跟谈了七年的女友分手了，我投资亏钱了，我没能保研，我要准备本科毕设，还要找工作或者准备考研。现在是20年10月，我已经记不清楚那段时间的生活了，留下的模糊印象就是过的很迷茫、很压抑。生活一团糟，更严重的是，我不知道前路在哪。我快毕业了，我没书读了，我之后该去哪，我该去干嘛，我不知道。</p>
+<p>在那之前，我对自己的未来是有规划的。我当时年轻，自命不凡，觉得自己来到这世上，肯定不能就平平淡淡过一生，我要做大事，青史留名。我当时的梦想就是成为周总理那样的人，我要实现共产主义，让所有人都活的更好，没有剥削，没有压迫，所有人都能过的很开心。当时真的是年轻气盛，敢想也敢信，自信心爆棚，觉得自己一定会实现这个梦想。在家庭方面，我想的也很简单，当时我和CC已经在一起七年，我人生的三分之一都是她陪伴的，我已经习惯了有她的生活，我没有想过哪一天她会离开我的生活，我就想简简单单的和她继续生活下去，一辈子。</p>
+<p>但是，18年下半年，一切都变了，让人措手不及。分手对精神的打击是巨大的(分手的过错方在我，对不起CC)，那段时间脑子里一直是她，很难集中注意力专注地做一件事。投资亏钱，其实这个问题到不大，主要是对自信心有打击，第一次被人割韭菜。尤其是想到我一个sjtu的学生，天之骄子，居然被一些很差的人骗了，就很不爽。保研失败就很伤，其实之前就知道自己要保研失败了，毕竟我成绩那么差，不过之前一直可以逃避，但是保研失败就把这层窗户纸捅破了，必须直面惨淡的人生。当时我是很害怕进入社会的，一是因为自己技术不好，害怕找不到好工作，害怕在工作上被人欺负(后面看其实都是自己吓自己，我当时的技术虽然不算强，但是好好看看面经，去修福报是足够的)，另外就是我不知道找什么方向的工作最适合我以及我工作之后要干嘛，简单说就是去哪打工，是不是要一直打工。</p>
+<p>那段时间(18年7月到10月)确实过的很黑暗，心理也变得变态，做了不少不好的事情，也赚了不少黑心钱，差点就滑入深渊。还好有贵人，我当时在TCloud实验室，有一群很棒的朋友，他们关心着我，鼓励着我，他们都是很阳光很暖的人，近朱者赤，我也渐渐阳光起来了。可能当时杨扬姐、华哥、汪沄、子恒、张晋、主席、强哥、美辰他们觉得自己就是简单的照顾了下学弟，但是对于当时渐渐绝望，渐渐丧失原则，渐渐贪婪的我来说，他们的照顾真的很重要，我坚持了下来，继续做一个积极向上，做一个创造价值的人。杨扬姐和华哥就真的像哥哥姐姐一样照顾人，并且鼓励我去规划未来；汪沄、张晋和子恒都是很有想法，技术能力很强，生活圈子很广的人，他们给我介绍了外面更广阔的世界，让我有更多的选择；主席、强哥和美辰就真的是勤勤恳恳的老学长，他们当时也都进入了社会，给我传授了很多成年人的经验，让我更快从少年成长为青年。</p>
+<p>那段时间我思想比较混乱，知道需要对自己的人生做出规划了，但是具体该怎样规划，我是不清楚的，因此我决定读研，可以多一点时间规划自己与修炼自己，后来研一上学期我就想清楚我想做什么以及我该去做什么了，现在看来当时想清楚后就应该退学去执行自己的人生规划。计算机专业的同学读硕士确实不值得，要么本科毕业就去工作做工程，要么就直接读博好好做研究，读硕士确实有点尴尬，硕士做工程学到的不如在大厂打工学到的多，硕士做研究就需要遇到一个正在成长期、想带你长期做研究、并且真的有好的idea有资源的导师，这样的导师在国内确实不好找。但是读书读到一半退学实在是对不起导师给的名额，也属于浪费社会资源，也是个道德瑕疵，所以我继续读书了，有好也有坏吧。</p>
+<p>不知不觉就说了很多废话，回归主题，如何摆脱迷茫？什么是迷茫呢？简单说，不知道当下应该干嘛，不知道明天应该干嘛，不知道一个月之后的自己要变成什么样子，不知道自己一年甚至三年后的生活是什么样子，看不到自己的未来，这就是迷茫。伴随着迷茫的常常还有焦虑，对未来的焦虑，我知道生活很难，我要努力，但是我就是不知道该做什么，该怎么努力，每天都很焦虑，但每天都不知道自己在干嘛，光焦虑了。过度的迷茫和焦虑会导致抑郁症，换言之，迷茫与焦虑会杀人。</p>
+<p><strong>那么如何摆脱迷茫呢？我的回答是给自己的人生做好规划！</strong></p>
+<p>给自己的人生做好规划，这句话你可能已经听过很多遍了，听上去像是一句假大空，无比正确的废话。这句话是对的，但是也很空，因为大部分人根本不知道如何给自己的人生做好规划，下面我用几个问题来帮你做规划，我也会给出我的答案。</p>
+<p><strong>你的人生目标是什么，到你60岁退休的年纪，你希望自己达成了什么成就，成为了什么样的人？</strong></p>
+<p>这个问题我问过不少同学朋友，他们大多没怎么想过。</p>
+<p>未完待续</p>
+<p>人生规划<br>目标逆推<br>选项加权算分</p>
+<p>焦虑是常事，我也经常焦虑。为什么我这件事又没做起来，为什么我的老师和同学比我强那么多，为什么我这么菜。。。<br>但人肯定不能一直纠结这些事，关键纠结也没啥用，要赶紧做些有用的事情改变现状。20多岁的少年人可以焦虑但是绝对不能迷茫，知道自己明天要做什么，下半年要做什么，乃至35之前要做什么时间很重要的事情。<br>无论是工程还是学术都要有一个系统性的规划，然后按着规划干活，这样才能避免因一时的失败而带来的焦虑和迷茫。<br>写到这里又有点其他想法，心中有信仰的人应该可以更加坦然的面对一时的失败，因为他们可以看到未来。</p>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zkdingme.github.io/2020/10/08/get-rid-of-confusion/" data-id="ckm0prb330023ylj595q495sk"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%97%B6%E9%97%B4%E7%AE%A1%E7%90%86/" rel="tag">时间管理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%80%89%E6%8B%A9%E5%9B%B0%E9%9A%BE%E7%97%87/" rel="tag">选择困难症</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-Mac-install-office" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/10/02/Mac-install-office/"
+    >Mac安装office</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/10/02/Mac-install-office/" class="article-date">
+  <time datetime="2020-10-02T15:06:37.000Z" itemprop="datePublished">2020-10-02</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h2 id="下载资源"><a href="#下载资源" class="headerlink" title="下载资源"></a>下载资源</h2><p><a href="https://jbox.sjtu.edu.cn/l/b1kNwI" target="_blank" rel="noopener">Office 2019 for Mac</a></p>
+<p><a href="https://jbox.sjtu.edu.cn/link/view/4cbdadb036ed47c2b2e0001b313d073b" target="_blank" rel="noopener">Office 2019 for Mac激活工具</a></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>先安装office</p>
+<p>在安装激活工具</p>
+<p>都是双击就可以了，傻瓜式安装</p>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zkdingme.github.io/2020/10/02/Mac-install-office/" data-id="ckm0prb2q000xylj5gpsgd0hm"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/office/" rel="tag">office</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-Android-Dumpdex" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/09/30/Android-Dumpdex/"
+    >Android 壳的背景知识</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/09/30/Android-Dumpdex/" class="article-date">
+  <time datetime="2020-09-30T03:35:48.000Z" itemprop="datePublished">2020-09-30</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h2 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h2><p>壳是什么，为什么要脱壳，怎么脱壳？</p>
+<p>壳是终端攻防的产物，最早在PC时代就出现了。最早是因为黑产会反编译得到应用程序的源码，然后魔改后重打包再投放到市场上去，这就是所谓的盗版软件，或者就直接在源码里面找到程序的漏洞例如支付漏洞，然后搞破坏。开发者们当然注意到了这些严重的漏洞，所以他们就给程序加壳来抵御黑产的攻击。壳这个名字就很形象的描述了这套防御机制，简单说就是在源码外面套了一层壳保护源码，黑产们想要获得源码需要先打破这层壳或者越过这层壳。加壳显著提高了黑产们获取源码的难度，缓解了之前源码裸奔的尴尬场景。当然攻防是S形向前发展的，当开发者们加壳之后，黑产们很快就研究出了破壳或者说脱壳的方法，开发者们也紧跟着推出了新一代的壳，就这样道高一尺魔高一丈然后又魔高一尺道高一丈相爱相杀。总体来说，壳这个机制还是很有效的，虽然还是存在被脱壳的可能，但是在一次又一次的攻防中，脱壳的难度已经被拉高了太多，这个门槛已经比较高，还在坚持的黑产玩家已经不多了。当然壳也有其不好的一面，首先就是对性能的影响，壳太厚势必会拉低性能，某宝加壳后性能拉低了40-50倍，这还是不断优化后的结果。其次就是其他方面的安全性会降低，安全是一条链，这条链上有很多节点，终端app只是其中一个节点，这条链上还有很多别的节点，任何一颗节点被攻破都会造成大大小小的损失。你在终端壳上投入巨大势必其他方面投入就小了，黑产发现攻你app太难了，肯定就转头去试试你的服务器了。</p>
+<p>移动端兴起之后，这套玩法也传承了下来，早期市场上充斥着大量的盗版软件，尤其是游戏领域，全是内购破解的。现在脱壳也还是很火，比较热门的就是脱一些短视频平台的壳，逆向出网络协议，然后写脚本刷关注、刷播放量。</p>
+<h2 id="如何脱壳"><a href="#如何脱壳" class="headerlink" title="如何脱壳"></a>如何脱壳</h2><p>宗旨是无论你如何加壳，代码总归是要运行的，总归是要明文出现在内存里面的，脱壳就是在适当的时机把内存里面的代码dump出来。Android领域脱壳方案有很多种，像Fart、Youpk、DexHunter等，具体可在看雪平台搜索相应脱壳方案与其原理，这里不做描述。笔者只尝试过原始的ida动态定位dex地址并dump内存方案、Fart方案和基于frida的方案，在当时确实能dump出源码，还是挺有趣的。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我个人并不看好壳的未来，首先是对性能影响太大，其次是Android上的壳发展到现在已经很难破了例如VMP，再继续搞新壳难度太大也没必要，最后是现在的大势是一切上云，云手机是未来(手机算力不如服务器，现在美国还卡芯片，之后会专门讲一期云手机)，云手机就意味着大家之后的手机就是个显示屏+遥控器，app运行在服务器上做计算和渲染，到时候黑产根本就拿不到apk，跟别提脱壳了。</p>
+<p>不过就算壳没了，黑产也不会消失，攻防这场战争是无止尽的。</p>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zkdingme.github.io/2020/09/30/Android-Dumpdex/" data-id="ckm0prb240002ylj50jbg7ru3"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%84%B1%E5%A3%B3/" rel="tag">脱壳</a></li></ul>
 
     </footer>
 
