@@ -71,310 +71,6 @@
     
     
     
-    <article id="post-ssh-remote-tunnel" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/09/26/ssh-remote-tunnel/"
-    >ssh remote tunnel 介绍</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/09/26/ssh-remote-tunnel/" class="article-date">
-  <time datetime="2020-09-26T12:53:24.000Z" itemprop="datePublished">2020-09-26</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p><strong>转载自 <a href="https://blog.csdn.net/blade2001/article/details/8877250" target="_blank" rel="noopener">https://blog.csdn.net/blade2001/article/details/8877250</a></strong></p>
-<p>SSH的的Port Forward，中文可以称为端口转发，是SSH的一项非常重要的功能。它可以建立一条安全的SSH通道，并把任意的TCP连接放到这条通道中。下面仔细就仔细讨论SSH的这种非常有用的功能。</p>
-<p>SSH Tunnel有三种，分别是本地Local（ssh -NfL），远程Remote（ssh -NfR），动态Dynamic（ssh -NfD）。（含义参考<a href="http://linux.die.net/man/1/ssh" target="_blank" rel="noopener">man ssh</a>）</p>
-<p>说明：在我们举例说明用法之前，先假设你有一台SSH机器，它的IP是a.b.c.d。</p>
-<p>1：本地Local（ssh -NfL）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -L &lt;local port&gt;:&lt;remote host&gt;:&lt;remote port&gt; &lt;SSH hostname&gt;</span><br></pre></td></tr></table></figure>
-
-<p>ssh -NfL a.b.c.d : 1234 : <a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> : 80  a.b.c.d</p>
-<p>此时，在浏览器里键入：<a href="http://a.b.c.d:1234" target="_blank" rel="noopener">http://a.b.c.d:1234</a> 就会看到Google的页面了。</p>
-<p>在绑定1234端口的时候，可以省略前面的ip，如此一来，1234端口就仅仅绑定在localhost地址上，更安全：</p>
-<p>ssh -NfL 1234 : <a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> : 80  a.b.c.d</p>
-<p>此时浏览的话就要在a.b.c.d机器上使用<a href="http://localhost:1234" target="_blank" rel="noopener">http://localhost:1234</a> 了。</p>
-<p><strong><em>\</em>何时使用本地Tunnel？\</strong></p>
-<p>*<em>比如说你在本地访问不了某个网络服务（如<a href="http://www.google.com" target="_blank" rel="noopener">www.google.com</a> ，而有一台机器（如：a.b.c.d）可以，那么你就可以通过这台机器来访问。***</em></p>
-<p>2：远程Remote（ssh -NfR）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -R &lt;local port&gt;:&lt;remote host&gt;:&lt;remote port&gt; &lt;SSH hostname&gt;</span><br></pre></td></tr></table></figure>
-
-<p>在需要被访问的内网机器上运行： ssh -NfR 1234 : localhost : 22  a.b.c.d</p>
-<p>登录到a.b.c.d机器，使用如下命令连接内网机器：</p>
-<p>ssh -p 1234  localhost</p>
-<p>需要注意的是上下两个命令里的localhost不是同一台。这时你会发现自己已经连上最开始命令里的localhost机器了，也就是执行“ssh -NfR”的那台机器。</p>
-<p><strong><em>\</em>何时使用远程Tunnel？\</strong></p>
-<p>*<em>比如当你下班回家后就访问不了公司内网的机器了，遇到这种情况可以事先在公司内网的机器上执行远程Tunnel，连上一台公司外网的机器，等你下班回家后 就可以通过公司外网的机器去访问公司内网的机器了。***</em></p>
-<p>3：动态Dynamic（ssh -NfD）<strong>-\</strong>Socket代理****</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -D</span><br></pre></td></tr></table></figure>
-
-<p>ssh -NfD 1234  a.b.c.d</p>
-<p>a.b.c.c 是server 地址</p>
-<p>如此一来就建立了一台Socket代理机器，接着在浏览器上设置Socket代理：地址是localhost，端口是1234，从此以后，你的访问都是加 密的了！你可以通过访问 <a href="http://www.whatismyip.com/" target="_blank" rel="noopener">WhatIsMyIP</a> 来 确认自己现在的IP，看看是不是已经变成a.b.c.d了。</p>
-<p>测试阶段，也可以把端口绑定在外网地址上，如此一来，你在浏览器上就可以使用外网地址设置Socket代理，但这仅限于测试，否则，你的机器就不安全了， 随时可能成为肉鸡。对于Windows用户来说，如果讨厌命令行，还可以使用MyEnTunnel来实现同样的功能，配合Firefox的 FoxyPorxy，基本就无敌了，至于具体的配置方法，小崔已经写好了： <a href="http://fendou.org/2010/01/19/firefox-foxyproxy-ssh/" target="_blank" rel="noopener">使用Firefox+foxyProxy+SSH翻山越岭</a> 。如果你使用的是Chrome的话，则可以选择 Proxy Switchy!来实现同样的效果，恕不多言。</p>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/09/26/ssh-remote-tunnel/" data-id="ckm0jh0hj0034gij51acwa7v3"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh-tunnel/" rel="tag">ssh tunnel</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-batch为啥快" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/09/26/batch%E4%B8%BA%E5%95%A5%E5%BF%AB/"
-    >batch为啥快</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/09/26/batch%E4%B8%BA%E5%95%A5%E5%BF%AB/" class="article-date">
-  <time datetime="2020-09-26T09:54:30.000Z" itemprop="datePublished">2020-09-26</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E6%9D%82%E8%B0%88/">计算机基础杂谈</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>batch其实不一定快，所谓快，一个是throughput，一个是latency。batch的throughput肯定更高，但是latency也更高，所以这也算是个tradeoff。</p>
-<p>那batch的throughput为什么会更高呢？简单说，batch读的时候cache hit率会更高，batch写的时候寻址会更快，也许会写到同一个block里面。</p>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/09/26/batch%E4%B8%BA%E5%95%A5%E5%BF%AB/" data-id="ckm0jh0h70021gij5bxq98u8o"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" rel="tag">批处理</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-paper-review-skill" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/09/25/paper-review-skill/"
-    >paper_review_skill</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/09/25/paper-review-skill/" class="article-date">
-  <time datetime="2020-09-25T07:23:04.000Z" itemprop="datePublished">2020-09-25</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0/">论文笔记</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>review一篇paper，可以从以下角度着手</p>
-<h3 id="Summary-of-the-paper"><a href="#Summary-of-the-paper" class="headerlink" title="Summary of the paper"></a>Summary of the paper</h3><h3 id="Pros-what-you-like-about-the-paper"><a href="#Pros-what-you-like-about-the-paper" class="headerlink" title="Pros: what you like about the paper"></a>Pros: what you like about the paper</h3><h3 id="Cons-what-you-don’t-like-about-the-paper"><a href="#Cons-what-you-don’t-like-about-the-paper" class="headerlink" title="Cons: what you don’t like about the paper"></a>Cons: what you don’t like about the paper</h3><h3 id="Criticism-of-the-work"><a href="#Criticism-of-the-work" class="headerlink" title="Criticism of the work"></a>Criticism of the work</h3><h3 id="Comment-paper-section-by-section"><a href="#Comment-paper-section-by-section" class="headerlink" title="Comment paper section-by-section"></a>Comment paper section-by-section</h3><h3 id="Minor-issues-that-should-be-fixed-grammar-typos-etc"><a href="#Minor-issues-that-should-be-fixed-grammar-typos-etc" class="headerlink" title="Minor issues that should be fixed(grammar, typos, etc)"></a>Minor issues that should be fixed(grammar, typos, etc)</h3><h3 id="Questions-to-the-author"><a href="#Questions-to-the-author" class="headerlink" title="Questions to the author"></a>Questions to the author</h3><h3 id="Future-work"><a href="#Future-work" class="headerlink" title="Future work"></a>Future work</h3>
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/09/25/paper-review-skill/" data-id="ckm0jh0hf002rgij5ahi30h7i"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Paper-Review/" rel="tag">Paper Review</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-阿里编程之夏申请记录" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/09/25/%E9%98%BF%E9%87%8C%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%A4%8F%E7%94%B3%E8%AF%B7%E8%AE%B0%E5%BD%95/"
-    >阿里编程之夏申请记录</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/09/25/%E9%98%BF%E9%87%8C%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%A4%8F%E7%94%B3%E8%AF%B7%E8%AE%B0%E5%BD%95/" class="article-date">
-  <time datetime="2020-09-25T07:06:51.000Z" itemprop="datePublished">2020-09-25</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%AE%9E%E4%B9%A0/">实习</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p><a href="https://developer.aliyun.com/topic/summerofcode2020" target="_blank" rel="noopener">https://developer.aliyun.com/topic/summerofcode2020</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/79863308" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/79863308</a></p>
-<p>2020我鸽了。。。</p>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/09/25/%E9%98%BF%E9%87%8C%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%A4%8F%E7%94%B3%E8%AF%B7%E8%AE%B0%E5%BD%95/" data-id="ckm0jh0if004agij566y9fv7w"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ASoC/" rel="tag">ASoC</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
     <article id="post-DeFi" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -440,7 +136,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/09/15/DeFi/" data-id="ckm0jh0gm000mgij5682z55u2"
+      <a data-url="https://dingzhenkai.github.io/2020/09/15/DeFi/" data-id="ckm0jkuw7000lihj51bvr1z5f"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DeFi/" rel="tag">DeFi</a></li></ul>
@@ -606,7 +302,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/08/18/bloom-filter-kiss/" data-id="ckm0jh0h3001ogij5bg7q3g21"
+      <a data-url="https://dingzhenkai.github.io/2020/08/18/bloom-filter-kiss/" data-id="ckm0jkuwq001sihj51zk9fmys"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bloom-filter/" rel="tag">bloom filter</a></li></ul>
@@ -686,7 +382,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/08/14/whatisyuque/" data-id="ckm0jh0hr003dgij568y93tfw"
+      <a data-url="https://dingzhenkai.github.io/2020/08/14/whatisyuque/" data-id="ckm0jkux0002wihj5a17s887n"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%AD%E9%9B%80/" rel="tag">语雀</a></li></ul>
@@ -809,7 +505,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/08/03/ChinaJoy2020/" data-id="ckm0jh0gp000sgij52tli43rq"
+      <a data-url="https://dingzhenkai.github.io/2020/08/03/ChinaJoy2020/" data-id="ckm0jkuvz0006ihj53lpl7cj1"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ChinaJoy2020/" rel="tag">ChinaJoy2020</a></li></ul>
@@ -877,7 +573,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/07/29/IOS-begin/" data-id="ckm0jh0gy0018gij570vo3lhm"
+      <a data-url="https://dingzhenkai.github.io/2020/07/29/IOS-begin/" data-id="ckm0jkuw9000nihj5bqzffb6r"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IOS%E5%85%A5%E9%97%A8/" rel="tag">IOS入门</a></li></ul>
@@ -1226,10 +922,399 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://dingzhenkai.github.io/2020/06/23/ADS-Notes/" data-id="ckm0jh0gh0007gij544sqharg"
+      <a data-url="https://dingzhenkai.github.io/2020/06/23/ADS-Notes/" data-id="ckm0jkuwb000rihj57uhjaeh1"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ADS/" rel="tag">ADS</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-docker迁移-var-lib-docker" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/05/19/docker%E8%BF%81%E7%A7%BB-var-lib-docker/"
+    >docker迁移/var/lib/docker</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/05/19/docker%E8%BF%81%E7%A7%BB-var-lib-docker/" class="article-date">
+  <time datetime="2020-05-19T08:51:26.000Z" itemprop="datePublished">2020-05-19</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/docker/">docker</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>第一步，停止docker服务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">ps aux | grep -i docker | grep -v grep // 结果为空则说明服务已经停止</span><br></pre></td></tr></table></figure>
+
+<p>第二步，将/var/lib/docker迁移到新的文件夹</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync -aqxP /var/lib/docker /mnt/datadrive/</span><br></pre></td></tr></table></figure>
+
+<p>第三步，修改docker启动脚本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim /lib/systemd/system/docker.service</span><br><span class="line"></span><br><span class="line">FROM:</span><br><span class="line">ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock</span><br><span class="line">TO:</span><br><span class="line">ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock --graph=/mnt/datadrive/docker</span><br></pre></td></tr></table></figure>
+
+<p>第四步，重启docker</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line"> </span><br><span class="line">systemctl restart docker</span><br><span class="line"> </span><br><span class="line">systemctl enable docker  //开机启动</span><br></pre></td></tr></table></figure>
+
+<p>第五步, 启动后确认没问题，删除旧的/var/lib/docker</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf /var/lib/docker</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://linuxconfig.org/how-to-move-docker-s-default-var-lib-docker-to-another-directory-on-ubuntu-debian-linux" target="_blank" rel="noopener">https://linuxconfig.org/how-to-move-docker-s-default-var-lib-docker-to-another-directory-on-ubuntu-debian-linux</a></p>
+<p><a href="https://my.oschina.net/qbj/blog/2998164" target="_blank" rel="noopener">https://my.oschina.net/qbj/blog/2998164</a></p>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://dingzhenkai.github.io/2020/05/19/docker%E8%BF%81%E7%A7%BB-var-lib-docker/" data-id="ckm0jkuwr001yihj5dozxbniy"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%81%E7%A7%BB-var-lib-docker/" rel="tag">迁移/var/lib/docker</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-微信小程序逆向" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/05/16/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%80%86%E5%90%91/"
+    >微信小程序逆向</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/05/16/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%80%86%E5%90%91/" class="article-date">
+  <time datetime="2020-05-16T05:20:23.000Z" itemprop="datePublished">2020-05-16</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%80%86%E5%90%91/">逆向</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>微信小程序基本是js写的，我们的目标就是逆向出其源码，再打包运行</p>
+<p>具体可分为三步(把大象装进冰箱)：</p>
+<ul>
+<li>获取小程序安装包</li>
+<li>逆向安装包得出源码</li>
+<li>编译运行</li>
+</ul>
+<h2 id="Dump-pkg"><a href="#Dump-pkg" class="headerlink" title="Dump pkg"></a>Dump pkg</h2><p>微信的安装包是.wxapkg文件，同一个小程序可能对应多个.wxapkg文件(一个主包，几个子包，如果需要遍历所有子包，就需要把小程序都点一遍)</p>
+<p>dump pkg有三种方式</p>
+<ul>
+<li>[手机微信] pkg文件在data/data/com.tencent.mm/MicroMsg/用户名ID<code>（ 类似于 2bc**************b65</code>)/appbrand/pkg下，找一部root设备(模拟器，刷机或者vmos)登陆微信pull出来即可</li>
+<li>[手机微信] <a href="https://jingyan.baidu.com/article/6d704a13529ab728da51ca4f.html" target="_blank" rel="noopener">备份数据</a></li>
+<li>[pc微信] 微信文件夹里面, <code>C:\Users\\Documents\WeChat Files\Applet\\\__APP__.wxapkg</code></li>
+</ul>
+<h2 id="Decompile"><a href="#Decompile" class="headerlink" title="Decompile"></a>Decompile</h2><p>使用已有<a href="https://github.com/dingzhenkai/wxappUnpacker" target="_blank" rel="noopener">脚本</a>或者<a href="https://github.com/dingzhenkai/wxappUnpacker-1" target="_blank" rel="noopener">支持分包的脚本</a>反编译得出源码(注意这个脚本只适用于手机微信dump出得wxapkg, pc微信dump出的包结构不一样)</p>
+<p>这一步需要node环境，可以用docker</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker pull node:12</span><br><span class="line">docker run -itd --name mynode node:12</span><br><span class="line">docker cp XXX.wxapkg [containerid]:[path]</span><br><span class="line">docker exec -it [containerid] bash</span><br><span class="line">node wuWxapkg.js [-d] &lt;path/to/.wxapkg&gt;</span><br><span class="line">docker cp [containerid]:[path] proj/</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Compile"><a href="#Compile" class="headerlink" title="Compile"></a>Compile</h2><p>使用微信开发者工具导入并编译</p>
+<h2 id="Refer"><a href="#Refer" class="headerlink" title="Refer"></a>Refer</h2><p><a href="https://github.com/gzh4213/wxappUnpacker/blob/master/README.md" target="_blank" rel="noopener">https://github.com/gzh4213/wxappUnpacker/blob/master/README.md</a></p>
+<p><a href="https://github.com/zhouyu1993/wxappUnpacker" target="_blank" rel="noopener">https://github.com/zhouyu1993/wxappUnpacker</a></p>
+<p><a href="http://lrdcq.com/me/read.php/66.htm" target="_blank" rel="noopener">http://lrdcq.com/me/read.php/66.htm</a></p>
+<p><a href="https://www.52pojie.cn/thread-1092806-1-1.html" target="_blank" rel="noopener">https://www.52pojie.cn/thread-1092806-1-1.html</a></p>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://dingzhenkai.github.io/2020/05/16/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%80%86%E5%90%91/" data-id="ckm0jkux6003hihj5az7ufcmj"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">微信小程序</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-20200417-gov-notes" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/04/17/20200417-gov-notes/"
+    >20200417_政府信息经济相关概要</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/04/17/20200417-gov-notes/" class="article-date">
+  <time datetime="2020-04-17T07:11:33.000Z" itemprop="datePublished">2020-04-17</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%90%86%E8%B4%A2/">理财</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>数据源：<a href="http://www.gov.cn" target="_blank" rel="noopener">http://www.gov.cn</a>     </p>
+<p><img src="gov.png" alt=""></p>
+<p><strong>留心每周的国务会议，把握大势</strong></p>
+<p><strong>未完待续。。。</strong></p>
+<p>##20200414</p>
+<p>会议决定，对今年底到期的对设在西部地区的国家鼓励类产业企业减按15%税率征收企业所得税政策，延长实施期限</p>
+<h2 id="20200407"><a href="#20200407" class="headerlink" title="20200407"></a>20200407</h2><p>会议决定，在已设立59个跨境电商综合试验区基础上，再新设46个跨境电商综合试验区。</p>
+<h2 id="20200331"><a href="#20200331" class="headerlink" title="20200331"></a>20200331</h2><p>为促进汽车消费，会议确定，将年底到期的新能源汽车购置补贴和免征车辆购置税政策延长2年。</p>
+<h2 id="20200324"><a href="#20200324" class="headerlink" title="20200324"></a>20200324</h2><p>会议指出，我国国际航空货运能力存在明显短板，当前受疫情冲击国际航空客运萎缩，导致客机腹舱货运大幅下降，对我国产业的国际供应链带来较大影响。要采取有效措施提高我国国际航空货运能力，既着力保通保运保供、支撑国内经济，又推动增强我国物流行业国际竞争力。</p>
+<h2 id="20200317"><a href="#20200317" class="headerlink" title="20200317"></a>20200317</h2><p>会议指出，促进农业发展，确保粮食安全，是经济社会健康发展的重要基础。会议通过《农作物病虫害防治条例（草案）》</p>
+<h2 id="20200310"><a href="#20200310" class="headerlink" title="20200310"></a>20200310</h2><p>会议指出，近段时间，有关部门按照国务院要求，引导金融机构实施3000亿元专项再贷款和5000亿元再贷款再贴现政策，以优惠利率资金有力支持了疫情防控物资保供、农业和企业特别是小微企业复工复产。</p>
+<h2 id="20200303"><a href="#20200303" class="headerlink" title="20200303"></a>20200303</h2><p>会议指出，推动交通运输、快递等物流业加快复工复产，实现稳定发展，既能为疫情防控提供有力支撑，又能畅通经济循环，满足民生需要。</p>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://dingzhenkai.github.io/2020/04/17/20200417-gov-notes/" data-id="ckm0jkuvr0000ihj5cglvaz11"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%BD%E5%8A%A1%E4%BC%9A%E8%AE%AE/" rel="tag">国务会议</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-Algorithm-Network-Flow" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/04/14/Algorithm-Network-Flow/"
+    >Algorithm_Network_Flow</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/04/14/Algorithm-Network-Flow/" class="article-date">
+  <time datetime="2020-04-14T15:31:34.000Z" itemprop="datePublished">2020-04-14</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p><img src="sample.svg" alt=""></p>
+<p><strong>容量网络</strong>:设G(V,E),是一个有向网络,在V中指定了一个顶点,称为源点(记为Vs),以及另一个顶点,称为汇点(记为Vt);对于每一条弧&lt;u,v&gt;属于E,对应有一个权值c(u,v)&gt;0,称为弧的容量.通常吧这样的有向网络G称为容量网络.</p>
+<p><strong>弧的流量</strong>:通过容量网络G中每条弧&lt;u,v&gt;,上的实际流量(简称流量),记为f(u,v);</p>
+<p><strong>网络流</strong>:所有弧上流量的集合f={f(u,v)},称为该容量网络的一个网络流.</p>
+<p><strong>可行流</strong>:在容量网络G中满足以下条件的网络流f,称为可行流.</p>
+<p>​    a.弧流量限制条件:   0&lt;=f(u,v)&lt;=c(u,v);</p>
+<p>​    b:平衡条件:即流入一个点的流量要等于流出这个点的流量,(源点和汇点除外).</p>
+<p>若网络流上每条弧上的流量都为0,则该网络流称为零流.</p>
+<p><strong>伪流</strong>:如果一个网络流只满足弧流量限制条件,不满足平衡条件,则这种网络流为伪流,或称为容量可行流.(预流推进<a href="http://lib.csdn.net/base/31" target="_blank" rel="noopener">算法</a>有用)</p>
+<p><strong>最大流</strong>:</p>
+<p><img src="max-flow-desc.png" alt=""></p>
+<p>流的概念在数学上是一个函数，y(e, f ) = 0, f为边e的流量。</p>
+<p><strong>弧的类型</strong>:</p>
+<p>a.饱和弧:即f(u,v)=c(u,v);</p>
+<p>b.非饱和弧:即f(u,v)&lt;c(u,v);</p>
+<p>c.零流弧:即f(u,v)=0;</p>
+<p>d.非零流弧:即f(u,v)&gt;0.</p>
+<p><strong>链</strong>:在容量网络中,称顶点序列(u1,u2,u3,u4,..,un,v)为一条链要求相邻的两个顶点之间有一条弧.</p>
+<p>设P是G中一条从Vs到Vt的链,约定从Vs指向Vt的方向为正方向.在链中并不要求所有的弧的方向都与链的方向相同.</p>
+<p>a.前向弧:(方向与链的正方向一致的弧),其集合记为P+,</p>
+<p>b.后向弧:(方向与链的正方向相反的弧),其集合记为P-.</p>
+<p><strong>增广路(Augment Path)</strong>:</p>
+<p>设f是一个容量网络G中的一个可行流,P是从Vs到Vt 的一条链,若P满足以下条件:</p>
+<p>a.P中所有前向弧都是非饱和弧,</p>
+<p>b.P中所有后向弧都是非零弧.</p>
+<p>则称P为关于可行流f 的一条增广路.</p>
+<p>沿这增广路改进可行流的操作称为增广.</p>
+<p><strong>残留容量</strong>:给定容量网络G(V,E),及可行流f,弧&lt;u,v&gt;上的残留容量记为cl(u,v)=c(u,v)-f(u,v).每条弧上的残留容量表示这条弧上可以增加的流量.因为从顶点u到顶点v的流量减少,等效与从顶点v到顶点u的流量增加,所以每条弧&lt;u,v&gt;上还有一个反方向的残留容量cl(v,u)=-f(u,v).</p>
+<p><strong>剩余网络(Residual Network)</strong>:设有容量网络G(V,E)及其上的网络流f。G关于f的剩余网络记为G(V’,E’).其中G’的顶点集V’和G中顶点集G相同,V’=V.对于G中任何一条弧&lt;u,v&gt;,如果f(u,v)&lt;c(u,v),那么在G’中有一条弧&lt;u,v&gt;属于E’,其容量为c’(u,v)=c(u,v)-f(u,v),如果f(u,v)&gt;0,则在G’中有一条弧&lt;v,u&gt;属于E’,其容量为c’(v,u)=f(u,v)</p>
+<p><strong>最小割</strong>:</p>
+<p><img src="min-cut-desc.png" alt=""></p>
+<p>割概念应用在数学上是两个集合U, V    </p>
+<p><strong>最大流最小割定理</strong>:</p>
+<p>对于一个网络流，从源点到汇点的最大的流量等于最小割的每一条边权重的和。</p>
+<h2 id="lec-10"><a href="#lec-10" class="headerlink" title="lec 10"></a>lec 10</h2><p><strong>Ford-Fulkerson算法</strong></p>
+<p><img src="Ford-Fulkerson.png" alt=""></p>
+<p><img src="Flow-and-Cut.png" alt=""></p>
+<p><strong>最大流最小割理论</strong></p>
+<p>流 &lt;= 割</p>
+<blockquote>
+<p>Let f be a flow and let (A, B) be any cut. If val(f) = cap(A, B), then f is a max flow and (A, B) is a min cut.</p>
+<p>Value of a max flow = capacity of a min cut</p>
+</blockquote>
+<p>由最大流求最小割:</p>
+<p>首先对图G求最大流，得到剩余网络G’</p>
+<p>在G’中从s点bfs，找到所有s点reachable的点组成点集S，剩下点组成点集合T。S，T即为最小割。</p>
+<p>由最小割求最大流：？？？</p>
+<p><strong>Ford-Fulkerson算法的改进</strong></p>
+<p>Ford-Fulkerson限制边权值为整数，并且时间复杂度为O(mnC). C为最大流量，说明Ford-Fulkerson可以无限坏（例如C为2^100）</p>
+<h2 id="lec-11"><a href="#lec-11" class="headerlink" title="lec 11"></a>lec 11</h2><h2 id="lec-12"><a href="#lec-12" class="headerlink" title="lec 12"></a>lec 12</h2><p>二分图的匹配</p>
+<p><strong>二分图：</strong></p>
+<p>设G=(V,E)是一个无向图，如果顶点V可分割为两个互不相交的子集(A,B)，并且图中的每条边（i，j）所关联的两个顶点i和j分别属于这两个不同的顶点集(i in A,j in B)，则称图G为一个二分图。</p>
+<p><img src="Simple-bipartite-graph.svg" alt=""></p>
+<p><strong>匹配：</strong></p>
+<p>匹配是指一组边的集合，集合里面的所有边都没有共同顶点。<strong>最大匹配</strong>就是指不能再加边的匹配。</p>
+<p><strong>极大匹配：</strong></p>
+<p>最大匹配可以有好几个，其中边数最多的最大匹配为极大匹配。</p>
+<p><strong>完美匹配：</strong></p>
+<p>首先是一个匹配，其次所有的顶点都跟其中一条边相连。</p>
+<p><strong>点覆盖：</strong></p>
+<p>点覆盖是指一组点的集合，图里面每条边都跟集合里面至少一个点相连。<strong>最小点覆盖</strong>就是指基数最小也就是点最少的集合。</p>
+<p><strong>二分图匹配</strong>：</p>
+<p>找一个二分图的最大匹配</p>
+<h2 id="lec-13"><a href="#lec-13" class="headerlink" title="lec 13"></a>lec 13</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://zhuanlan.zhihu.com/p/122375531" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/122375531</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/91127849" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/91127849</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/80567318" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/80567318</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/38737473" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/38737473</a></p>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://dingzhenkai.github.io/2020/04/14/Algorithm-Network-Flow/" data-id="ckm0jkuvv0001ihj56xng2ypy"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E6%B5%81/" rel="tag">网络流</a></li></ul>
 
     </footer>
 
@@ -1251,7 +1336,7 @@
   
   <nav class="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/3/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/">下一页</a>
+    <a class="extend prev" rel="prev" href="/page/3/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">下一页</a>
   </nav>
   
 </section>
