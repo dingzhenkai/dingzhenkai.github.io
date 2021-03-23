@@ -67,7 +67,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.8k字</span>
+            <span class="post-count">1.7k字</span>
         </span>
     </span>
 
@@ -102,8 +102,7 @@
       
 
       
-      <p>博客链接 <a href="https://github.com/appetizerio/team-info/wiki/11%E4%B8%AA%E9%97%AE%E9%A2%98%E5%B8%AE%E4%BD%A0%E4%BA%86%E8%A7%A3bloom-filter" target="_blank" rel="noopener">https://github.com/appetizerio/team-info/wiki/11%E4%B8%AA%E9%97%AE%E9%A2%98%E5%B8%AE%E4%BD%A0%E4%BA%86%E8%A7%A3bloom-filter</a></p>
-<h3 id="1-bloom-filter是用来解决什么问题的"><a href="#1-bloom-filter是用来解决什么问题的" class="headerlink" title="1. bloom filter是用来解决什么问题的"></a>1. bloom filter是用来解决什么问题的</h3><p>快速查询元素a是否在集合A={a1,a2,..,an}里面，例如判断一个用户是否在黑名单中。</p>
+      <h3 id="1-bloom-filter是用来解决什么问题的"><a href="#1-bloom-filter是用来解决什么问题的" class="headerlink" title="1. bloom filter是用来解决什么问题的"></a>1. bloom filter是用来解决什么问题的</h3><p>快速查询元素a是否在集合A={a1,a2,..,an}里面，例如判断一个用户是否在黑名单中。</p>
 <h3 id="2-简述bloom-filter的工作原理"><a href="#2-简述bloom-filter的工作原理" class="headerlink" title="2. 简述bloom filter的工作原理"></a>2. 简述bloom filter的工作原理</h3><ol>
 <li>构建一个长度为m的bit array，初始化其中所有bit为0。</li>
 <li>将集合A={a1,a2,..,an}中所有元素插入到bit array中。插入元素ai时，用k个hash函数算出k个位置，将对应位置的bit置为1。</li>
@@ -211,7 +210,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/08/18/bloom-filter-kiss/" data-id="ckm0prb2y001nylj5ecqhg8a3"
+      <a data-url="https://zkdingme.github.io/2020/08/18/bloom-filter-kiss/" data-id="ckmlknoj3001j3kj58co05y2q"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bloom-filter/" rel="tag">bloom filter</a></li></ul>
@@ -476,7 +475,7 @@
 
 <script>
   var ayerConfig = {
-    mathjax: false
+    mathjax: true
   }
 </script>
 
@@ -596,6 +595,25 @@
 </script>
 
 
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 
 <script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
