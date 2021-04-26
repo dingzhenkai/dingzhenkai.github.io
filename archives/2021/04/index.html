@@ -10,7 +10,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    adb install&amp;uninstall 原理 |  丁星乐
+    Archives: 2021/4 |  丁星乐
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -35,188 +35,73 @@
   <div id="app">
     <main class="content">
       <section class="outer">
-  <article id="post-adbuninstall与在桌面卸载的区别" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
+  <article class="articles">
     
-    <header class="article-header">
+    
+    <h1 class="page-type-title">2021/4</h1>
+    
+    
+  
+  
+  
+  
+  
+  
+  <div class="archives-wrap">
+    <div class="archive-year-wrap">
+      <a href="/archives/2021" class="archive-year">2021</a>
+    </div>
+    <div class="archives">
+      
+      <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/2021/04/20/linux-vim-kiss/" class="archive-article-date">
+  <time datetime="2021-04-20T07:31:38.000Z" itemprop="datePublished">04/20</time>
+</a>
        
-<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  adb install&amp;uninstall 原理
-</h1>
+<h2 itemprop="name">
+  <a class="archive-article-title" href="/2021/04/20/linux-vim-kiss/"
+    >linux_vim_kiss</a
+  >
+</h2>
   
 
     </header>
     
-
     
-    <div class="article-meta">
-      <a href="/2020/11/22/adbuninstall%E4%B8%8E%E5%9C%A8%E6%A1%8C%E9%9D%A2%E5%8D%B8%E8%BD%BD%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-date">
-  <time datetime="2020-11-22T06:39:53.000Z" itemprop="datePublished">2020-11-22</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
   </div>
-
-      
-      
-<div class="word_count">
-    <span class="post-time">
-        <span class="post-meta-item-icon">
-            <i class="ri-quill-pen-line"></i>
-            <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">441字</span>
-        </span>
-    </span>
-
-    <span class="post-time">
-        &nbsp; | &nbsp;
-        <span class="post-meta-item-icon">
-            <i class="ri-book-open-line"></i>
-            <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1分钟</span>
-        </span>
-    </span>
-</div>
-
-      
-    </div>
-    
-
-    
-    
-
-
-
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>adb: failed to install app-release.apk: Failure [INSTALL_FAILED_UPDATE_INCOMPATIBLE: Package io.appetizer.secsensedev signatures do not match previously installed version; ignoring!]</p>
-<p>最近测试一款App时，遇到这样一个问题：同一个App有一个debug包和一个release包，这两个包签名的证书是不一样的。我在华为Mate30上先<code>adb install app-debug.apk</code>，测试完成后直接在桌面长按卸载(注意这里不是adb uninstall卸载)，然后我继续<code>adb install app-release.apk</code>，但这会报错了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb: failed to install app-release.apk: Failure [INSTALL_FAILED_UPDATE_INCOMPATIBLE: Package XXX signatures do not match previously installed version; ignoring!]</span><br></pre></td></tr></table></figure>
-
-<p>看报错信息是签名不一致导致的，应该是手机里面保留了&lt;pkgname, signatures&gt;这样的数据，简单说就是没卸载干净。然后我使用<code>adb uninstall XXX</code>卸载了一下，在安装release包就可以了。看上去是adb uninstall卸载的更干净一点，之后我在雷电模拟器replay这个过程，发现没有这样的问题，雷电模拟器的桌面卸载就可以把签名信息留存也给删了。</p>
-<p>深究这个错误就得到了如下几个问题：</p>
-<ol>
-<li>adb install的过程是什么，会读写那些文件(华为手机的adb install的时候应该就会读取留存的&lt;pkgname, signatures&gt;文件然后跟新包对比签名)</li>
-<li>adb uninstall的过程是什么，会读写哪些文件</li>
-<li>华为手机的卸载过程是什么，会读写哪些文件</li>
-<li>除华为外其他各家包括模拟器的卸载过程是什么，与adb uninstall区别</li>
-</ol>
-<p>好这几个问题，我们有空再探讨，目前2020/11/22没空。</p>
-<p>参考 <a href="http://blog.hjhjw1991.com/android/2018/01/02/Apk%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BD%E5%8E%9F%E7%90%86/" target="_blank" rel="noopener">http://blog.hjhjw1991.com/android/2018/01/02/Apk%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BD%E5%8E%9F%E7%90%86/</a></p>
-<p><a href="https://blog.csdn.net/new_abc/article/details/7435508" target="_blank" rel="noopener">https://blog.csdn.net/new_abc/article/details/7435508</a></p>
-
-      
-      <!-- 打赏 -->
-      
-      <div id="reward-btn">
-        打赏
-      </div>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/11/22/adbuninstall%E4%B8%8E%E5%9C%A8%E6%A1%8C%E9%9D%A2%E5%8D%B8%E8%BD%BD%E7%9A%84%E5%8C%BA%E5%88%AB/" data-id="ckny2n9z7001a0fj54kya5k64"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/adb/" rel="tag">adb</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-  
-  <nav class="article-nav">
-    
-      <a href="/2020/11/25/docker-volume%E8%BF%81%E7%A7%BB/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            docker容器迁移—volume迁移
-          
-        </div>
-      </a>
-    
-    
-      <a href="/2020/11/21/%E5%88%B6%E4%BD%9CU%E7%9B%98%E7%B3%BB%E7%BB%9F%E7%9B%98/" class="article-nav-link">
-        <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">制作U盘系统盘</div>
-      </a>
-    
-  </nav>
-
-
-  
-
-  
-  
-<!-- valine评论 -->
-<div id="vcomments-box">
-    <div id="vcomments">
-    </div>
-</div>
-<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
-<script>
-    new Valine({
-        el: '#vcomments',
-        notify: false,
-        verify: '',
-        app_id: '',
-        app_key: '',
-        path: window.location.pathname,
-        avatar: 'mp',
-        placeholder: '给我的文章加点评论吧~',
-        recordIP: true
-    });
-    const infoEle = document.querySelector('#vcomments .info');
-    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
-        infoEle.childNodes.forEach(function (item) {
-            item.parentNode.removeChild(item);
-        });
-    }
-</script>
-<style>
-    #vcomments-box {
-        padding: 5px 30px;
-    }
-
-    @media screen and (max-width: 800px) {
-        #vcomments-box {
-            padding: 5px 0px;
-        }
-    }
-
-    #vcomments-box #vcomments {
-        background-color: #fff;
-    }
-
-    .v .vlist .vcard .vh {
-        padding-right: 20px;
-    }
-
-    .v .vlist .vcard {
-        padding-left: 10px;
-    }
-</style>
-
-  
-
-  
-  
-  
-
 </article>
+      
+  
+  
+      <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/2021/04/20/linux-crontab-kiss/" class="archive-article-date">
+  <time datetime="2021-04-20T07:00:01.000Z" itemprop="datePublished">04/20</time>
+</a>
+       
+<h2 itemprop="name">
+  <a class="archive-article-title" href="/2021/04/20/linux-crontab-kiss/"
+    >linux crontab 命令介绍</a
+  >
+</h2>
+  
+
+    </header>
+    
+    
+  </div>
+</article>
+      
+      
+    </div>
+  </div>
+  
+  
+
+  
 </section>
       <footer class="footer">
   <div class="outer">
@@ -362,30 +247,6 @@
 </script>
 
 
-
-
-<script src="/js/tocbot.min.js"></script>
-
-<script>
-  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
-  tocbot.init({
-    tocSelector: '.tocbot',
-    contentSelector: '.article-entry',
-    headingSelector: 'h1, h2, h3, h4, h5, h6',
-    hasInnerContainers: true,
-    scrollSmooth: true,
-    scrollContainer:'main',
-    positionFixedSelector: '.tocbot',
-    positionFixedClass: 'is-position-fixed',
-    fixedSidebarOffset: 'auto',
-    onClick: (e) => {
-      $('.toc-link').removeClass('is-active-link');
-      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
-      $(e.target.hash).scrollIntoView();
-      return false;
-    }
-  });
-</script>
 
 
 <script>

@@ -10,7 +10,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    adb install&amp;uninstall 原理 |  丁星乐
+    linux crontab 命令介绍 |  丁星乐
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -35,7 +35,7 @@
   <div id="app">
     <main class="content">
       <section class="outer">
-  <article id="post-adbuninstall与在桌面卸载的区别" class="article article-type-post" itemscope
+  <article id="post-linux-crontab-kiss" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -43,7 +43,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  adb install&amp;uninstall 原理
+  linux crontab 命令介绍
 </h1>
   
 
@@ -52,12 +52,12 @@
 
     
     <div class="article-meta">
-      <a href="/2020/11/22/adbuninstall%E4%B8%8E%E5%9C%A8%E6%A1%8C%E9%9D%A2%E5%8D%B8%E8%BD%BD%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-date">
-  <time datetime="2020-11-22T06:39:53.000Z" itemprop="datePublished">2020-11-22</time>
+      <a href="/2021/04/20/linux-crontab-kiss/" class="article-date">
+  <time datetime="2021-04-20T07:00:01.000Z" itemprop="datePublished">2021-04-20</time>
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
   </div>
 
       
@@ -67,7 +67,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">441字</span>
+            <span class="post-count">95字</span>
         </span>
     </span>
 
@@ -87,6 +87,8 @@
 
     
     
+    <div class="tocbot"></div>
+
 
 
 
@@ -100,21 +102,13 @@
       
 
       
-      <p>adb: failed to install app-release.apk: Failure [INSTALL_FAILED_UPDATE_INCOMPATIBLE: Package io.appetizer.secsensedev signatures do not match previously installed version; ignoring!]</p>
-<p>最近测试一款App时，遇到这样一个问题：同一个App有一个debug包和一个release包，这两个包签名的证书是不一样的。我在华为Mate30上先<code>adb install app-debug.apk</code>，测试完成后直接在桌面长按卸载(注意这里不是adb uninstall卸载)，然后我继续<code>adb install app-release.apk</code>，但这会报错了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb: failed to install app-release.apk: Failure [INSTALL_FAILED_UPDATE_INCOMPATIBLE: Package XXX signatures do not match previously installed version; ignoring!]</span><br></pre></td></tr></table></figure>
-
-<p>看报错信息是签名不一致导致的，应该是手机里面保留了&lt;pkgname, signatures&gt;这样的数据，简单说就是没卸载干净。然后我使用<code>adb uninstall XXX</code>卸载了一下，在安装release包就可以了。看上去是adb uninstall卸载的更干净一点，之后我在雷电模拟器replay这个过程，发现没有这样的问题，雷电模拟器的桌面卸载就可以把签名信息留存也给删了。</p>
-<p>深究这个错误就得到了如下几个问题：</p>
-<ol>
-<li>adb install的过程是什么，会读写那些文件(华为手机的adb install的时候应该就会读取留存的&lt;pkgname, signatures&gt;文件然后跟新包对比签名)</li>
-<li>adb uninstall的过程是什么，会读写哪些文件</li>
-<li>华为手机的卸载过程是什么，会读写哪些文件</li>
-<li>除华为外其他各家包括模拟器的卸载过程是什么，与adb uninstall区别</li>
-</ol>
-<p>好这几个问题，我们有空再探讨，目前2020/11/22没空。</p>
-<p>参考 <a href="http://blog.hjhjw1991.com/android/2018/01/02/Apk%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BD%E5%8E%9F%E7%90%86/" target="_blank" rel="noopener">http://blog.hjhjw1991.com/android/2018/01/02/Apk%E5%AE%89%E8%A3%85%E5%8D%B8%E8%BD%BD%E5%8E%9F%E7%90%86/</a></p>
-<p><a href="https://blog.csdn.net/new_abc/article/details/7435508" target="_blank" rel="noopener">https://blog.csdn.net/new_abc/article/details/7435508</a></p>
+      <h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p><a href="https://www.runoob.com/linux/linux-comm-crontab.html" target="_blank" rel="noopener">菜鸟教程crontab介绍</a></p>
+<h2 id="一些注意点"><a href="#一些注意点" class="headerlink" title="一些注意点"></a>一些注意点</h2><ul>
+<li>crontab会在/home/<user> 路径下执行shell脚本，所以shell脚本中设计文件路径一定要使用绝对路径，不能使用相对路径</li>
+<li>crontab的log在/var/mail/<user> , crontab daemon会把每条crontab的任务结果记录在这里</li>
+<li>crontab 是以user身份执行脚本文件</li>
+</ul>
+<h2 id="底层原理"><a href="#底层原理" class="headerlink" title="底层原理"></a>底层原理</h2><p>TODO</p>
 
       
       <!-- 打赏 -->
@@ -125,10 +119,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/11/22/adbuninstall%E4%B8%8E%E5%9C%A8%E6%A1%8C%E9%9D%A2%E5%8D%B8%E8%BD%BD%E7%9A%84%E5%8C%BA%E5%88%AB/" data-id="ckny2n9z7001a0fj54kya5k64"
+      <a data-url="https://zkdingme.github.io/2021/04/20/linux-crontab-kiss/" data-id="ckny2n9zf00220fj59kzr1vlf"
         class="article-share-link">分享</a>
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/adb/" rel="tag">adb</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/crontab/" rel="tag">crontab</a></li></ul>
 
     </footer>
 
@@ -138,19 +132,19 @@
   
   <nav class="article-nav">
     
-      <a href="/2020/11/25/docker-volume%E8%BF%81%E7%A7%BB/" class="article-nav-link">
+      <a href="/2021/04/20/linux-vim-kiss/" class="article-nav-link">
         <strong class="article-nav-caption">上一篇</strong>
         <div class="article-nav-title">
           
-            docker容器迁移—volume迁移
+            linux_vim_kiss
           
         </div>
       </a>
     
     
-      <a href="/2020/11/21/%E5%88%B6%E4%BD%9CU%E7%9B%98%E7%B3%BB%E7%BB%9F%E7%9B%98/" class="article-nav-link">
+      <a href="/2021/03/11/statistic-term/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">制作U盘系统盘</div>
+        <div class="article-nav-title">统计学的一些术语</div>
       </a>
     
   </nav>
