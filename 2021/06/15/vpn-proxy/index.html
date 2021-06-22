@@ -10,7 +10,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    categories.ejs: undefined |  丁星乐
+    VPN与代理的区别 |  丁星乐
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -35,85 +35,175 @@
   <div id="app">
     <main class="content">
       <section class="outer">
-  <article class="articles">
+  <article id="post-vpn-proxy" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
     
-    
-    <h1 class="page-type-title">实习</h1>
-    
-    
-  
-  
-  
-  
-  
-  
-  <div class="archives-wrap">
-    <div class="archive-year-wrap">
-      <a href="/archives/2020" class="archive-year">2020</a>
-    </div>
-    <div class="archives">
-      
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/09/25/%E9%98%BF%E9%87%8C%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%A4%8F%E7%94%B3%E8%AF%B7%E8%AE%B0%E5%BD%95/" class="archive-article-date">
-  <time datetime="2020-09-25T07:06:51.000Z" itemprop="datePublished">09/25</time>
-</a>
+    <header class="article-header">
        
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2020/09/25/%E9%98%BF%E9%87%8C%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%A4%8F%E7%94%B3%E8%AF%B7%E8%AE%B0%E5%BD%95/"
-    >阿里编程之夏申请记录</a
-  >
-</h2>
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  VPN与代理的区别
+</h1>
   
 
     </header>
     
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%AE%9E%E4%B9%A0/">实习</a>
-  </div>
 
     
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/02/18/Google%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%A4%8F%E7%94%B3%E8%AF%B7%E8%AE%B0%E5%BD%95/" class="archive-article-date">
-  <time datetime="2020-02-18T11:37:40.000Z" itemprop="datePublished">02/18</time>
+    <div class="article-meta">
+      <a href="/2021/06/15/vpn-proxy/" class="article-date">
+  <time datetime="2021-06-15T02:47:48.000Z" itemprop="datePublished">2021-06-15</time>
 </a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2020/02/18/Google%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%A4%8F%E7%94%B3%E8%AF%B7%E8%AE%B0%E5%BD%95/"
-    >Google编程之夏申请记录</a
-  >
-</h2>
-  
-
-    </header>
-    
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%AE%9E%E4%B9%A0/">实习</a>
+    <a class="article-category-link" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a>
   </div>
 
-    
-    
-  </div>
-</article>
       
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">162字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">1分钟</span>
+        </span>
+    </span>
+</div>
+
       
     </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>VPN和PROXY的使用场景很类似，都是利用一个中间服务器转发流量访问某个客户端访问不了的服务。核心区别在于客户端与中间服务器之间的通信是走什么协议。PROXY一般走应用层协议HTTP/HTTPS/SOCKS等，VPN则走比较底层的像数据链路层PPTP和L2TP，网络层的IPSEC等。二者也有相同点，客户端的IP都被重写成中间服务器的IP。</p>
+<p><img src="cross.png" alt=""></p>
+<p>回顾经典的网络架构图</p>
+<p><img src="OSI.png" alt=""></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><a href="https://blog.z3ratu1.cn/HTTPS%E4%BB%A3%E7%90%86%E5%8E%9F%E7%90%86.html" target="_blank" rel="noopener">HTTPS代理原理</a></li>
+<li><a href="https://lilywei739.github.io/2017/01/25/principle_for_http_https.html" target="_blank" rel="noopener">HTTP、HTTPS代理分析及原理</a></li>
+<li><a href="https://medium.com/@thomas_summon/%E6%B5%85%E8%B0%88vpn-vps-proxy%E4%BB%A5%E5%8F%8Ashadowsocks%E4%B9%8B%E9%97%B4%E7%9A%84%E8%81%94%E7%B3%BB%E5%92%8C%E5%8C%BA%E5%88%AB-b0198f92db1b" target="_blank" rel="noopener">浅谈vpn、vps、Proxy以及shadowsocks之间的联系和区别</a></li>
+</ol>
+
+      
+      <!-- 打赏 -->
+      
+      <div id="reward-btn">
+        打赏
+      </div>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zkdingme.github.io/2021/06/15/vpn-proxy/" data-id="ckq7gyx2b0029xrj54gaihl5o"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPN/" rel="tag">VPN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li></ul>
+
+    </footer>
+
   </div>
+
   
+  
+  <nav class="article-nav">
+    
+    
+      <a href="/2021/05/18/ssh-login-expect/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">ssh_login_expect</div>
+      </a>
+    
+  </nav>
+
+
   
 
   
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        notify: false,
+        verify: '',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
 </section>
       <footer class="footer">
   <div class="outer">
@@ -259,6 +349,30 @@
 </script>
 
 
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
 
 
 <script>
