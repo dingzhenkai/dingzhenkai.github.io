@@ -10,7 +10,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    DeFi |  丁星乐
+    动态调试Android Webview中的JS |  丁星乐
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -35,7 +35,7 @@
   <div id="app">
     <main class="content">
       <section class="outer">
-  <article id="post-DeFi" class="article article-type-post" itemscope
+  <article id="post-Android-JS-Debug" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -43,7 +43,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  DeFi
+  动态调试Android Webview中的JS
 </h1>
   
 
@@ -52,12 +52,12 @@
 
     
     <div class="article-meta">
-      <a href="/2020/09/15/DeFi/" class="article-date">
-  <time datetime="2020-09-15T04:21:17.000Z" itemprop="datePublished">2020-09-15</time>
+      <a href="/2021/06/28/Android-JS-Debug/" class="article-date">
+  <time datetime="2021-06-28T14:23:58.000Z" itemprop="datePublished">2021-06-28</time>
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a>
+    <a class="article-category-link" href="/categories/Android/">Android</a> / <a class="article-category-link" href="/categories/Android/H5/">H5</a>
   </div>
 
       
@@ -67,7 +67,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">762字</span>
+            <span class="post-count">229字</span>
         </span>
     </span>
 
@@ -76,7 +76,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">2分钟</span>
+            <span class="post-count">1分钟</span>
         </span>
     </span>
 </div>
@@ -102,23 +102,26 @@
       
 
       
-      <h2 id="DeFi是什么"><a href="#DeFi是什么" class="headerlink" title="DeFi是什么"></a>DeFi是什么</h2><p>去中心化的金融，可以理解为区块链领域的金融。举例说，我持有100万人民币，但是暂时不需要花，那我肯定选择去把钱存银行吃利息或者去买点股票基金啥的，让钱生点钱，一年后我的100万就变成了110万，我很开心。那在区块链领域，我持有100个BTC，除了等BTC从1万美元升值到2万美元外，并没有像现实社会中理财的方式，简单说，我的100BTC一年后还是100个BTC，不会变成110个BTC。基于这个需求，DeFi就出现了。</p>
-<p>DeFi只是一个概念，落到实处就是一个一个具体的DeFI项目。什么是DeFi项目，对比现实社会就是债券、股票、基金、银行存钱这些理财项目，本质上就是你投资他们，他们赚钱之后给你返利。我简单举三个例子说明一下：</p>
+      <p>Chrome提供了动态调试Webview中JS的功能，这里记录一下步骤。</p>
+<h2 id="1-配置Demo-APK"><a href="#1-配置Demo-APK" class="headerlink" title="1. 配置Demo APK"></a>1. 配置Demo APK</h2><p>这里首先需要测试手机/平板/模拟器开启adb 调试。</p>
 <ul>
-<li>项目A，年化10%。区块链领域一家大的矿池说，我想扩张，做东半球最大的矿池，但是我现在钱不够，大家给我投点钱，我去扩张，等我成了东半球最大的矿池转了大钱，我分你钱。</li>
-<li>项目B，年化50%。区块链领域的一家金融机构，专门炒币，当BTC低的时候买，高的时候抛。现在这家金融机构判断BTC已经到了底部，准备大举抄底，但是现在钱不够，只能抄一点，等之后涨起来估计也就赚个100W。现在他们说，大家借我点钱，我抄个底，等BTC涨上去我卖掉再把钱还给大家，还给大家一笔可观的分红。</li>
-<li>项目C，年化5%。区块链领域的一家基金管理公司，对比现实社会中易方达、工银瑞信等。他们说，老乡们，外面的DeFi项目都是骗子，你别看项目A，项目B年化都10个点，50个点，他们风险很大的。你想想项目A万一扩张失败倒闭了，项目BTC一直下降不涨了，你的钱就没了呀。外面的DeFi项目那么多，有好有坏，老乡们哪有那么多精力去挑选一个高收益低风险的，不如把钱交给我，我全职帮你管理，我帮你们挑选合适的项目，帮你们理财，你们给我点工资就好，我给你们打工。</li>
+<li><p>给apk加上网络访问权限</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.INTERNET"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.ACCESS_NETWORK_STATE"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加webview控件，并配置调试相关属性</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">setJavaScriptEnabled(<span class="keyword">true</span>); <span class="comment">// 允许webview执行JS</span></span><br><span class="line">setWebContentsDebuggingEnabled(<span class="keyword">true</span>); <span class="comment">// 允许调试</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>webview load js</p>
+<p>load js有两种方式，其一js文件放在本地，然后webview使用file协议读取(需要setAllowFileAccess(true))，其二是js放在远端，webview使用http/https协议读取。建议用本地读取的方式，因为远端调试的话，Android 9 (api level 28)开始就禁用http协议，而使用https需要申请证书，很麻烦。</p>
+</li>
+<li><p>打开app</p>
+</li>
 </ul>
-<p>总结一下，DeFi就是区块链领域的理财项目。</p>
-<h2 id="怎么靠DeFi项目赚钱"><a href="#怎么靠DeFi项目赚钱" class="headerlink" title="怎么靠DeFi项目赚钱"></a>怎么靠DeFi项目赚钱</h2><p>这要看你的身份。</p>
-<p><strong>你是个投资者</strong></p>
-<p>这没什么好说的，选一个靠谱的DeFi项目，把钱投进去就可以吃利息了。</p>
-<p><strong>你是个创业者</strong></p>
-<p>做一个基金管理公司，参考YFI/YFII/SUSHI。</p>
-<p><a href="https://dfi.money/#/vault" target="_blank" rel="noopener">https://dfi.money/#/vault</a></p>
-<p><a href="https://docs.yfii.finance/#/zh-cn/tuts" target="_blank" rel="noopener">https://docs.yfii.finance/#/zh-cn/tuts</a></p>
-<p>大概就是fork一个这个池 <a href="https://docs.qq.com/doc/DUlpka0FXeGVMbkhm" target="_blank" rel="noopener">https://docs.qq.com/doc/DUlpka0FXeGVMbkhm</a></p>
-<p>反正核心就简化用户投资的流程，不需要用户挑选DeFi项目</p>
+<h2 id="2-使用Chrome-进行调试"><a href="#2-使用Chrome-进行调试" class="headerlink" title="2. 使用Chrome 进行调试"></a>2. 使用Chrome 进行调试</h2><p>chrome 访问 chrome://inspect/#devices</p>
+<p><img src="1.png" alt=""></p>
+<p>点击inspect即可进入调试window</p>
+<p><img src="2.png" alt=""></p>
+<p>之后就可以愉快的调试了</p>
 
       
       <!-- 打赏 -->
@@ -129,10 +132,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/09/15/DeFi/" data-id="ckqhqa34w000belj5d4kucc8q"
+      <a data-url="https://zkdingme.github.io/2021/06/28/Android-JS-Debug/" data-id="ckqhqa34o0001elj52od65t1r"
         class="article-share-link">分享</a>
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DeFi/" rel="tag">DeFi</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JS/" rel="tag">JS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WebView/" rel="tag">WebView</a></li></ul>
 
     </footer>
 
@@ -142,19 +145,10 @@
   
   <nav class="article-nav">
     
-      <a href="/2020/09/26/batch%E4%B8%BA%E5%95%A5%E5%BF%AB/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            batch为啥快
-          
-        </div>
-      </a>
     
-    
-      <a href="/2020/08/18/bloom-filter-kiss/" class="article-nav-link">
+      <a href="/2021/06/15/vpn-proxy/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">11个问题帮你了解bloom filter</div>
+        <div class="article-nav-title">VPN与代理的区别</div>
       </a>
     
   </nav>
