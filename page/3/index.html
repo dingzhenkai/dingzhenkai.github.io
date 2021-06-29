@@ -71,6 +71,380 @@
     
     
     
+    <article id="post-从技术演变的角度看互联网后台架构" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/11/12/%E4%BB%8E%E6%8A%80%E6%9C%AF%E6%BC%94%E5%8F%98%E7%9A%84%E8%A7%92%E5%BA%A6%E7%9C%8B%E4%BA%92%E8%81%94%E7%BD%91%E5%90%8E%E5%8F%B0%E6%9E%B6%E6%9E%84/"
+    >从技术演变的角度看互联网后台架构</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/11/12/%E4%BB%8E%E6%8A%80%E6%9C%AF%E6%BC%94%E5%8F%98%E7%9A%84%E8%A7%92%E5%BA%A6%E7%9C%8B%E4%BA%92%E8%81%94%E7%BD%91%E5%90%8E%E5%8F%B0%E6%9E%B6%E6%9E%84/" class="article-date">
+  <time datetime="2020-11-12T13:53:33.000Z" itemprop="datePublished">2020-11-12</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>转载自 <a href="https://zhuanlan.zhihu.com/p/59591449" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/59591449</a></p>
+<p>这是去年在部门内部做的一个面向后台开发新同学的课程，因为其他BG一些同学要求分享，所以发一下。</p>
+<p>其实内容都是些常见开源组件的high level描述，比如flask, express框架，中间件的演化，micro service的概念，一些对nosql/column based db的概念介绍，docker的一些简单概念等等。从单个概念来说，这只是一些科普。</p>
+<p>但是为什么当时要开这门课呢？重点是我发现很多新入职的后台开发同学并不太清楚自己做的东西在现代互联网整体架构中处于一个什么样的角色，而在IEG内部则因为游戏开发和互联网开发的一些历史性差异，有些概念并不清晰。</p>
+<p>拿中间件来说，很多web application不用啥中间件一样可以跑很好，那么是不是都要上redis？到底解决什么问题？中间件又存在什么问题？中台和中间件又是个什么关系？如果开个mq就是中间件，微服务又是要做啥？</p>
+<p>如果能从这十多年来互联网应用的整个tech stack变化去看待backend architecture的一些改变，应该是一件有趣也有意思的事情。这是当时写这个ppt开课的初衷。</p>
+<p>我不敢说我在这个ppt里面的一些私货概念就是对的，但是也算是个人这么多年的一些认知理解，抛砖引玉吧。</p>
+<p>强调一点，这个ppt的初衷是希望从近十多年来不同时代不同热点下技术栈的变化来看看我们是如何从最早的php/asp/jsp&lt;=&gt;mysql这样的两层架构，一个阶段一个阶段演变到现在繁复的大数据、机器学习、消息驱动、微服务架构这样的体系，然后在针对其中比较重要的几个方面来给新入门后台开发的同学起个“提纲目录”的作用。如果要对每个方面都深入去谈，那肯定不是一两页PPT就能做到的事情。</p>
+<p>下面我们开始。首先看第一页如下图：什么是System Design?什么是架构设计？为什么要谈架构设计？</p>
+<p><img src="https://pic4.zhimg.com/80/v2-2b1dc48a958b265dd1a5a6e5930dce37_1440w.jpg" alt="img"></p>
+<p>之所以抛出这个问题，是因为平时常常听到两个互相矛盾的说法：一方面很多人爱说“架构师都是不干活夸夸其谈”，另一方面又有很多人苦恼限于日常业务需求开发，无法或者没有机会去从整体架构思考，不知道怎么成长为架构师。</p>
+<p>上面ppt中很有趣的是第一句英文，翻译过来恰好可以反映了论坛上经常有人问的“如何学习架构”的问题：很多leader一来就是扔几本书（书名）给新同学，期望他们读完书就马上升级。。。这种一般都只会带来失望。</p>
+<p>何为架构师？不写代码只画PPT？</p>
+<p>不是的，架构师的基本职责是要在项目早期就能设计好基本的框架，这个框架能够确保团队成员顺利coding满足近期内业务需求的变化，又能为进一步的发展留出空间（所谓scalability），这即是所谓技术选型。如何确保选型正确？对于简单的应用，或者没有新意完全是实践过多次的相同方案，确实靠几页PPT足矣。但是对于新的领域新的复杂需求，这个需求未必都是业务需求，也包括根据团队自身特点（人员太多、太少、某些环节成员不熟悉需要剥离开）来进行新的设计，对现有技术重新分解组合，这时候就需要架构师自己编码实现原型并验证思路正确性。</p>
+<p>要达到这样的目标难不难？难！但是现在不是2000年了，是2019年了，大量的框架(framework)、开源工具和各种best practice，其实都是在帮我们解决这件事情。而这些框架并不是凭空而来，而是在这十多年互联网的演化中因为要解决各种具体业务难点而一点一点积累进化而来。无论是从mysql到mongodb到cassandra到time series db，或者从memcached到redis，从lucene到solr到elasticsearch，从离线批处理到hadoop到storm到spark到flink，技术不是突然出现的，总是站在前人的肩膀上不断演变的。而要能在浩如烟海的现代互联网技术栈中选择合适的来组装自己的方案，则需要对技术的来源和历史有一定的了解。否则就会出现一些新人张口ELK，闭口tensorflow，然后一个简单的异步消息处理就会让他们张口结舌的现象。</p>
+<p>20多年前的经典著作DesignPatterns中讲过学习设计模式的意义，放在这里非常经典：学习设计模式并不是要你学习一种新的技术或者编程语言，而是建立一种交流的共同语言和词汇，在方案设计时方便沟通，同时也帮助人们从更抽象的层次去分析问题本质，而不被一些实现的细枝末节所困扰。同时，当我们能把很多问题抽象出来之后，也能帮我们更深入更好地去了解现有系统——-这些意义，对于今天的后端系统设计来说，也仍然是正确的。</p>
+<p>下图是我们要谈的几个主要方面。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-97fefe6be62d1017f485235d758aa097_1440w.jpg" alt="img"></p>
+<p>上面的几个主题中，第一个后台架构的演化是自己从业十多年来，体会到的互联网技术架构的整体变迁。然后分成后台前端应用框架、middleware和存储三大块谈一下，最后两节微服务和docker则是给刚进入后台开发的同学做一些概念普及。其中个人觉得最有趣的，是第一部分后台架构的演化和第三部分的中间件，因为这两者是很好地反映了过去十多年互联网发展期间技术栈的变化，从LAMP到MEAN Stack，从各种繁复的中间层到渐渐统一的消息驱动+流处理，每个阶段的业界热点都相当有代表性。</p>
+<p>当然，不是说web框架、数据存储就不是热点了，姑且不说这几年web前端的复杂化，光后端应用框架，node的express，python的django/flask，go在国内的盛行，都是相当有趣的。在数据存储领域，列存储和时序数据随着物联网的发展也是备受重视。但是篇幅所限，在这个课程中这些话题也就只能一带而过，因为这些与其说是技术的演变过程，不如说是不同的技术选型和方向了，比如说Mysql适合OLTP（Online Transaction Processing），而Cassandra/Hbase等则适合OLAP(Online Analyical Processing)，并不能说后者就优于前者。</p>
+<p>下面我们先来看后台架构的演化</p>
+<p><img src="https://pic2.zhimg.com/80/v2-c2c0732c96eb53e8e2cb8f7ffbf96a79_1440w.jpg" alt="img"></p>
+<p>严格说这是个很大的标题，从2000年到现在的故事太多了，我这里只能尽力而为从个人体验来分析。</p>
+<p>首先是2008年以前，我把它称为网站时代。为什么这么说？因为那时候的后台开发就是写网站，而且通常是页面代码和后台数据逻辑一起写。你只要能写JSP/PHP/ASP来读写Mysql或者SQL Server，基本就能保证一份不错的工作了。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-d8bbc2b35f5a810170ec482f8ce20857_1440w.jpg" alt="img"></p>
+<p>要强调一下，这种简单的两层结构并不能说就是落后。在现在各个企业、公司以及小团队的大量web应用包括移动App的后端服务中，采用这种架构的不在少数，尤其是很多公司、学校、企业的内部服务，用这种架构已经足够了。</p>
+<p>注意一个时间节点：2008。</p>
+<p>当然，这个节点是我YY的。这个节点可以是2007，或者2006。这个时间段发生了两个影响到现在的事情：google上市，facebook开始推开</p>
+<p>我个人相信前者上市加上它发表的那三篇大数据paper影响了后来业界的技术方向，后者的火热则造成了社交成为业务热点。偏偏社交网站对大数据处理有着天然的需求，技术的积累和业务的需求就这么阴差阳错完美结合了起来，直接影响了大海那边后面的科技发展。</p>
+<p>同时在中国，那个时候却是网络游戏MMO的黄金年代，对单机单服高并发实时交互的需求，远远压过了对海量数据data mining的需要，在这个时间点，中美两边的互联网科技树发生了比较大的分叉。这倒是并没有优劣之说，只是业务场景的重要性导致了技能树的侧重。直到今天，单机(包括简单的多服务器方案)高并发、高QPS仍然也是国内业界所追求的目标，而在美国那边，这只是一个业务指标而已，更看重的是如何进行水平扩展(horizontal scaling)和分散压力。</p>
+<p>国内和美国的科技树回到一条线上，大数据的业务需求和相关技术发展紧密结合起来，可能要到2014年左右，随着互联网创业的盛行，O2O业务对大数据实时处理、机器学习推荐提出了真正的需求时，才是国内业界首次出现技术驱动业务，算法驱动产品的现象，重新和美国湾区那边站在了一条线上，而这则是后话了。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-e27797679646e518bc580a2d6dd08502_1440w.jpg" alt="img"></p>
+<p>到了2010年前后，facebook在全球已经是现象级产品，当时微软直接放弃了windows live，就是为了避免在社交领域硬怼facebook。八卦一下当时在美国湾区那边聚餐的时候，如果谁说他是facebook的，那基本就是全场羡慕的焦点。</p>
+<p>facebook的崛起也带动了其他大量的社交网站开始出现，社交网站最大的特点就是频繁的用户搜索、推荐，当用户上亿的时候，这就是前面传统的两层架构无法处理的问题了。因此这就带动了中间件的发展。实际上在国外很少有人用中间件或者middelware这个词，更多是探讨如何把各种service集成在一起，像国内这样强行分成frontend/middleware/storage的概念是没听人这么谈过的，后面中间件再说这问题。当时的一个惯例是用php做所谓的胶水语言(glue language)，然后通过hessian这些协议工具来把其他java服务连接到一起。与此同时，为了提高访问速度，降低后端查询压力，memcached/redis也开始大量使用。基于lucene的搜索（2010左右很多是自行开发）或者solr也被用在用户搜索、推荐以及type ahead这些场景中。</p>
+<p>我记忆中在2012年之前消息队列的使用还不是太频繁，不像后来这么重要。当时常见的应该就是beanstalkd/rabbitmq, zeromq其实我在湾区那边很少听人用，倒是后来回国后看到国内用的人还不少。Kafka在2011年已经出现了，有少部分公司开始用，不过还不是主流。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-b72bb1ea0b9a2b4fbccfc5e7e494789e_1440w.jpg" alt="img"></p>
+<p>2013年之后就是大数据+云的时代了，如果大家回想一下，基本上国内也是差不多在2014年左右开始叫出了云+大数据的口号（2013年国内还在手游狂潮中…）。不谈国外，在中国那段时间就是互联网创业的时代，从千团大战到手游爆发到15年开始的O2O，业务的发展也带动了技术栈的飞速进步。左上角大致上也写了这个时代互联网业界的主要技术热点，实际上这也就是现在的热点。无论国内国外，绝大部分公司还并没有离开云+大数据这个时代。无论是大数据的实时处理、数据挖掘、推荐系统、Docker化，包括A/B测试，这些都是很多企业还正在努力全面解决的问题。</p>
+<p>但是在少数站在业界技术顶端或者没有历史技术包袱的新兴公司，从某个角度上来说，他们已经开始在往下一个时代前进：机器学习AI驱动的时代</p>
+<p><img src="https://pic1.zhimg.com/80/v2-9591a31a85583b36088c41bcd974c324_1440w.jpg" alt="img"></p>
+<p>2018年开始，实际上可能是2017年中开始，AI驱动成了各大公司口号。上图是facebook和uber的机器学习平台使用情况，基本上已经全部进入业务核心。当然并不是说所有公司企业都要AI驱动，显然最近发生的波音737事件就说明该用传统的就该传统，别啥都往并不成熟的AI上堆。但另一方面，很多新兴公司的业务本身就是基于大数据或者算法的，因此他们在这个领域也往往走得比较激进。由于这个AI驱动还并没有一个很明确的定义和概念，还处于一种早期萌芽的阶段，在这里也就不多YY了。</p>
+<p>互联网后台架构发展的简单过程就在这里讲得差不多了，然后我们快速谈一下web开发框架。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-c338c389afc20aa6be4cf9a156bc8801_1440w.jpg" alt="img"></p>
+<p>首先在前面我提到，在后端架构中其实也有所谓的frontend(前台）开发存在，一般来说这是指响应用户请求，实现具体业务逻辑的业务逻辑层。当然这么定义略微粗糙了些，很多中间存储、消息服务也会封装一些业务相关逻辑。总之web开发框架往往就是为了更方便地实现这些业务逻辑而存在的。</p>
+<p>前文提到在一段较长时间内，国内的技术热点是单机高并发高QPS，因此很多那个时代走过来的人会本能地质疑web框架的性能，而更偏好TCP长链接甚至UDP协议。然而这往往是自寻烦恼，因为除开特别的强实时系统，无论是休闲手游、视频点播还是信息流，都已经是基于HTTP的了。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-204b4be768437cbf13bc8b47cab3be75_1440w.jpg" alt="img"></p>
+<p>上图所提到的两个问题中，我想强调的是第一点：所有的业务，在能满足需求的情况下，首选HTTP协议进行数据交互。准确点说，首选JSON，使用web API。</p>
+<p>Why? 这就是上图第一个问题所回答的：无状态、易调试易修改、一般没有80端口限制。</p>
+<p>最为诟病的无非是性能，然而实际上对非实时应用，晚个半秒一秒不应该是大问题，要考虑的是水平扩展scalability，不是实时响应（因为前提就是非实时应用）；其次实在不行你还有websocket可以用。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-dacbc19c18e27bce3ed49915b1a09a7d_1440w.jpg" alt="img"></p>
+<p>这一部分是简单列举了一下不同框架的使用，可以看出不同框架的概念其实差不多。重点是要注意到middleware这个说法在web framework和后端架构中的意义不同。在web framework中是指具体处理GET/POST这些请求之前的一个通用处理（往往是链式调用），比如可以把鉴权、一些日志处理和请求记录放在这里。但在后端架构设计中的middleware则是指类似消息队列、缓存这些在最终数据库之前的中间服务组件。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-df43d5baa5c5622f11818b1c0587960a_1440w.jpg" alt="img"></p>
+<p>最后这里是想说web framework并不是包治百病，实际上那只是提供了基础功能的一个library，作为开发者则更多需要考虑如何定义配置文件，一些敏感参数如token、密码怎么传进来，开发环境和生产环境的配置如何自动切换，单元测试怎么搞，代码目录怎么组织。有时候我们可以用一些比如Yeoman之类的scaffold工具来自动生成项目代码框架，或者类似django这种也可能自动生成基本目录结构。</p>
+<p>下面进入Middleware环节。again，强调一下这里只是根据个人经验和感受谈谈演化过程。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-710fac01403a34e623d2ef9c8f88a8a3_1440w.jpg" alt="img"></p>
+<p><img src="https://pic3.zhimg.com/80/v2-1ea807b76a16822bd099685837c44e26_1440w.jpg" alt="img"></p>
+<p>这一页只是大致讲一下怎么定义中间件middleware。说句题外话，在美国湾区那边提这个概念的很少，而阿里又特别喜欢说中间件，两者相互的交流非常头痛。湾区那边不少google、facebook还有pinterest/uber这些的朋友好几次都在群里问说啥叫中间件。</p>
+<p>中间件这个概念很含糊，应该是阿里提出来的，对应于middleware（不过似乎也不是完全对应），可能是因为早期java的EJB那些概念里面比较强调middleware这一点吧（个人猜的）。大致上，如果我们把web后端分为直接处理用户请求的frontend，最后对数据进行持久存储(persistant storage)这两块，那么中间对数据的所有处理环节都可以视为middleware。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-590b5a370040ce103147825b1dbc4b00_1440w.jpg" alt="img"></p>
+<p>和中间件对应的另一个阿里发明的概念是中台。近一年多阿里的中台概念都相当引人注意，这里对中台不做太多描述。总体来说中台更多是偏向业务和组织架构划分，不能说是一个技术概念，也不是面向开发人员的。而中间件middleware是标准的技术组件服务。</p>
+<p>那么我们自然会有一个问题：为什么要用中间件？</p>
+<p><img src="https://pic4.zhimg.com/80/v2-d5ee9670feeda1685664ca268939d7ab_1440w.jpg" alt="img"></p>
+<p>谈到为什么要用middlware，这里用推荐系统举例。</p>
+<p>推荐系统，对数据少用户少的情况下，简单的mysql即可，比如早期论坛的什么top 10热门话题啊，最多回复的话题啊，都可以视为简单的推荐，数据量又不大的情况下，直接select就可以了。</p>
+<p>如果是用户推荐的话，用户量不大的情况下，也可以如法炮制，选择同一区域（城市）年龄相当的异性，最后随机挑几个给你，相信世纪佳缘之类的交友网站早期实现也就是类似的模式。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-10cc0cc71cb0dd2ad74c5ed7a0284f53_1440w.jpg" alt="img"></p>
+<p>那么，如果用户量多了呢？每次都去搜数据库，同时在线用户又多，那对数据库的压力就巨大了。这时候就是引入缓存，memcached、redis就出现了。</p>
+<p>简单的做法就是把搜索条件作为key，把结果作为value存入缓存。打个比方你可以把key存为 20:40:beijing:male (20到40岁之间北京的男性），然后把第一次搜索的结果全部打乱shuffle后，存前1000个，10分钟过期，再有人用类似条件搜索，就直接把缓存数据随机挑几个返回。放心，一般来说不会有人10分钟就把1000个用户的资料都看完了，中间偶有重复也没人在意（用世纪佳缘、百合网啥的时候看到过重复的吧）。</p>
+<p>不过话又说回来，现代数据库，尤其是类似mongodb/es这些大量占用内存的nosql，已经对经常查询的数据做了缓存，在这之上再加cache，未必真的很有效，这需要case by case去分析了，总之盲目加cache也并不推荐。</p>
+<p>加缓存是为了解决访问速度，减轻数据库压力，但是并不提高推荐精准度。如果我们要提高推荐效果呢？在2015年之前机器学习还没那么普及成熟的时候，我们怎么搞呢？</p>
+<p><img src="https://pic2.zhimg.com/80/v2-43103b4967ade36bc23a4c588aa93319_1440w.jpg" alt="img"></p>
+<p>提高推荐效果，在机器学习之前有两种做法：</p>
+<p>- 引入基于lucene的搜索引擎，在搜索的同时通过定制方案实现scoring，比如我可以利用lucene对用户的年龄、性别、地址等进行indexing，但是再返回结果时我再根据用户和查询者两人的具体信息进行关联，自定义返回的score（可以视为推荐相关系数）</p>
+<p>- 采用离线批处理。固然可以用hadoop，但是就太杀鸡用牛刀了。常见的是定时批处理任务，按某种规则划分用户群体，对每个群体再做全量计算后把推荐结果写入缓存。这种可以做很繁复准确的计算，虽然慢，但效果往往不错。这种做法也常用在手机游戏的PvP对战列表里面。</p>
+<p>这些处理方法对社交网络/手游这类型的其实已经足够了，但是新的业务是不断出现的。随着uber/滴滴/饿了么/美团这些需要实时处理数据的app崛起，作为一个司机，并不想你上线后过几分钟才有客人来吧，你希望你开到一个热点区域，一开机就马上接单。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-2c8b89684633800b68fd49df95eb8491_1440w.jpg" alt="img"></p>
+<p>所以这种对数据进行实时（近实时）处理的需求也带动了后端体系的大发展，kafka/spark等等流处理大行其道。这时候的后端体系就渐渐引入了消息驱动的模式，所谓消息驱动，就是对新的生产数据会有多个消费者，有的是满足实时计算的需求（比如司机信息需要立刻能够被快速检索到，又不能每次都做全量indexing，就需要用到spark），有的只是为了数据分析，写入类似cassandra这些数据库里，还有的可能是为了生成定时报表，写入到mysql。</p>
+<p>大数据的处理一直是业界热点领域。记得2015年硅谷一个朋友就是从一家小公司做php跳去另一家物联网公司做spark相关的工作，之前还很担心玩不转，搞了两年就俨然业界大佬被oracle挖去负责云平台～～～</p>
+<p>anyway，这时候对后端体系的要求是一方面能快速满足实时需求，另一方面又能满足各种耗时长的数据分析、data lake存储等等，以及当时渐渐普及的机器学习模型（当时2015年初和几个朋友搞startup，其中一个是walmart lab的机器学习专家，上来就一堆模型，啥数据和用户都还没有就把模型摆上来了，后来搞得非常头痛。当时没有keras/pytorch/tf这些，那堆模型是真心搞不太懂，但是又不敢扔，要靠那东西去包装拿投资的。。。）</p>
+<p>但是我们再看上面的图，是不是感觉比较乱呢？各种系统的数据写来写去，是不是有点messy？当公司团队增多，系统复杂度越来越高的时候，我们该怎么梳理？</p>
+<p><img src="https://pic1.zhimg.com/80/v2-aa8a341961199f2f90a5ae0d59af5298_1440w.jpg" alt="img"></p>
+<p>到了2017之后，前面千奇百怪的后端体系基本上都趋同了。kafka的实时消息队列，spark的流处理（当然现在也可以换成flink，不过大部分应该还是spark），然后后端的存储，基于hive的数据分析查询，然后根据业务的模型训练平台。各个公司反正都差不多这一套，在具体细节上根据业务有所差异，或者有些实力强大的公司会把中间一些环节替换成自己的实现，不过不管怎么千变万化，整体思路基本都一致了。</p>
+<p>这里可以看到机器学习和AI模型的引入。个人认为，machine learning的很大一个好处，是简化业务逻辑，简化后台流程，不然一套业务一套实现，各种数据和业务规则很难用一个整体的技术平台来完成。相比前面一页的后台架构，这一页要清晰许多，而且是一个DAG有向无环图的形式，数据流向很明确。我们在下面再来说这个机器学习对业务数据流程的简化。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-73b43e91cb1424c626915bc758ea277f_1440w.jpg" alt="img"></p>
+<p>在传统后端系统中，业务逻辑其实和数据是客观分离的，逻辑规则和数据之间并不存在客观联系，而是人为主观加入，并没形成闭环，如上图左上所示。而基于机器学习的平台，这个闭环就形成了，从业务数据-&gt;AI模型-&gt;业务逻辑-&gt;影响用户行为-&gt;新的业务数据这个流程是自给自足的。这在很多推荐系统中表现得很明显，通过用户行为数据训练模型，模型对页面信息流进行调整，从而影响用户行为，然后用新的用户行为数据再次调整模型。而在机器学习之前，这些观察工作是交给运营人员去手工猜测调整。</p>
+<p>上图右边谈的是机器学习相关后台架构和传统web后台的一些差别，重点是耗时太长，必须异步处理。因此消息驱动机制对机器学习后台是一个必须的设计。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-2d917d19d2ac06c55fb6698118d4afbc_1440w.jpg" alt="img"></p>
+<p>这页是一些个人的感受，现代的后端数据处理越来越偏向于DAG的形态，Spark不说了，DAG是最大特色；神经网络本身也可以看作是一个DAG（RNN其实也可以看作无数个单向DNN的组合）；tensorflow也是强调其Graph是DAG，另外编程模式上，Reactive编程也很受追捧。</p>
+<p>其实DAG的形态重点强调的就是数据本身是immutable（不可修改），只能transform后成为新的数据进入下一环。这个思维其实可以贯穿到现代后台系统设计的每个环节，比如trakcing、analytics、数据表设计、microservice等等，但具体实施还是要case by case了。</p>
+<p>无论如何，数据，数据的跟踪tracking，数据的流向，是现代后台系统的核心问题，只有data flow和data pipeline清晰了，整个后台架构才会清楚。</p>
+<p>数据库是个非常复杂的领域，在下面对几个基本常用的概念做一些介绍。注意一点是graph database在这里没有提到，因为日常使用较少，相对来说facebook提出的GraphQL倒是个有趣的概念，但也只是在传统db上的一个概念封装。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-4143cf5f7956bfbc5b9b8ee29232f8c0_1440w.jpg" alt="img"></p>
+<p><img src="https://pic1.zhimg.com/80/v2-68ebb74553bfe58b8e9d45a4cb50e0f0_1440w.jpg" alt="img"></p>
+<p>上图是2018年12月初热门数据库的排名，我们可以看到关系数据库RDBMS和NOSQL数据库基本上平分秋色。而NOSQL中实际上又可以分为key-value storage（包括文档型）及column based DB.</p>
+<p><img src="https://pic4.zhimg.com/80/v2-fb92fdc74a0f2e118af1b962c467c9cb_1440w.jpg" alt="img"></p>
+<p>mysql这个没啥好讲，大概提一下就是。有趣的是曾经看到一篇文章是aws CTO谈的一些内容，其中印象深刻是：如果你的用户还不到100万，就别折腾了，无脑使用mysql吧）</p>
+<p>在2015年之前的一个趋势是不少公司使用mysql作为数据存储，但是把indexing放在外部去做。这个思路最早似乎是friendster提出的，后来uber也模仿这种做法设计了自己的数据库schemaless。然而随着postgreSQL的普及(postgreSQL支持对json的索引)，这种做法是否还有意义就值得商榷了。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-507e35ce93d80aeb6bebf6848deb3f22_1440w.jpg" alt="img"></p>
+<p>nosql最早的使用就是key-value的查找，典型的就是redis。实际上后来的像mongo这些documentbased db也是类似的key value，只是它对document中的内容又做了一次index (inverted index)，用空间换时间来提供查找数据，这也是cs不变的思维。</p>
+<p>mongo/elasticsearch收到热捧主要是因为它们的schemaless属性，也就是不需要提前定义数据格式，只要是json就存，还都能根据每个field搜索，这非常方便程序员快速出demo。但是实际上数据量大之后还是要规范数据结构，定义需要indexing的field的。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-723236c2176bb28741d4c7f4751ceffa_1440w.jpg" alt="img"></p>
+<p>这里提一个比较好玩的开源project nodebb, 这是个node.js开发的论坛系统。在我前几年看到这个的时候它其实只支持redis，然后当时因为一个项目把它改造了让他支持mysql。去年再看的时候发现它同时支持了redis/postres/mongo，如果对比一下同样的功能他如何在这三种db实现的，相信会很有帮助。</p>
+<p>稍微谈谈列存储。常见mysql你在select的时候其实往往会把整行都读出来，再在其中挑那么一两个你需要的属性，非常浪费。而mongo这些文件型db，又不支持常见SQL。而列存储DB的好处就是快，不用把一行所有信息读出来，只是按列读取你需要的，对现在的大数据分析特别是OLAP(Online Analytical Processing)来说特别重要。然而据另外的说法，实际上像casssandra/hbase这些并不是真正的列存储，而只是借用了一些概念。这个我也没深入去了解，有兴趣的同学可以自己研究研究。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-342b45d16bb14f622614c32f03c1f0c7_1440w.jpg" alt="img"></p>
+<p><img src="https://pic2.zhimg.com/80/v2-5244539cea96b21cfd1638d0d6a19665_1440w.jpg" alt="img"></p>
+<p>列存储的一个重要领域是时序数据库，物联网用得多。其特色是大量写入，只增不改（不修改数据），但是读的次数相对于很少（想想物联网的特点，随时有数据写入，但是你不会随时都在看你家小米电器的状态。。。）</p>
+<p>注意说write/read是正交的。这意思是每次写入是一次一行，而读是按列，加上又不会修改数据，因此各自都能保持极快的速度</p>
+<p>下面简单谈一下微服务，大部分直接看PPT就可以了，有几页略微谈一下个人思考。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-c1360a57a1ee6ca2f0c53b9ab049437b_1440w.jpg" alt="img"></p>
+<p><img src="https://pic2.zhimg.com/80/v2-3d6d3c3952fa3b9d6950534a34b43441_1440w.jpg" alt="img"></p>
+<p><img src="https://pic3.zhimg.com/80/v2-fadb7c7b866ae916449075577c808046_1440w.jpg" alt="img"></p>
+<p><img src="https://pic1.zhimg.com/80/v2-01201019b017884793f5bdb2bac97dec_1440w.jpg" alt="img"></p>
+<p><img src="https://pic1.zhimg.com/80/v2-78b766d7026d9c0ee5707b95a895a9ac_1440w.jpg" alt="img"></p>
+<p>上面这页说说，其实微服务所谓的服务发现/name service不要被忽悠觉得是多神奇的东西。最简单的Nginx/Apache这些都能做（域名转向，proxy），或者你要写个name : address的对应关系到db里面也完全可以，再配一个定时healthcheck的服务，最简单的服务发现也就行了。</p>
+<p>高级点用到zookeeper/etcd等等，或者SpringCloud全家桶，那只是简化配置，原理都一样。从开发角度来看，微服务的开发并不是难点，难点是微服务的配置和部署。最近一段时间微服务部署也是业界热点，除了全家桶形态的SpringCloud，也可以看看lstio这些开源工具。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-d7463a463cd06a7073f3cbda3d518615_1440w.jpg" alt="img"></p>
+<p>上图主要大致对比一下，看看从早期的Spring到现在Spring Cloud的变化。想来用过Java Tomcat的朋友都能体会Java这一套Config based development的繁琐，开发的精力很多不是在业务代码上，往往会化不少精力去折腾配置文件。当然，Spring Cloud在这方面简化了不少，不过个人还是不太喜欢java，搞很多复杂的设计模式，封装了又封装。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-f9669af0efd0a133fa58ce0a30813c01_1440w.jpg" alt="img"></p>
+<p>这里要说并不是微服务解决一切，热门的Python Django尽管有restful-framework，但是它实际上是一个典型的Monolithic体系。对很多核心业务，其实未必要拆开成微服务。</p>
+<p>这两者是互补关系，不是替代关系。</p>
+<p>下面的docker我就不仔细谈了，PPT基本表达了我想表述的概念，主要意思是</p>
+<p>- docker能够简化部署，简化开发，能够在某种程度上让开发环境和产品环境尽量接近</p>
+<p>- 不要担心docker的性能，它不是虚拟机，可以看作在server上运行的一个process。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-20ce87f5f8ae27a8f4ff0c40e032fa83_1440w.jpg" alt="img"></p>
+<p><img src="https://pic4.zhimg.com/80/v2-e15175f3e3a611aa2314df864a915f43_1440w.jpg" alt="img"></p>
+<p>上图是描述docker之前开发人员的常见开发环境，首先在自己机器上装一大堆服务，像mysql, redis, tomcat啥的。也有直接在远程服务器安装环境后，多人共同登录远端开发，各自使用一个端口避免冲突…. 实际上这种土法炼钢的形态，在2019年的今天仍然在国内非常普及。</p>
+<p>这种形态的后果就是在最后发布到生产环境时，不同开发人员会经历长时间的“联调”，各种端口、权限、脚本、环境设置在生产环境再来一遍…这也是过去运维人员的主要工作。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-958630279c89bde1977993b38bd5f33a_1440w.jpg" alt="img"></p>
+<p>上一页提到的问题，并不是一定要docker来解决。在这之前，虚拟机VM的出现，以及vagrant这样的工具，都让开发环境的搭建多少轻松了一些。不过思路仍然是把VM作为一个独立服务器使用，只是因为快照、镜像和辅助工具，让环境的配置、统一和迁移更加简单快捷。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-34300341c5a98dcf80a857f30e8d5e6c_1440w.jpg" alt="img"></p>
+<p>上图是对比程序运行在物理服务器、VM及docker时的资源共享情况，可以看到运行在Docker的应用，并没有比并发运行在物理服务器上占用更多资源。</p>
+<p>下图是简单的docker使用，不做赘述。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-b33cece5582fe6ce5bb1fb1c48976e6a_1440w.jpg" alt="img"></p>
+<p><img src="https://pic2.zhimg.com/80/v2-7ee5f27a7efc94cc0cb2af989bc62a45_1440w.jpg" alt="img"></p>
+<p>这一页主要是强调Docker并不等同于虚拟机。虚拟机所占资源是独享的，比如你启动一个VM，分配2G内存，那么这个VM里不管是否运行程序都会占用2G内存。然而如果你启动一个Docker，里面运行一个简单web服务，在不强制指定内存占用情况下，如果没有请求进入，没有额外占用内存，那么这个docker服务对整机的内存占用几乎为0（当然仍然存在一些开销，但主要是根据该程序自身的运行状况而定）。</p>
+<p><img src="https://pic3.zhimg.com/80/v2-03fbbb243474fa5bf70b75ab81c0d2ce_1440w.jpg" alt="img"></p>
+<p>最后Kubernetes这里大概说说host-pod-container的关系，一个host可以是物理机或者vm，pod不是一个docker，而是可以看作有一个ip的…（不知道怎么形容），总之一个pod可以包括多个container(docker)，pod之中的container可以共享该pod的资源（ip，storage等）。不过现实中似乎大多是一个pod对一个container。</p>
+<p>对互联网一些热门概念和演变过程的一个很简略的描述就到这里了，谢谢。</p>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zkdingme.github.io/2020/11/12/%E4%BB%8E%E6%8A%80%E6%9C%AF%E6%BC%94%E5%8F%98%E7%9A%84%E8%A7%92%E5%BA%A6%E7%9C%8B%E4%BA%92%E8%81%94%E7%BD%91%E5%90%8E%E5%8F%B0%E6%9E%B6%E6%9E%84/" data-id="ckqhzmsc3002r6jj56lp2g10k"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%90%8E%E7%AB%AF%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98/" rel="tag">后端架构演变</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-trojan-proxy-gfw" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/11/05/trojan-proxy-gfw/"
+    >使用trojan来连接代理服务器</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/11/05/trojan-proxy-gfw/" class="article-date">
+  <time datetime="2020-11-04T16:38:15.000Z" itemprop="datePublished">2020-11-05</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%BB%A3%E7%90%86/">代理</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p><strong>当配置好代理服务器之后，如何在客户端配置连接代理服务器？本文讲解trojan方案。</strong></p>
+<h2 id="1-下载trojan"><a href="#1-下载trojan" class="headerlink" title="1. 下载trojan"></a>1. 下载trojan</h2><p>github地址 <a href="https://github.com/trojan-gfw/trojan/releases" target="_blank" rel="noopener">https://github.com/trojan-gfw/trojan/releases</a></p>
+<p>下载之后解压文件结构如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── CONTRIBUTORS.md</span><br><span class="line">├── LICENSE</span><br><span class="line">├── README.md</span><br><span class="line">├── config.json &#x2F;&#x2F; 配置文件</span><br><span class="line">├── examples &#x2F;&#x2F; 配置文件样例</span><br><span class="line">│   ├── client.json-example</span><br><span class="line">│   ├── forward.json-example</span><br><span class="line">│   └── server.json-example</span><br><span class="line">├── start.command</span><br><span class="line">└── trojan &#x2F;&#x2F; 可执行文件</span><br><span class="line"></span><br><span class="line">1 directory, 9 files</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-修改config-json并启动trojan"><a href="#2-修改config-json并启动trojan" class="headerlink" title="2. 修改config.json并启动trojan"></a>2. 修改config.json并启动trojan</h2><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"run_type"</span>: <span class="string">"client"</span>, <span class="comment">// 不需要改</span></span><br><span class="line">    <span class="attr">"local_addr"</span>: <span class="string">"127.0.0.1"</span>, <span class="comment">// 不需要改</span></span><br><span class="line">    <span class="attr">"local_port"</span>: <span class="number">1080</span>, <span class="comment">// 可以改也可以不改，建议改成个性端口例如自己生日，防止1080端口被其他进程占用</span></span><br><span class="line">    <span class="attr">"remote_addr"</span>: <span class="string">"example.com"</span>, <span class="comment">// 需要改成自己代理服务器的地址，如果是ip，下面的verify与verify_hostname需要改成false</span></span><br><span class="line">    <span class="attr">"remote_port"</span>: <span class="number">443</span>, <span class="comment">// 需要改成自己代理服务器的监听端口，一般都是443</span></span><br><span class="line">    <span class="attr">"password"</span>: [ <span class="comment">// 需要改成自己代理服务器的密码</span></span><br><span class="line">        <span class="string">"password1"</span> </span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"log_level"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"ssl"</span>: &#123;</span><br><span class="line">        <span class="attr">"verify"</span>: <span class="literal">true</span>, <span class="comment">// remote_addr是ip的话，设置为false</span></span><br><span class="line">        <span class="attr">"verify_hostname"</span>: <span class="literal">true</span>, <span class="comment">// remote_addr是ip的话，设置为false</span></span><br><span class="line">        <span class="comment">// 下面都不要改</span></span><br><span class="line">        <span class="attr">"cert"</span>: <span class="string">""</span>,</span><br><span class="line">        <span class="attr">"cipher"</span>: <span class="string">"ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES128-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA:AES128-SHA:AES256-SHA:DES-CBC3-SHA"</span>,</span><br><span class="line">        <span class="attr">"cipher_tls13"</span>: <span class="string">"TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_256_GCM_SHA384"</span>,</span><br><span class="line">        <span class="attr">"sni"</span>: <span class="string">""</span>,</span><br><span class="line">        <span class="attr">"alpn"</span>: [</span><br><span class="line">            <span class="string">"h2"</span>,</span><br><span class="line">            <span class="string">"http/1.1"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"reuse_session"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"session_ticket"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">"curves"</span>: <span class="string">""</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"tcp"</span>: &#123;</span><br><span class="line">        <span class="attr">"no_delay"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"keep_alive"</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">"reuse_port"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">"fast_open"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">"fast_open_qlen"</span>: <span class="number">20</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注：mac上查看端口命令为lsof，例如我想将端口设置为1225，就需要执行命令<code>lsof -i:1225</code>，没有输出就说明端口1225未被其他进程占用，可被trojan使用。</p>
+<p>config.json改完之后就可以启动trojan了，命令是<code>./trojan -c config.json</code></p>
+<h2 id="3-设置全局代理-Mac版本"><a href="#3-设置全局代理-Mac版本" class="headerlink" title="3. 设置全局代理(Mac版本)"></a>3. 设置全局代理(Mac版本)</h2><p>trojan是socks代理，所以我们只要在设置里面修改socks代理设置即可。</p>
+<p>打开<strong>设置——网络——WiFi高级——代理——SOCKS代理</strong>，填写config中的local_addr和local_port，应用即可。</p>
+<p><img src="trojan-socks.png" alt=""></p>
+<p>然后你就可以上网冲浪了。</p>
+<p>参考 <a href="https://ssrvps.org/archives/1262" target="_blank" rel="noopener">https://ssrvps.org/archives/1262</a></p>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zkdingme.github.io/2020/11/05/trojan-proxy-gfw/" data-id="ckqhzmsby00296jj5cdj9crou"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/trojan/" rel="tag">trojan</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-Mac-manage-mul-sshkey" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/10/24/Mac-manage-mul-sshkey/"
+    >Mac管理多个ssh key</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/10/24/Mac-manage-mul-sshkey/" class="article-date">
+  <time datetime="2020-10-24T10:54:20.000Z" itemprop="datePublished">2020-10-24</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>转载 <a href="https://gitee.com/help/articles/4229" target="_blank" rel="noopener">https://gitee.com/help/articles/4229</a></p>
+<blockquote>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>当有多个git账号时，比如：</p>
+<p>a. 一个gitee，用于公司内部的工作开发；<br>b. 一个github，用于自己进行一些开发活动；</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
+<li>生成一个公司用的SSH-Key</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C &#39;xxxxx@company.com&#39; -f ~&#x2F;.ssh&#x2F;gitee_id_rsa</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>生成一个github用的SSH-Key</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C &#39;xxxxx@qq.com&#39; -f ~&#x2F;.ssh&#x2F;github_id_rsa</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>在 ~/.ssh 目录下新建一个config文件，添加如下内容（其中Host和HostName填写git服务器的域名，IdentityFile指定私钥的路径）</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># gitee</span><br><span class="line">Host gitee.com</span><br><span class="line">HostName gitee.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~&#x2F;.ssh&#x2F;gitee_id_rsa</span><br><span class="line"># github</span><br><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line">IdentityFile ~&#x2F;.ssh&#x2F;github_id_rsa</span><br></pre></td></tr></table></figure>
+
+<p>4.用ssh命令分别测试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -T git@gitee.com</span><br><span class="line">$ ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+</blockquote>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zkdingme.github.io/2020/10/24/Mac-manage-mul-sshkey/" data-id="ckqhzmsb6000h6jj5gx7v3dth"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E6%9C%BA%E7%AE%A1%E7%90%86%E5%A4%9A%E4%B8%AAssh-key/" rel="tag">单机管理多个ssh-key</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-发现异常" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -124,7 +498,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/10/12/%E5%8F%91%E7%8E%B0%E5%BC%82%E5%B8%B8/" data-id="ckqhqa35u002melj5gzxghh9y"
+      <a data-url="https://zkdingme.github.io/2020/10/12/%E5%8F%91%E7%8E%B0%E5%BC%82%E5%B8%B8/" data-id="ckqhzmsc2002o6jj59d4lbpso"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8F%91%E7%8E%B0%E5%BC%82%E5%B8%B8/" rel="tag">发现异常</a></li></ul>
@@ -197,7 +571,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/09/30/Android-Dumpdex/" data-id="ckqhqa34j0000elj55d7xg0r5"
+      <a data-url="https://zkdingme.github.io/2020/09/30/Android-Dumpdex/" data-id="ckqhzmsaf00006jj5hlxsfhwl"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%84%B1%E5%A3%B3/" rel="tag">脱壳</a></li></ul>
@@ -269,7 +643,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/09/29/android-type3-error/" data-id="ckqhqa35h0016elj50mxu5cqk"
+      <a data-url="https://zkdingme.github.io/2020/09/29/android-type3-error/" data-id="ckqhzmsbm00126jj57ki708le"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Debug/" rel="tag">Debug</a></li></ul>
@@ -366,7 +740,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/09/26/ssh-remote-tunnel/" data-id="ckqhqa35p001yelj598mi48pw"
+      <a data-url="https://zkdingme.github.io/2020/09/26/ssh-remote-tunnel/" data-id="ckqhzmsby00266jj58qmlat3n"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh-tunnel/" rel="tag">ssh tunnel</a></li></ul>
@@ -435,7 +809,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/09/26/batch%E4%B8%BA%E5%95%A5%E5%BF%AB/" data-id="ckqhqa35f0011elj5d1tgbudc"
+      <a data-url="https://zkdingme.github.io/2020/09/26/batch%E4%B8%BA%E5%95%A5%E5%BF%AB/" data-id="ckqhzmsbo00166jj51gsi1sbl"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" rel="tag">批处理</a></li></ul>
@@ -519,7 +893,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/09/15/DeFi/" data-id="ckqhqa34w000belj5d4kucc8q"
+      <a data-url="https://zkdingme.github.io/2020/09/15/DeFi/" data-id="ckqhzmsb5000g6jj5e44paubn"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DeFi/" rel="tag">DeFi</a></li></ul>
@@ -730,566 +1104,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/08/18/bloom-filter-kiss/" data-id="ckqhqa35j001celj5g3elftj3"
+      <a data-url="https://zkdingme.github.io/2020/08/18/bloom-filter-kiss/" data-id="ckqhzmsbq001d6jj5dcy15b1u"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bloom-filter/" rel="tag">bloom filter</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-ChinaJoy2020" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/08/03/ChinaJoy2020/"
-    >ChinaJoy2020</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/08/03/ChinaJoy2020/" class="article-date">
-  <time datetime="2020-08-03T08:26:32.000Z" itemprop="datePublished">2020-08-03</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E4%BC%9A%E8%AE%AE/">会议</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>2020年7月31号，我与朋友逛了ChinaJoy，从11点到17点，6个小时，看了以8k高清为卖点的终端显示设备(电视、LED大屏幕、车载显示)、各家推出的以畅玩游戏和支持云游戏为卖点的手机(oppo游戏机，红魔游戏机等)、各家以coser和showgirl为卖点的游戏等。总结来说，这是我第一次去漫展，我原以为会有大量秀色可餐的妹子，但其实没有，大多showgirl身材和脸较为一般，不是从漫画中走出来的，令人失望。之后应该不会因为妹子再去漫展了，我还不如在食堂看妹子，至少交大的女孩们腹有诗书气自华，赏心悦目。不过这次漫展我还是有收获的，我试玩了许多游戏机(手机)，了解到当前游戏机的安全配置，对我们secsense数据收集有影响的配置，下面我就详细说一下。</p>
-<h2 id="需要关注的当前手机的安全与隐私配置"><a href="#需要关注的当前手机的安全与隐私配置" class="headerlink" title="需要关注的当前手机的安全与隐私配置"></a>需要关注的当前手机的安全与隐私配置</h2><h3 id="可以收集的新数据"><a href="#可以收集的新数据" class="headerlink" title="可以收集的新数据"></a>可以收集的新数据</h3><p>Android Q之后限制获取IMEI、device id等，<a href="http://www.msa-alliance.cn/" target="_blank" rel="noopener">移动安全联盟MSA</a> 推出一个SDK可以收集IMEI的替代数据：</p>
-<table>
-<thead>
-<tr>
-<th>英文缩写</th>
-<th>中文名称</th>
-<th>英文全称</th>
-<th>长度</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>IMEI</td>
-<td>国际移动设备识别码</td>
-<td>International Mobile Equipment Identity</td>
-<td>15~17位</td>
-</tr>
-<tr>
-<td>UDID</td>
-<td>设备唯一标识符</td>
-<td>Unique Device Identifier</td>
-<td>最长64位</td>
-</tr>
-<tr>
-<td>OAID</td>
-<td>匿名设备标识符</td>
-<td>Open Anonymous Device Identifier</td>
-<td>最长64位</td>
-</tr>
-<tr>
-<td>VAID</td>
-<td>开发者匿名设备标识符</td>
-<td>Vender Anonymous Device Identifier</td>
-<td>最长64位</td>
-</tr>
-<tr>
-<td>AAID</td>
-<td>应用匿名设备标识符</td>
-<td>Application Anonymous Device Identifier</td>
-<td>最长64位</td>
-</tr>
-</tbody></table>
-<p><strong>注意这些数据不是固定的，用户可以在设置界面重置。</strong></p>
-<h3 id="收集到的数据可能是假的"><a href="#收集到的数据可能是假的" class="headerlink" title="收集到的数据可能是假的"></a>收集到的数据可能是假的</h3><p>手机提供隐私保护措施，可能会提供假数据给我们的数据收集SDK。Secsense需要关注的假数据分为两类，一类是脚本小子类的，坏人伪造假数据；另一类就是手机的隐私保护措施提供的假数据。前者需要杀，后者不能杀。我们需要关注以下问题：</p>
-<ul>
-<li>哪些手机型号可以提供假数据，提供了哪些假数据<strong>（需要维护一个数据库）</strong><br>我观察到的有定位数据、设备标识符等</li>
-<li>如何区分脚本小子的假数据和手机隐私保护措施的假数据</li>
-</ul>
-<h3 id="手机自带安全检测功能-可以利用，不要冲突"><a href="#手机自带安全检测功能-可以利用，不要冲突" class="headerlink" title="手机自带安全检测功能(可以利用，不要冲突)"></a>手机自带安全检测功能(可以利用，不要冲突)</h3><p>现在手机都自带一些安全检测功能，Secsense需要注意与这些功能不要冲突，可以利用这些现有的检测功能做一些事情。</p>
-<p>我观察到的有检测root、检测usb是否连接、检测虚假wlan、wlan被arp攻击、wlan被dns服务器劫持、wlan加密、验证码安全、恶意应用等、截屏录屏、后台录音拍照、危险权限使用统计等</p>
-<p>我们需要关注以下问题：</p>
-<ul>
-<li>哪些手机提供了哪些安全检测功能，最好维护这样一个数据库</li>
-<li>哪些功能我们可以利用，用来干嘛</li>
-</ul>
-<h3 id="手机性能越来越好了"><a href="#手机性能越来越好了" class="headerlink" title="手机性能越来越好了"></a>手机性能越来越好了</h3><p>cpu 8核，内存与存储都很大，移动云计算大有可为</p>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/08/03/ChinaJoy2020/" data-id="ckqhqa356000melj51ftmfnhy"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ChinaJoy2020/" rel="tag">ChinaJoy2020</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-ADS-Notes" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/06/23/ADS-Notes/"
-    >ADS_Notes</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/06/23/ADS-Notes/" class="article-date">
-  <time datetime="2020-06-23T05:45:55.000Z" itemprop="datePublished">2020-06-23</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>一些知识点，概念，问题以及解决方案</p>
-<h2 id="Let-1"><a href="#Let-1" class="headerlink" title="Let 1"></a>Let 1</h2><h3 id="为什么cpu频率不能一直增加："><a href="#为什么cpu频率不能一直增加：" class="headerlink" title="为什么cpu频率不能一直增加："></a>为什么cpu频率不能一直增加：</h3><ul>
-<li>频率越高，耗能越好，热量越多，不好散热</li>
-<li>信号传播限制。cpu大概1cm长，信号从一头传到另一头也需要时间，所以不能无限变快</li>
-</ul>
-<h3 id="什么是NUMA："><a href="#什么是NUMA：" class="headerlink" title="什么是NUMA："></a>什么是NUMA：</h3><p>随着科学计算、事务处理对计算机性能要求的不断提高，SMP（对称多处理器）系统的应用越来越广泛，规模也越来越大，但由于传统的SMP系统中，所有处理器都共享系统总线，因此当处理器的数目增大时，系统总线的竞争冲突加大，系统总线将成为瓶颈，所以目前SMP系统的CPU数目一般只有数十个，可扩展能力受到极大限制。NUMA技术有效结合了SMP系统易编程性和MPP（大规模并行）系统易扩展性的特点，较好解决了SMP系统的可扩展性问题，已成为当今高性能服务器的主流体系结构之一。</p>
-<p><strong>非统一内存访问架构</strong>（英语：<strong>Non-uniform memory access</strong>，简称NUMA）是一种为<a href="https://zh.wikipedia.org/wiki/多處理器" target="_blank" rel="noopener">多处理器</a>的电脑设计的内存架构，内存访问时间取决于内存相对于处理器的位置。在NUMA下，处理器访问它自己的本地内存的速度比非本地内存（内存位于另一个处理器，或者是处理器之间共享的内存）快一些。</p>
-<p><a href="https://zhuanlan.zhihu.com/p/33621500" target="_blank" rel="noopener">深挖NUMA</a></p>
-<h3 id="并行与并发的区别"><a href="#并行与并发的区别" class="headerlink" title="并行与并发的区别"></a>并行与并发的区别</h3><p><strong>并行(parallel)</strong>：指在同一时刻，有多条指令在多个处理器上同时执行。就好像两个人各拿一把铁锨在挖坑，一小时后，每人一个大坑。所以无论从微观还是从宏观来看，二者都是一起执行的。</p>
-<p><img src="https://segmentfault.com/img/bV1GiB?w=449&h=192" alt="图片描述"><br><strong>并发(concurrency)</strong>：指在同一时刻只能有一条指令执行，但多个进程指令被快速的轮换执行，使得在宏观上具有多个进程同时执行的效果，但在微观上并不是同时执行的，只是把时间分成若干段，使多个进程快速交替的执行。这就好像两个人用同一把铁锨，轮流挖坑，一小时后，两个人各挖一个小一点的坑，要想挖两个大一点得坑，一定会用两个小时。</p>
-<p><img src="https://segmentfault.com/img/bV1GiJ?w=449&h=192" alt="图片描述"></p>
-<h3 id="给并行与分布式系统分类"><a href="#给并行与分布式系统分类" class="headerlink" title="给并行与分布式系统分类"></a>给并行与分布式系统分类</h3><p>SISD</p>
-<p><img src="https://pic2.zhimg.com/80/v2-195580bb521e48584bdb7564fdab7c8d_1440w.png" alt="img"></p>
-<p><strong>单指令流单数据流</strong>（<a href="https://zh.wikipedia.org/wiki/英文" target="_blank" rel="noopener">英文</a>：Single instruction, single data，<a href="https://zh.wikipedia.org/wiki/縮寫" target="_blank" rel="noopener">缩写</a>：<strong>SISD</strong>），每个指令部件每次仅译码一条指令，而且在执行时仅为操作部件提供一份数据。符合<a href="https://zh.wikipedia.org/wiki/冯·诺伊曼结构" target="_blank" rel="noopener">冯·诺伊曼结构</a>。</p>
-<p>单指令流单数据流是<a href="https://zh.wikipedia.org/wiki/費林分類法" target="_blank" rel="noopener">费林分类法</a>中4种计算机处理架构类别的一种。在这个分类系统中，分类根据是<a href="https://zh.wikipedia.org/wiki/指令" target="_blank" rel="noopener">指令</a>流和<a href="https://zh.wikipedia.org/wiki/資料" target="_blank" rel="noopener">资料</a>流的数量，以此根据来划分计算机处理架构的类别。根据<a href="https://zh.wikipedia.org/w/index.php?title=米高·J·費林&action=edit&redlink=1" target="_blank" rel="noopener">米高·J·费林</a>的观点，当指令、资料处理流水化/管线化时，单指令流单数据流也可以拥有<a href="https://zh.wikipedia.org/wiki/並行計算" target="_blank" rel="noopener">并行计算</a>的特点。<a href="https://zh.wikipedia.org/wiki/指令管線化" target="_blank" rel="noopener">管线化的指令读取执行</a>在当代的单指令流单数据流处理机种上很常见。<a href="https://zh.wikipedia.org/wiki/單指令流單數據流#cite_note-1" target="_blank" rel="noopener">[1]</a><a href="https://zh.wikipedia.org/wiki/單指令流單數據流#cite_note-2" target="_blank" rel="noopener">[2]</a></p>
-<p>SIMD</p>
-<p><strong>单指令流多数据流</strong>（英语：<strong>Single Instruction Multiple Data</strong>，<a href="https://zh.wikipedia.org/wiki/縮寫" target="_blank" rel="noopener">缩写</a>：<strong>SIMD</strong>）是一种采用一个<a href="https://zh.wikipedia.org/wiki/控制器" target="_blank" rel="noopener">控制器</a>来控制多个<a href="https://zh.wikipedia.org/wiki/处理器" target="_blank" rel="noopener">处理器</a>，同时对一组数据（又称“<a href="https://zh.wikipedia.org/w/index.php?title=数据向量&action=edit&redlink=1" target="_blank" rel="noopener">数据向量</a>”）中的每一个分别执行<strong>相同</strong>的操作从而实现空间上的<a href="https://zh.wikipedia.org/wiki/并行" target="_blank" rel="noopener">并行</a>性的技术。</p>
-<p>在<a href="https://zh.wikipedia.org/wiki/微处理器" target="_blank" rel="noopener">微处理器</a>中，单指令流多数据流技术则是一个<a href="https://zh.wikipedia.org/wiki/控制器" target="_blank" rel="noopener">控制器</a>控制多个平行的<a href="https://zh.wikipedia.org/w/index.php?title=处理微元&action=edit&redlink=1" target="_blank" rel="noopener">处理微元</a>，例如<a href="https://zh.wikipedia.org/wiki/Intel" target="_blank" rel="noopener">Intel</a>的<a href="https://zh.wikipedia.org/wiki/MMX" target="_blank" rel="noopener">MMX</a>或<a href="https://zh.wikipedia.org/wiki/SSE" target="_blank" rel="noopener">SSE</a>，以及<a href="https://zh.wikipedia.org/wiki/AMD" target="_blank" rel="noopener">AMD</a>的<a href="https://zh.wikipedia.org/wiki/3D_Now!" target="_blank" rel="noopener">3D Now!</a>指令集。</p>
-<p><a href="https://zh.wikipedia.org/wiki/圖形處理器" target="_blank" rel="noopener">图形处理器</a>（GPU）拥有强大的并发处理能力和可编程流水线，面对单指令流多数据流时，运算能力远超传统CPU。<a href="https://zh.wikipedia.org/wiki/OpenCL" target="_blank" rel="noopener">OpenCL</a>和<a href="https://zh.wikipedia.org/wiki/CUDA" target="_blank" rel="noopener">CUDA</a>分别是目前最广泛使用的开源和专利<a href="https://zh.wikipedia.org/wiki/通用圖形處理器" target="_blank" rel="noopener">通用图形处理器</a>（GPGPU）运算语言。</p>
-<p><img src="https://pic4.zhimg.com/v2-9c786a3bf86c115a7b786a3d1f03e24c_1440w.jpg" alt="SIMD简介"></p>
-<p><img src="https://pic4.zhimg.com/80/v2-0c56ad7326f03b91fbf48bd0ce5f03ef_1440w.jpg" alt="img">标量运算与SIMD运算对比</p>
-<p>如上图所示，使用标量运算一次只能对一对数据执行乘法操作，而采用SIMD乘法指令，则一次可以对四对数据同时执行乘法操作。</p>
-<p>MISD</p>
-<p><img src="https://pic3.zhimg.com/80/v2-e99d2bf9b745bd5255df7f14cd065ae6_1440w.png" alt="img"></p>
-<p>MISD是采用多个指令流来处理单个数据流。由于实际情况中，采用多指令流处理多数据流才是更有效的方法，因此MISD只是作为理论模型出现，没有投入到实际应用之中。</p>
-<p>MIMD</p>
-<p>多指令流多数据流机器（MIMD）</p>
-<p><img src="https://pic3.zhimg.com/80/v2-c57263ddd437016913f8916ec1b3e042_1440w.png" alt="img"></p>
-<p>MIMD机器可以同时执行多个指令流，这些指令流分别对不同数据流进行操作。最新的多核计算平台就属于MIMD的范畴，例如Intel和AMD的双核处理器等都属于MIMD。</p>
-<h3 id="Cache写机制，write-through-与-write-back"><a href="#Cache写机制，write-through-与-write-back" class="headerlink" title="Cache写机制，write through 与 write back"></a>Cache写机制，write through 与 write back</h3><p>Write-through（直写模式）在数据更新时，同时写入缓存Cache和后端存储。此模式的优点是操作简单；缺点是因为数据修改需要同时写入存储，数据写入速度较慢。</p>
-<p>Write-back（回写模式）在数据更新时只写入缓存Cache。只在数据被替换出缓存时，被修改的缓存数据才会被写到后端存储。此模式的优点是数据写入速度快，因为不需要写存储；缺点是一旦更新后的数据未被写入存储时出现系统掉电的情况，数据将无法找回。</p>
-<h3 id="snoopy-cache"><a href="#snoopy-cache" class="headerlink" title="snoopy cache"></a>snoopy cache</h3><p>In order to prevent this and maintain <a href="https://en.wikipedia.org/wiki/Cache_coherence" target="_blank" rel="noopener">cache coherence</a>, snoopy caches monitor (‘snoop on’) the memory bus to detect any writes to values that they are holding, including changes coming from other processors or distributed computers.</p>
-<p>However, this approach can only work in computer architectures like <a href="https://en.wikipedia.org/wiki/SGI_Challenge" target="_blank" rel="noopener">SGI Challenge</a> and <a href="https://en.wikipedia.org/wiki/SGI_Onyx" target="_blank" rel="noopener">SGI Onyx</a> where a single memory bus is shared between all processors.</p>
-<h3 id="CPU-三大架构-SMP-NUMA-MPP"><a href="#CPU-三大架构-SMP-NUMA-MPP" class="headerlink" title="CPU 三大架构 SMP NUMA MPP"></a>CPU 三大架构 SMP NUMA MPP</h3><h4 id="smp"><a href="#smp" class="headerlink" title="smp"></a>smp</h4><p>SMP （Symmetric Multiprocessing） , 对称多处理器. 顾名思义, 在SMP中所有的处理器都是对等的, 它们通过总线连接共享同一块物理内存，这也就导致了系统中所有资源(CPU、内存、I/O等)都是共享的，当我们打开服务器的背板盖，如果发现有多个cpu的槽位，但是却连接到同一个内存插槽的位置，那一般就是smp架构的服务器，日常中常见的pc啊，笔记本啊，手机还有一些老的服务器都是这个架构，其架构简单，但是拓展性能非常差，从linux 上也能看到:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls /sys/devices/system/node/<span class="comment"># 如果只看到一个node0 那就是smp架构</span></span><br></pre></td></tr></table></figure>
-
-<p>可以看到只有仅仅一个node，经过大神们的测试发现，2至4个CPU比较适合smp架构。</p>
-<h4 id="NUMA"><a href="#NUMA" class="headerlink" title="NUMA"></a>NUMA</h4><p>NUMA （ Non-Uniform Memory Access），非均匀访问存储模型，这种模型的是为了解决smp扩容性很差而提出的技术方案，如果说smp 相当于多个cpu 连接一个内存池导致请求经常发生冲突的话，numa 就是将cpu的资源分开，以node 为单位进行切割，每个node 里有着独有的core ，memory 等资源，这也就导致了cpu在性能使用上的提升，但是同样存在问题就是2个node 之间的资源交互非常慢，当cpu增多的情况下，性能提升的幅度并不是很高。所以可以看到很多明明有很多core的服务器却只有2个node区。</p>
-<p><img src="http://abcdxyzk.github.io/images/kernel/2015-06-02-13.png" alt="img"></p>
-<h4 id="MPP"><a href="#MPP" class="headerlink" title="MPP"></a>MPP</h4><p>MPP (Massive Parallel Processing) ，这个其实可以理解为刀片服务器，每个刀扇里的都是一台独立的smp架构服务器，且每个刀扇之间均有高性能的网络设备进行交互，保证了smp服务器之间的数据传输性能。相比numa 来说更适合大规模的计算，唯一不足的是，当其中的smp 节点增多的情况下，与之对应的计算管理系统也需要相对应的提高。</p>
-<h2 id="Let-2-consistency"><a href="#Let-2-consistency" class="headerlink" title="Let 2 consistency"></a>Let 2 consistency</h2><p><strong>一致性</strong>:定义了更新出现顺序和可见性的规则,伴随着tradeoff.<br><strong>在分布式中困难原因</strong>:数据复制(cache)、并发(无共享锁)、failure(机器或网络)<br>. <strong>Strict consistency</strong>: 读到最新写的数据；同个CPU所有操作的timestamp即为执行顺序. <strong>Sequentialconsistency</strong>：最接近Strict consistency,只是将total order代替timestamp.<br><strong>SC要求</strong>：单个处理器内部操作有顺序；对同一个内存地址的访问遵循FIFO.<br><strong>IVY</strong>：<strong>MOTIVATION</strong>: 原始DSM无法保障SC；shared memory便于写并行程序,避免使用message passing.<br><strong>Centralizedmanager</strong>: read/write operation order.<br><strong>SC缺点</strong>：必须有全局控制机制；必须有内存同步操作,造成伪共享.<br><strong>RC</strong>:引入lock(同步变量), acquire() 和release() 是SC,可产生和SC相同结果.<br><strong>SC&amp;RC区别</strong>：SC中,看到相同读写顺序；RC中,以放锁顺序看到写结果.<br><strong>同步机制</strong>：update-base(eager RC),放锁时对all发modification,在拿锁的时候不需要同步操作; invalidated-based(lazy RC), 放锁时发invalidations,需要时取,可避免不必要的msg发送,可能有较大的access miss开销.<br><strong>write protoco</strong>l: 修改之前创建一个twin,放锁时通过比较产生diff.允许multiple write,消除了伪共享；节省网络发送开销.<br><strong>LRC</strong>：满足happened-before关系即可,order是应用在process interval(即一个拿放锁)上的,SC是在每个opt；<br><strong>happened-before interva</strong>l: 若间隔i在j之前,则i内所有操作在j之前<br><strong>Lamport timestamps</strong>:用来在分布式系统中决定事件顺序. 1.事件开始之前,process的计数器先+1；2.发msg时,将计数器也发送；3.接受者先将自己的计数器设置为发送方和自己计数器的最大值,再接受msg.<br><strong>SC&amp;RC缺点</strong>：慢,每次操作之前都要询问master/lock server;对参与者available要求高,要求所有成员都在.</p>
-<h2 id="Let-3-eventual-consistency"><a href="#Let-3-eventual-consistency" class="headerlink" title="Let 3 eventual consistency"></a>Let 3 eventual consistency</h2><p><strong>EC:</strong> 保证最终状态convergence,选择性提供因果性保证.<br><strong>EC&amp;SC</strong>:写冲突较少；先update,再考虑是否可以serialized.<br><strong>Bayou</strong>:实现了availability(A), 低延时(L),容忍partition(P),causal+性.<br><strong>Anomalies</strong>:<strong>write-write conflict</strong>à保证状态最终convergence,即将write作为update<br>function,利用update ID&lt;time T,node ID&gt;来决定不同节点的更新顺序（X &lt; Y iff [(X.T &lt;<br>Y.T) or(X.T=Y.T and X.ID &lt; Y.ID)]）.总之,先更新,若有不一致,则rollback,同步update<br>set,replay更新函数；<br><strong>stale read</strong>à即不同node本地时钟不一致,则根据相应的updateID做出的操作顺序可能出错,采用lamport logical clock来保证因果关系；<br><strong>Tentative to show result</strong>àde-centralized:如果发现每个node的时间戳都大于N,则N之前的update都是稳定的；但是,如果有一个node离线,则没有update可以stable了.centralized:有一个server是primary,对update分配CSN（Cmt-Seq-No）,分配了的update即为stable的；但是,CSN大多数情况和tentative顺序匹配,因为server按逻辑顺序发,但是不是总是匹配的,primary可能先看到较新的update,进而分配小的CSN.总之还是倾向于central.<br><strong>COPS</strong>:在Bayou基础上,实现了可扩展(S),因为Bayou基于时间戳,不scalable.<br><strong>Causality的三种来源</strong>：Thread-of-Execution（同一个线程内部opt顺序）、Get-from（op2读到op1写的值）、Transitivity.<br><strong>Causal+</strong>：因果性+冲突处理.<br><strong>MOTIVATION</strong>: 之前系统实现causal+是Log-exchange based,限制了可扩展性,没有cross-site的因果保证.<br><strong>KEY to Scalability</strong>:metadata的依赖关系隐含了因果性,用分布式的verification代替单个的serialization,即当replication的依赖关系都满足时,才CMT.<br><strong>接口</strong>：getà无区别；put_after(key,value,deps)àclient library存储数据依赖关系deps,向site发送数据副本时附带deps,当site确保deps都被满足之后才CMT.</p>
-<h2 id="let-4-crash-recovering"><a href="#let-4-crash-recovering" class="headerlink" title="let 4 crash recovering"></a>let 4 crash recovering</h2><p>(focus单机failure)一个tx内部的原子性：DO-REDO-UNDO协议.<br><strong>解决failure</strong>：Straw Manàcopy on write,但是当多个trans共享文件时,无法保障logging.<br><strong>SYSR</strong>：<strong>Log结构</strong>：append-only,减少随机访问；反向链表,后面log指向前一个log位置,保证只有append操作.<br><strong>Log规则</strong>：Write Ahead Log (WAL)协议；trans在CMT的时候,在log上append一个cmt记录<br><strong>Recovery</strong>:从后向前扫log,abort掉没有CMT标记的log,从前到后REDO已经CMT的log.<br><strong>Checkpoint**</strong>原因<strong>：避免abort掉长的trans；避免从空白状态开始recover.<br>**How to CKPT</strong>: 1.当前无action进行, 2.在log里写一个CKPT记录,包含正在进行的所有trans及指针指向其最近的log,方便undo,3.保存所有文件,dirty cacheàdisk, 4.原子地用新CKPT代替旧CKPT.<br><strong>Log类型</strong>：一般REDO&amp;UNDO都支持,UNDOà长的trans可能被abort,而REDOà对于最终CMT的长trans,CKPT可能只记录了一部分；REDO-only和UNDO-only形式也可以.<br><strong>FSD</strong>：<strong>logging File System</strong>:因为同步写很慢,有对同一个位置的冗余写,恢复需要扫整个FS；Write-back Cache,即只写回cache,cache满了之后flush,可以batch降低I/O,但是由于刷回disk顺序不确定,在crash时爆炸,甚至无法保证metadata的原子性；因此FS采用REDO-only<br>log+CKPT,只针对metadata(短trans).<br><strong>WAL+CKPT+REDO</strong>:<strong>写操作</strong>：在cache中修改,appendREDO log.<br><strong>When flush dirty data</strong>: CMT log到disk之后.<br><strong>Log Structure</strong>: 环状的disk文件,通过同步写来append新log；内存中的log是group<br>cmt到disk中的,牺牲了一定的数据稳定性,降低了I/O；通过做CKPT,定期clean.<br><strong>Recovery</strong>:从CKPT开始扫log,找到CMT的；从CKPT开始replay</p>
-<h2 id="let-5-concurrency-control"><a href="#let-5-concurrency-control" class="headerlink" title="let 5 concurrency control"></a>let 5 concurrency control</h2><p>多个tx的可串行性. <strong>Serializability</strong>:<br>等价于某种串行执行；等价即为操作相同,处理冲突方法相同；冲突即为多个操作同时访问相同数据,至少有一个为写. <strong>2PL(lock-based)</strong>:</p>
-<ol>
-<li><p>Growing:tx拿锁,整个tx时期. </p>
-</li>
-<li><p>2.Shrinking:放锁, cmt期间.</p>
-</li>
-</ol>
-<p><strong>死锁</strong>:1.顺序拿锁;开销大; 2.timeout检测,abort自己;要有redo/undo log支持.</p>
-<p><strong>缺点</strong>:1.需要分布式死锁检测;2.对大量只读的场景不友好（全是只读就不需要锁）可能block更新.</p>
-<p><strong>异常</strong>:p1.脏读,读到最终uncmt的中间数据.p2.不可重复读,数据读之后,被修改或者删除,then cmt.p3.幻读.读数据之后,符合条件的数据被增加. **Isolation</p>
-<p>  Level(IL)<strong>: Read uncommitted(p123); Read committed(p23); Repeatable<br>  read(p3); Anomaly serialable. **Snapshot<br>  Isolation(SI)</strong>:<strong>背景</strong>: 原来依据异常划分IL,含混不清,粒度粗;<strong>思想</strong>:无锁;每个数据有多个version;消除p12;适用于大量只读tx. <strong>流程</strong>: 1.开始前有时间戳T.sts;2.读满足x(i).cts&lt;=T.sts的最新x(i);3.buffer写,添加数据到T.wset中;4.预分配cmt时间戳T.cts,确认T.wset内数据无更新,则cmt;若T.sts&lt; x.cts&lt;T.cts,则abort. (即解决w-w冲突)<strong>优点</strong>:无锁开销小;只读tx不会阻塞;<strong>缺点</strong>:不是serialable</p>
-<p><strong>2PL</strong>：在2PL协议下，每个transaction都会经过两个阶段：在第一个阶段里，transaction根据需要不断地获取锁，叫做 <strong>growing phase (expanding phase)</strong>；在第二个阶段里，transaction开始释放其持有的锁，根据2PL的规则，这个transaction不能再获得新的锁，所以它所持有的锁逐渐减少，叫做 <strong>shrinking phase (contracting phase)</strong>。</p>
-<p><strong>Snapshot Isolation</strong>：</p>
-<p>事务在启动时得到一个数据库的版本号。事务结束时，成功提交仅当它修改的快照的数据项此时没有被外界改变，即没有<a href="https://zh.wikipedia.org/w/index.php?title=%E5%86%99-%E5%86%99%E5%86%B2%E7%AA%81&action=edit&redlink=1" target="_blank" rel="noopener">写-写冲突</a>，否则事务流产（abort）。</p>
-<h4 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h4><p>文章主要是抨击了原有的基于异常（anomaly）来定义隔离级别（isolation level）的这种方法，原有的划分方法说明是含混不清的，粒度也是不够细的。作者分析了当年流行的isolation levels（后面缩写IL）后，提出了一种新的mutiversionisolation——snapshot isolation。ps.论文比较老（SIGMOD95），有些名词比较生僻。</p>
-<h4 id="ANSI-IL和三种异常"><a href="#ANSI-IL和三种异常" class="headerlink" title="ANSI IL和三种异常"></a>ANSI IL和三种异常</h4><p><strong>P1: Dirty Read</strong>：T1改了某个数据项，T2在T1 commit之前读到，然而T1并没有commit，所以T2觉得自己一定读了一个假的数据项</p>
-<p><strong>P2: Unrepeatable**</strong>（<strong><strong>Fuzzy</strong></strong>）<strong>**Read</strong>：同样是T2，读完一个数据后，这个数据被T1修改或者删除了，然后T1commit了，然而T2再想读取该数据，却不能够了。</p>
-<p><strong>P3:Phantome**</strong>（幽灵）**：T1根绝某种查找策略先读到一些数据，T2开始执行，产生一些符合该搜索策略的data，T1再次执行时，发现与第一次查找的数据不一致。</p>
-<p>这三种异常<strong>都不会在**</strong>serial**的情况下出现。</p>
-<p><strong>为什么说定义含混？</strong></p>
-<p>拿定义P1来说，这一句话可以理解为以下两种情况：（abort or commit 1表示 a1 or c1）</p>
-<ol>
-<li><p>w1[x]… …r2[x]… … (a1 and c2 in either order),</p>
-</li>
-<li><p>w1[x]… …r2[x]… … ((c1 or a1) and (c2 or a2) ineither order)因为定义中并没有坚持说T1 abort了</p>
-</li>
-</ol>
-<p>可见2对于P1的理解，明显比1要looser，这样理解意味着允许的异常比1要多。所以不严格。</p>
-<p>ANSI定义的四种隔离级别就是根据这三种异常定义的：</p>
-<table>
-<thead>
-<tr>
-<th>Isolation level</th>
-<th>P1</th>
-<th>P2</th>
-<th>P3</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Read uncommitted</td>
-<td>Possible</td>
-<td>Possible</td>
-<td>Possible</td>
-</tr>
-<tr>
-<td>Read committed</td>
-<td>Impossible</td>
-<td>Possible</td>
-<td>Possible</td>
-</tr>
-<tr>
-<td>Repeatable read</td>
-<td>Impossible</td>
-<td>Impossible</td>
-<td>Possible</td>
-</tr>
-<tr>
-<td>Anomaly serialable</td>
-<td>Impossible</td>
-<td>Impossible</td>
-<td>Impossible</td>
-</tr>
-</tbody></table>
-<h4 id="其他的隔离方法"><a href="#其他的隔离方法" class="headerlink" title="其他的隔离方法"></a>其他的隔离方法</h4><p><strong>cursor isolation</strong>：</p>
-<p>主要用在SQL数据库中，为了解决<strong>lost- update-anomaly</strong>：比如说T2即使commit了，它的更新缺丢失了。举例：</p>
-<p>P4: r1[x]…w2[x]…w1[x]…c1</p>
-<p>这样子，x的最终值是T1修改的值，T2的wirte操作如同丢失一般。</p>
-<p>数据库中，游标（cursor）实际上是一种能从包括多条数据记录的结果集中每次提取一条记录的机制。在这里，其实是利用这种方法，结合读写锁操作，T1读到某个item时，执行上锁，直到它commit，再放锁，保证cursor知道的记录在T1 commit之前不会被其他T2读到并修改，也就不会让T2感到自己的更新丢失。</p>
-<p>很明显，这个方法并不通用，也不方便。</p>
-<p>下面着重讲一下论文提出的snapshot isolation，也就是基于快照的隔离</p>
-<h4 id="snapshot-isolation（SI）"><a href="#snapshot-isolation（SI）" class="headerlink" title="snapshot isolation（SI）"></a>snapshot isolation（SI）</h4><p>属于多版本并发控制（multiversion concurrencycontrol）的一种</p>
-<ol>
-<li><p>写在一个带锁的缓冲区</p>
-</li>
-<li><p>读来自“snapshot”</p>
-</li>
-<li><p>只有当<strong>没有**</strong>write-writeconflict**时候，才会提交commit</p>
-</li>
-</ol>
-<p>详细说明如下：</p>
-<p>一个transaction T1会在snapshot中读取数据，并获得一个时间戳start-timestamp，这个时间戳可以是该transaction读取数据前的任何时间。在执行过程中commit之前，T1的更新操作对其他transaction 是不可兼得当T1要commit时，会获得一个commit-timestamp，大于已有的所有sts和cts，T1要想成功commit，就要保证在T1.sts—T1.cts之间，没有其他transaction commit并且该transaction修改过T1修改过的数据（write-write conflict），若有，则T1 abort掉。这个特点称作“<strong>First commit wins</strong>”。</p>
-<p>当T1成功commit后，它的更新操作会对其他sts大于T1cts的transactions可见。</p>
-<p><strong>值得注意的是**</strong>SI<strong><strong>并不是</strong></strong>serialable<strong>**的</strong>。考虑以下情况：</p>
-<p>Begin: x=y=50</p>
-<p>T1 read x=50, write y = 40;</p>
-<p>T2 read y = 50, write x = 40;</p>
-<p>Commit T1,T2.</p>
-<p>两者并没有write-write conflict，所以可以成功commit，这就引发了异常“short fork”，即中间有一段状态在T1T看来并不是一致的，直到两者都commit后，所有状态才又保持一致。这种异常在serialability中就不会出现。</p>
-<p><strong>SI**</strong>的优点**：</p>
-<p>SI surely can be benefit to read-only and short-running updatetransition, because it never block read-only transition and readers do notblock updates.</p>
-<p>避免了传统保证一致性时使用锁的开销，使得只读transaction不会阻塞reader transaction.</p>
-<h2 id="let-6-2pc"><a href="#let-6-2pc" class="headerlink" title="let 6 2pc"></a>let 6 2pc</h2><p>在分布式系统中保证多个tx的原子性和并发能力.<br><strong>2PC</strong>:<strong>流程</strong>：1. Voting. 每个参与者准备cmt,若可以,则上锁,并将投票结果写在Permanent Storage(PS)上,之后返回投票；2. Committing. TC(transaction coordinator)收集所有投票,记录在PS上,并将结果广播给参与者,参与者实际执行cmt或者abort.<br><strong>Time Out</strong>: 在cmt阶段,time out on TC, 则投cmt的参与者需要执行termination协议（发送msg给别的参与者请求信息,可以解决除TC挂掉之外的大部分failure）<br><strong>Crash &amp; Reboot</strong>: TC和参与者都根据log信息来决定自己的操作,如果参与者在log中发现了cmt信息,则需要执行termination协议来决定；failure后恢复时间长（需要发msg）<br><strong>并发控制和2PC</strong>：参与者对读写使用2PL/SI,用2PC进行cmt.<br><strong>Sinfonia:</strong> 共享数据存储服务；横跨多个server；地址空间划分；保证一致性的复制. <strong>Motivation:</strong><br>传统的分布式设计是基于message-passing,需要有复杂的协议来处理；Sinfonia可以使host以一种容错,可扩展,一致的方式共享应用数据,且无需考虑复杂协议.<br>2pc需要多轮网络交互，开销较大<br><strong>Mini-transaction**</strong>背景<strong>: 传统2PC情况下, TC先执行一个transaction,这需要让participants执行一到多次transactions（读取或修改数据项）,在这次transaction结束后,TC执行2PC；在Sinfonia中,TC在application node,而participants在memory node中；如果一次transaction的行为不会影响到TC的决定的话,TC其实可以直接将这些操作放在2PC的第一个phase中执行（piggyback）,从而减少了一次round-trip 沟通所花费的时间；piggyback条件：最后一次action不会影响TC关于abort 或者commit的决定,最后一次action对TC的影响,participant已经知道.</strong>Mini-tx<strong>**语义</strong>：cmp, read, write. 1.用cmp检查数据. 2.若全部匹配,则用read取数据/用write修改. 3.否则abort. <strong>优点</strong>：提供原子性和并发控制;相比传统tx, 灵活性和通用性下降,但是有更少的网络round-trip time; efficiency高. <strong>应用</strong>：原子的交换、原子的读多个数据、验证cache然后修改…<strong>TC</strong>:运行在application结点,而不是mmy结点,且TC不记log,由参与者记；将TC和app绑定,节省了网络RTT；可以容忍app结点挂掉,不会有不一致；mmy 结点挂掉,也不影响可用性和持久性；解决传统2PC下,TC挂掉后block问题. <strong>Recovery coordinator</strong>: 1.询问参与者现存vote; 2. Cmt iff 所有投票为yes. || mmy结点挂掉会block tx, 需要等其恢复.</p>
-<h4 id="Intro-1"><a href="#Intro-1" class="headerlink" title="Intro"></a>Intro</h4><p><strong>Sinfonia: A NewParadigm for Building Scalable Distributed Systems</strong></p>
-<p>作者称Sinfonia是一个新的用于建设分布式系统的paradigm(范式)，可以理解是分布式系统底层的架构设计，或者是底层提供的一种服务。</p>
-<p>传统的分布式设计是基于<strong>message-passing</strong>，在这种设计中各个进程间通过传递消息来共享数据。这种方式的缺点是需要借助复杂的协议来处理分布式状态，协议包括replication, ﬁle data and metadata management, cache consistency, andgroup membership.这些都不简单。</p>
-<p>Sinfonia 这种服务能够让host可以以一种容错，可扩展，一致的方式共享应用数据。开发者使用这种服务就不必考虑复杂的message-passing 协议。</p>
-<h4 id="Sinfonia-架构"><a href="#Sinfonia-架构" class="headerlink" title="Sinfonia 架构"></a>Sinfonia 架构</h4><p><img src="file:///C:%5CUsers%5Cuser%5CAppData%5CLocal%5CTemp%5Cmsohtmlclip1%5C01%5Cclip_image002.jpg" alt="img"></p>
-<p><strong>Sinfonia</strong> <strong>设计思想</strong>：</p>
-<ol>
-<li><p>Distributed Shared Memory as a Service</p>
-</li>
-<li><p>包含多个memory node ，展示出flat, fine-grained address spaces</p>
-</li>
-<li><p>运行在application node上的进程，通过user library 来访问服务</p>
-</li>
-</ol>
-<p>其核心技术是mini-transactions。</p>
-<h4 id="mini-transaction"><a href="#mini-transaction" class="headerlink" title="mini-transaction"></a>mini-transaction</h4><p>一句话描述</p>
-<p>A lightweight, short-lived type of transaction</p>
-<p><strong>改良</strong></p>
-<p>传统2PC情况下，一个TC先执行一个transaction，这需要让participants执行一到多次transactions（读取或修改数据项），在这次transaction结束后，TC执行2PC。</p>
-<p>在Sinfonia中，TC在application node，而participants在memory node中。作者观察到，如果一次transaction的行为不会影响到TC的决定的话，TC其实可以直接将这些操作放在2PC的第一个phase中执行（piggyback），从而减少了一次round-trip 沟通所花费的时间。</p>
-<p><strong>可以**</strong>piggyback<strong>**的情况</strong></p>
-<ol>
-<li><p>最后一次action不会影响TC关于abort 或者commit的决定</p>
-</li>
-<li><p>最后一次action对TC的影响，participant已经知道</p>
-</li>
-</ol>
-<p>​                </p>
-<p><strong>细节</strong> mini transaction 包含</p>
-<ol>
-<li><p>set of compare items</p>
-</li>
-<li><p>set of write items</p>
-</li>
-<li><p>set of read items</p>
-</li>
-</ol>
-<p>semantics:</p>
-<ol>
-<li><p>检查compare items中data（equality）</p>
-</li>
-<li><p>如果全部匹配</p>
-</li>
-</ol>
-<p>​               1）获取read items中的数据</p>
-<p>​               2）写write items中的数据</p>
-<ol start="3">
-<li>否则Abort</li>
-</ol>
-<p><strong>意义：</strong>相比传统的transaction，less flexible and general purpose，但是拥有fewer network round-triptime。</p>
-<p>典型的应用：</p>
-<ol>
-<li><p>Validatecache using compare items and write if valid</p>
-</li>
-<li><p>Use compare items to validate data withoutread/write items; commit indicates validation was successful for read-onlyoperations</p>
-</li>
-</ol>
-<p>总的来说，非常抽象。基本上是提供了一套机制，开发者可以利用这套机制来定制自己的策略，由于限制比较大，所以minitransaction的通用性不强，相比传统的transaction，它的expressiveness也不够好。但是在数据中心底层一些应用中还是有其适用性的（作者给予Sinfonia也实现了两个应用）。并且有比较好的efficiency。</p>
-<p>基本可以看作是</p>
-<p>Trade off expressiveness for efficiency</p>
-<h4 id="Sinfonia的2PC和recovery-问题"><a href="#Sinfonia的2PC和recovery-问题" class="headerlink" title="Sinfonia的2PC和recovery 问题"></a>Sinfonia的2PC和recovery 问题</h4><p>如上所述哦，Sinfonia中TC运行在application node上，而不是在memory node上。</p>
-<p><strong>Fault Tolerance</strong> ：</p>
-<p>app node 挂掉，不会有数据丢失的情况（即，inconsistency）。</p>
-<p>memory node crash，也不应该影响availability和durability。</p>
-<p>这些保护都相应的由disk image，logging，replication，backup来实现。</p>
-<p><strong>传统**</strong>2PC**</p>
-<p>TC需要记录log，来追踪transaction 是否commit，TC crash 后，会阻塞所有的transaction。</p>
-<p>这在分布式场景下明显不可取，并且Sinfornia 的TC是在App node上，app node相比memory node 要less reliable。</p>
-<p>Sinfornia使用单独<strong>Recoverycoordinator**</strong>（<strong><strong>RC</strong></strong>）**</p>
-<p>TC不再记录log，而是由所有participants记log，一个transaction只有在所有participants 的log都记录yes时才会commit。</p>
-<p>disaster发生后，RC做clean-up工作：</p>
-<p> 1）询问所有participants的existing vote</p>
-<p> 2）commit iff allvote yes</p>
-<p>若是memory node挂掉，则需要transaction blocks，用redo log恢复自己。</p>
-<h2 id="let-7-paxos"><a href="#let-7-paxos" class="headerlink" title="let 7 paxos"></a>let 7 paxos</h2><p>拜占庭将军问题</p>
-<h4 id="Intro-2"><a href="#Intro-2" class="headerlink" title="Intro"></a>Intro</h4><p>分布式系统有消息传递和内存共享两种模型。而在基于消息传递的分布式系统中，可能会发生进程被挂起，消息丢失，重发等情况。所以需要一致性算法保证一致性，使得分布式系统中即使发生了上述问题，也可以就某一个值的最终状态达到一致。当然算法比较复杂，（也就是Sinfornia论文中踩消息传递的理由）这篇论文作者用大白话给人复述了一遍。</p>
-<h4 id="算法目标和前提"><a href="#算法目标和前提" class="headerlink" title="算法目标和前提"></a>算法目标和前提</h4><p>一致性算法保证所有提出的决议中，有一个决议会被最终选择。</p>
-<p>如果一个决议被选中，那么所有processes最终都会知道这个被选中的决议。</p>
-<p>最终保证正确性和容错性，但是不保证算法会终结。</p>
-<p><strong>前提</strong>假设代理之间用消息通信，采用异步，非拜占庭模型。非拜占庭模型指的是允许消息的丢失或者重复，但是不会出现内容损坏的情况。</p>
-<h4 id="算法细节"><a href="#算法细节" class="headerlink" title="算法细节"></a>算法细节</h4><p>一致性算法中的四个角色：</p>
-<ol>
-<li><p>client：make a request</p>
-</li>
-<li><p>proposer: 提出者 Get a requestand run the protocol</p>
-</li>
-<li><p>Leader = elected Coordinator</p>
-</li>
-<li><p>acceptor：批准者 Remember thestate of the protocol</p>
-</li>
-<li><p>Quorum = any majority of Acceptor</p>
-</li>
-<li><p>learner：接受者 When agreementhas been reached, a Learner executes the request and/or sends a response backto the Client</p>
-</li>
-</ol>
-<h4 id="详细过程（具体可以参考PPT）"><a href="#详细过程（具体可以参考PPT）" class="headerlink" title="详细过程（具体可以参考PPT）"></a>详细过程（具体可以参考PPT）</h4><p>主要分成申请阶段和沟通阶段。</p>
-<ol>
-<li><p>client 发请求给proposer，proposer选出Leader，Leader利用编号N（比之前的都要大）发送提议（proposal）给多数 acceptor（quotum）。</p>
-</li>
-<li><p>对acceptor来说，若收到的编号ID &gt; 之前所有的，则1）返回之前收到的最大的proposal以及一个value，2）promise 忽略所有IDs &lt;N 的proposal；否则，直接忽视（proposal被拒绝）</p>
-</li>
-<li><p>对leader来说，一旦受到足够的promise，1）为proposal设置一个value V（可以使决定好的，也可以是新的）2）发送accept request 给quorum，并附带选中的V。这就到了<strong>沟通阶段</strong></p>
-</li>
-<li><p>acceptor ，如果promise保留着，就1）注册value V ，2）发送accepted message给proposer/learner,否则就忽略accept request这条message</p>
-</li>
-<li><p>最后，learner收到信息，给client 做出反应，并对request 做出action</p>
-</li>
-</ol>
-<h4 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h4><p>To make a change to the system</p>
-<ol>
-<li>Tell the proposer(leader) the event</li>
-</ol>
-<p>(NOTE: these requests may occur concurrently)</p>
-<ol>
-<li><p>The leader picks its next highest ID and asksproposal to all the acceptors with that ID</p>
-</li>
-<li><p>When the majority of acceptors accept the proposal,accepted event are sent to learners</p>
-</li>
-<li><p>The learners do event (e.g., update system state)</p>
-</li>
-</ol>
-<p>分布式系统的容错.<br><strong>ReplicatedState Machine(RSM)</strong>: may无法保证顺序一致性à采用基于primary/backup,可以保证SC,但是failure时,爆炸,因此需要一个分布式容错的共识协议.即一般情况用一套,如2PC,有failure之后用一套,如Paxos<br>.<strong>共识算法要求</strong>：正确性（所有节点同意同一个值,且该值是由某个节点提出的）、容错性（允许少数节点fail）、可终止；分布式异步场景下,无法同时满足.<br><strong>Paxos</strong>: 分布式系统有消息传递和内存共享两种模型,Paxos是基于msg传递的容错共识协议.<br><strong>前提</strong>：代理之间用消息通信,采用异步,非拜占庭模型(msg有丢失、重复,无损坏).<br><strong>目标</strong>：保证共识的正确性和容错性,无法保证算法终结.<br><strong>成员</strong>：client提出请求；proposer接收请求,发起协议；acceptor记录协议状态,共识协议投票；learner执行共识结果.<br><strong>流程：<br>**</strong>1.<strong>client 发请求给proposer,proposer选出Leader,Leader利用编号N（比之前用的都要大）发送提议proposal给多数 acceptor即quorum；提议要被quorum接收后才能真正成为leader. **2.</strong> 对acceptor来说,若收到的编号N&gt;之前见过的所有的,则1）返回之前收到的最大的proposal以及一个value,2）promise 忽略所有IDs &lt;N 的proposal；否则,直接忽视（proposal被拒绝）<br><strong>3.</strong> 对leader来说,一旦受到足够的promise,1）为proposal设置一个value V（可以是决定好的,也可以是新的）2）发送accept request 给quorum,并附带选中的V.<br><strong>4.</strong>Acceptor, 如果promise保留着(N仍然是自己见过的最大值),就1）注册value V,2）发送accepted message给proposer/learner, 否则就忽略accept request这条msg.<br><strong>5.</strong>learner收到信息,给client 做出反应,并对request 做出action.<br><strong>补充</strong>：期间协议失败,则delay and restart；一个server可能有多个角色；acceptor要记录Nh,Na,Va到log中,以便recover.</p>
-<h2 id="let-8-Distributed-File-Systems"><a href="#let-8-Distributed-File-Systems" class="headerlink" title="let 8 Distributed File Systems"></a>let 8 Distributed File Systems</h2><p><strong>1.NFS</strong>：最传统的网络文件系统，支持一些简单的操作，如read和write。<a href=""><strong>设计目标如下</strong>：</a>a)任何机器都能成为客户端和服务器；支持没有硬盘的工作站（历史原因）；支持不同配置的机器；访问透明（用户访问远程的资源就像访问本地的一样）；可以从错误中恢复；具有较高的性能。<strong>Mounting protocol</strong>:所有请求访问暴露出来的目录树，具体地，客户端发送文件的路径名到服务器，服务器返回handle。<strong>关于validation</strong>：出现不一致的问题，解决方法是时间戳，当文件被打开或者服务器被连接，则比较时间戳，发现远端的时间戳更新，则invalidate掉缓存中的数据。同时，对于打开的文件，固定每3秒invalidate一次，文件夹则是30秒invalidate一次。<strong>提升读性能：</strong>每次都多返回一些读数据，预读，避免程序反复发送读邻近数据的请求。<strong>存在的问题：</strong>主要是一致性问题和服务器无状态带来的一些问题。<strong>2.GFS：</strong>运行于廉价的普通硬件上的可扩展的分布式文件系统，用于大型的、分布式的、对大量数据进行访问的应用。<strong>架构：</strong>一个GFS包括一个主服务器和多个块服务器，这样一个GFS能够同时为多个客户端应用程序提供文件服务。文件被划分为固定的块，由主服务器安排存放到块服务器的本地硬盘上。<strong>设计目标如下</strong>：可拓展性、适用于数据密集型、提供fault-tolerant<strong>设计假设：</strong>传统文件系统不再适用，因为通常支持的文件都比较小；failures非常常见；存储的文件都非常大；大多数写操作都是append而不是overwrite；大多数workload都是只读的。<strong>块和块服务器：</strong>块大小一般是64MB，块的handle由主服务器负责分发，块的本质是一个Linux系统中的本地文件，每一个块文件在不同的Node中进行冗余。<strong>主服务器：</strong>主服务器会记录存放位置等数据，并负责维护和管理文件系统，包括块的租用、垃圾块的回收以及块在不同块服务器之间的迁移。但是，主服务器不会持久化所有块的位置，因为块的位置在各个块服务器可能会发生变动，持久化后容易发生不一致的问题，解决访问只能是定期访问所有的块服务器。同样需要对主服务器进行备份冗余，通过心跳信息定期与所有节点进行通信。<strong>块规模：</strong>较大的原因1.减少客户端和主服务器之间的交互。因为读写同一个块只要在开始时向主服务器请求块位置信息，大的块可以减少请求的次数，对于读写大型文件这种减少尤为重要。2.客户端在一个给定的块上很可能执行多个操作，和一个块服务器保持较长时间的TCP连接可以减少网络负载。3.减少了master上保存的元数据的规模，从而使得可以将metadata放在内存中。<strong>读写操作：</strong>读操作:与主服务器建立连接;获取元数据（主要是handle）；获取handle所在的位置；与相应的块服务器建立连接。写操作：第一阶段（数据流阶段），发送数据，发送到多个块服务器，数据暂时存在缓存中；第二阶段（控制流阶段），写入数据，发送完成后，各个块服务器将数据写入硬盘中，这个过程中会有一个primary<a href="">块服务器</a>来接受客户端的写操作请求，并通知各个其他块服务器序列化写操作。<strong>3.Chubby：</strong>Chubby能够提供机制使得client可以在Chubby service上创建文件和执行一些文件的基本操作。说它是分布式的文件系统，是因为一个Chubby cell是一个分布式的系统，一般包含了5台机器，整个文件系统是部署在这5台机器上的。从更高一点的语义层面上，Chubby是一个针对松耦合的分布式系统的lock service。它提供了文件访问、事件通知和文件锁等服务。<strong>适用于：</strong>粗粒度的、长期持有的锁；数量较少的数据，如系统的配置文件。<strong>主服务器：</strong>用Paxos协议来选择主服务器；如果超过了租约事件或者发生了failures,则重新用Paxos来选择主服务器。<strong>文件系统的接口：</strong>Chubby的文件系统和UNIX类似，例如在文件名“/ls/foo/wombat/pouch”中，ls代表lock service，这是所有Chubby文件系统的共有前缀；foo是某个单元的名称；/wombat/pouch则是foo这个单元上的文件目录或者文件名。<strong>锁服务：</strong>Chubby系统本质上就是一个分布式的、存储大量小文件的文件系统，它所有的操作都是在文件的基础上完成。Chubby最常用的锁服务中，每一个文件就代表一个锁，用户通过打开、关闭和读取文件，获取共享（Shared）锁或独占（Exclusive）锁；选举主服务器过程中，符合条件的服务器都同时申请打开某个文件并请求锁住该文件；成功获得锁的服务器自动成为主服务器并将其地址写入这个文件夹，以便其他服务器和用户可以获知主服务器的地址信息。这里的锁是建议锁不是强制性的锁，有更大的灵活性。<strong>缓存机制：</strong>客户端会保存文件数据和节点的元数据在一个一致的，采用的write-through的缓存中。在客户端保存一个和单元上数据一致的本地缓存。当某个文件数据或者元数据需要修改时，主服务器首先将这个修改阻塞；然后通过查询主服务器自身维护的一个缓存表，向对修改的数据进行了缓存的所有客户端发送一个Invalidation。客户端收到这个无效标志后会返回一个确认Acknowledge，主服务器在收到所有的确认后才解除阻塞并完成这次修改。</p>
-<h2 id="let-9-data-parallel"><a href="#let-9-data-parallel" class="headerlink" title="let 9 data parallel"></a>let 9 data parallel</h2><p><strong>1.MapReduce</strong> 核心编程结构map函数：Map(input shard)-&gt;intermediate(k/v pairs)，将数据划分为M个shards，然后将相同Key的value集合起来发送到reduce阶段。Reduce函数：intermediate(k/v<br>pairs)-&gt;(results)利用划分函数将中间结果划分到R个块上，如hash(key) mod R，然后将排序后的键值对根据特定Key合并value值。<strong>一次MapReduce的流程：</strong>1.把输入文件划分为M份（M为用户定义），每一份通常有16MB到64MB；然后使用fork将用户进程拷贝到集群内其它机器上。2.user program的副本中有一个称为master，其余称为worker，master是负责调度的，为空闲worker分配任务，worker的数量也是可以由用户指定的。3.被分配了Map作业的worker，开始读取对应分片的输入数据，Map作业数量是由M决定的，和split一一对应；Map作业从输入数据中解析出键值对，每一个键值对都作为参数传递给map函数，map函数产生的中间键值对被缓存在内存中。4.缓存在内存中的中间键值对会被定期写入本地磁盘，而且被分为R个区，R的大小是由用户定义的，将来每个区会对应一个Reduce作业；这些中间键值对的位置会被通报给master，master负责将信息转发给Reduce worker。5.master通知分配了Reduce作业的worker它负责的分区在什么位置，当Reduce worker把所有它负责的中间键值对都读过来后，先对它们进行排序，使得相同键的键值对聚集在一起。因为不同的键可能会映射到同一个分区也就是同一个Reduce作业，所以排序是必须的。6.reduce worker遍历排序后的中间键值对，对于每个唯一的键，都将键与关联的值传递给reduce函数，reduce函数产生的输出会添加到这个分区的输出文件中。7.当所有的Map和Reduce任务都完成了，master唤醒user program，MapReduce函数调用返回user program的代码。<strong>Locality:</strong>输入输出文件都建立在GFS上；在GFS的chunkservers上运行协调计算和存储，提高数据的本地性。<strong>Fault Tolerance:</strong>Master会定期ping所有的worker，如果在特定的时间内收不到回复则认为该workerfailed，然后reset该worker并re-execution；如果Mater出现failure则由GFS根据checkpoint进行恢复。<strong>Straggler:</strong>执行速度慢的worker会极大地影响整个工作的时长，出现这种情况的原因喝多：如资源被其他任务抢占、硬盘坏道、没有打开缓存等等；解决方法：copy该执行缓慢worker的状态和数据，由其他worker执行，谁先执行完成就用谁的结果。<strong>存在的问题：</strong>只能完成一个完整的mapreduce才能进行下一个阶段，这一个阶段可能时间很长，对时效性高的需求不适用，解决办法是提出了caffeine的框架。</p>
-<p><strong>2.Dryad</strong>：将计算过程表现为图，其中顶点代表计算，边代表通信通道，每个顶点有若干条入边和出边。因为很多程序用数据流图的形式表示更合适，所以该模型基础就是将程序执行过程表示为一个有向无环图。用户通过实现自定义的Vertex节点来执行定制的运算逻辑，而节点之间通过各种形式的数据通道传输数据，用户的运算逻辑本身通常是顺序执行的，而与分布式相关的逻辑则由Dryad框架来实现。<strong>运行过程：</strong>1.顶点：可以运行任意的程序代码，通过tcp各个计算节点之间通过例如文件，管道，网络等形式的通道交换数据，并定期与JM通信；2.JM在应用程序内部维护了一个基于DAG图模型的计算节点依赖关系图，JM通过命名服务器NS来获取可用的服务器列表，而后通过在这些服务器上运行的守护进程Daemon来调度和执行计算节点Vertex。3.守护进程Daemon，运行各个顶点上的计算任务。<strong>JM的调度：</strong>如果输入数据已经准备好，一个顶点可以随时进行计算，同时尽量将数据置于计算节点的本地，提高数据的locality。<strong>Fault-tolerance：</strong>如果节点出现fail，则重新运行一次；如果节点的输入数据消失，则递归地执行之前依赖的节点计算过程，直到所有输入数据重新准备好；如果某个节点计算很慢，和mapreduce中一样，起其他一个节点执行相同的代码和输入数据，谁先完成则使用谁的结果。<strong>优势：</strong>适合更加大型复杂的任务，有向图的形式对于多个阶段的任务可以减少不必要的通信和数据的冗余。更加灵活，可以支持join操作。</p>
-<h2 id="let-10-Pregel-amp-GraphLab"><a href="#let-10-Pregel-amp-GraphLab" class="headerlink" title="let 10 Pregel&amp;GraphLab"></a>let 10 Pregel&amp;GraphLab</h2><p>图并行计算算法具有dependency graph，predictableupdates，iterative computation等特征，mapreduce等并行计算模型在实现这些算法是非常的困难和低效(mapreduce处理迭代很低效率)，所以本文在现有的图计算模型graphlab和pregel的基础上提出了distributed graphlab。</p>
-<p><strong>Pregel</strong>采用了bulk synchronous parallelmodel, vertex之间的通信通过message-passing实现。对于每个vertex来说计算过程如下：1，接受上一步收到的邻居节点发送的消息；2，执行用户定义的update function；3，修改自身的value；4，如果该节点是active的（尚未收敛），向邻居节点发送消息；5，如果该节点是inactive的，投票halt。所有节点之间的barrier synchronization由master来完成，当所有vertex投票halt的时候，计算终止。<strong>架构</strong>:master-slave.<strong>缺点</strong>:straggler;通信量大,有不必要的通信.<strong>Pregel的整体性能受计算最慢的机器限制</strong>。同步计算，每次都要给邻居发消息(即使不需要)，造成不必要的通信，并且每次迭代都会受最慢的机器限制。</p>
-<p><strong>GraphLab</strong>:async计算(邻居改变时才evaluate comdition,同步需要每阶段对每个顶点evaluate);通过shared mmy通信; 每个vertex可以直接访问自身及邻居边、邻居节点的数据,可以根据自身的执行结果来调度邻居vertex的后续执行; serializability通过防止邻居节点同时执行来实现. <strong>Data Graph</strong>:存在mmy,支持快速随机查找;Ghost顶点维持顶点局部结构,复制远端数据.<strong>Partition</strong>: 首先使用random hashing等方法将graph分为k部分（k远大于机器数）,每部分叫做一个atom,作为一个文件存储在分布式存储系统上（HDFS等）.每个atom中还需要存储ghosts信息,k个atom之间的连接关系存储在一个叫做meta-graph的文件中.在将graph信息load进机器内存时,先按照机器数量对meta-graph做一个balanced partition,然后每台机器按照对应atom的信息建立graph的局部结构. <strong>更新函数</strong>:用户定义,运行在顶点,只涉及顶点scope数据. <strong>Scheduler</strong>:决定顶点更新顺序(FIFO/Priority/Round Robin). <strong>一致模型**</strong>/<strong>**并行度</strong>:1. Full consistency:点、边、邻居节点.2. Edge consistency:点、边.3. Vertex consistency:点. <strong>执行</strong>engine**: 负责执行update function和sync operation,维持一个被调度的vertex集合,并按照给定的一致性模型来保证serializability. 1. chromatic engine:按照对应的serializability要求对节点使用贪心法进行染色,相同颜色的节点可以同步执行,同一颜色的节点执行完成之后才可以开始执行下一种颜色的节点. 2. distributed locking engine：每个vertex有一个read-write lock,在vertex consistency中只需要获得central vertex的write-lock；在edge consistency中需要获得central vertex的write-lock及相邻两个vertex的read-lock；在full consistency中需要获得central vertex和相邻两个vertex的write-lock; 3.dead lock可以通过按一定顺序拿锁来获取. 4. pipelined locking and prefetching: 为了减少远程锁请求和数据同步的时延, 每台机器维持一个pipeline, pipeline中的所有vertex同时请求锁,哪个vertex先拿到锁就先执行,而不是所有vertex按顺序执行.</p>
-<p><strong>Graphlab</strong>是一种异步并行模型，vertex之间的通信通过shared-memory实现。每个vertex可以直接访问自身及邻居边、邻居节点的数据，可以根据自身的执行结果来调度邻居vertex的后续执行，serializability通过防止邻居节点同时执行来实现。</p>
-<p><strong>Distributed graphlab</strong>基于graphlab实现，改模型主要包含三个部分：data graph, update function, synchronization. 其中data graph的划分和构造分两步实现：首先使用random hashing等方法将graph分为k部分（k远大于机器数），每部分叫做一个atom，作为一个文件存储在分布式存储系统上（HDFS等）。每个atom中还需要存储ghosts信息，k个atom之间的连接关系存储在一个叫做meta-graph的文件中。在将graph信息load进机器内存时，先按照机器数量对meta-graph做一个balanced partition，然后每台机器按照对应atom的信息建立graph的局部结构。Updatefunction是一个用户自定义的程序，它根据vertex自身及邻居数据来迭代更细当前vertex的数据。</p>
-<p>Distributed graphlab中分三种层次的serializability：1,Full consistency,  2, edgeconsistency,  3,vertex consistency</p>
-<p><strong>distributed graphlab**</strong>中有两种执行engine，engine**负责执行update function和sync operation，维持一个被调度的vertex集合，并按照给定的一致性模型来保证serializability.</p>
-<p>（1））chromatic engine:按照对应的serializability要求对节点使用贪心法进行染色，相同颜色的节点可以同步执行，同一颜色的节点执行完成之后才可以开始执行下一种颜色的节点。对于vertex consistency，所有节点染成同一颜色；对于edge consistency，任何两个相邻节点不能染成相同颜色；对于full consistency，距离为2及2以内的节点不能染成相同颜色。</p>
-<p>（2））distributed locking engine：每个vertex有一个readers-writer lock，在vertex consistency中只需要获得central vertex的write-lock；在edge consistency中需要获得central vettex的write-lock及相邻两个vertex的read-lock；在fullconsistency中需要获得central vertex和相邻两个vertex的write-lock；deadlock可以通过按一定顺序拿锁来获取，具体来说，拿锁顺序有machine ID及vertex ID（owner（v），v）决定。</p>
-<p>为了减少remote lock acquisition和data synchronization的时延，采用了pipelined lockingand prefetching: 每台机器维持一个pipeline，用于存放该机器上所有请求锁但是还没有获得锁的vertex，当一个vertex获得锁并完成数据同步后就离开这个pipeline然后有一个工作线程去执行。（即pipeline中的所有vertex同时请求锁，哪个vertex先拿到锁就先执行，而不是所有vertex按顺序执行，具体实现中采用的不是readers-writer lock，而是通过操作callback来实现的readers-writer lock的一个非阻塞版本）</p>
-<h2 id="lec-11-PowerLyra"><a href="#lec-11-PowerLyra" class="headerlink" title="lec 11 PowerLyra"></a>lec 11 PowerLyra</h2><p>不同的划分对网络IO会有较大影响。</p>
-<p>现实中的图大都是skewed，即大多数节点的邻居较少，少部分节点的邻居非常多。在一个机器集群中进行图的分布式计算时必然涉及到对图的分割。现有的分割图的方案主要有两种，即edge-cut和vertex-cut。Edge-cut将vertex均匀地分布在各个机器上，每个vertex对应的edge也随vertex分布在相应的机器上，如果同一个edge的对应的两个vertex分布在两台机器上，则该edge在这两台机器上各有一个拷贝，在edge-cut中，大部分vertex所需要的计算资源都在本地机器，所以在计算时可以充分利用locality，但是这种分割方案缺乏parallelism，度数特别大的可能成为瓶颈。Vertex-cut将edge均匀地分布到各个机器上，如果一个vertex的几个edge在不同的机器上，那么该vertex在这几台机器上都会有拷贝，在vertex-cut中，一个vertex可能分布在好几台机器上，所以计算时可以充分利用parallelism，将一个vertex的负载分散到多个机器上，但是缺乏locality，网络时延大。现有的图分割方案大都是“one size fit all”，所有的节点被平等对待，为了使尽可能地利用locality和parallelism，本文将low-degree和high-degree的区别对待，将edge-cut和vertex-cut结合起来，提出了hybrid-cut。在hybrid-cut中，对于low-degree vertex，尽量减少vertex的mirror数量，尽可能地利用locality；对于high-degree vertex，主要考虑负载均衡，是计算并行进行。具体来说，先按vertex编号及机器数量将vertex均匀地哈希到所有机器上，所有edge按照其入度跟随vertex分布到相应机器上，在这个过程中，记录所有vertex的入度；然后设定一个threshold，入度超过这个threshold的vertex是high-degree vertex；对于high-degree vertex，将其入边按照source vertex重新hash到对应机器，及high-degree vertex的入边跟随其source vertex；最后建立mirrors来完成每台机器上local graph的创建。</p>
-<p><strong>通信</strong>:1.高度数,&lt;= 4*mirrors(有一个mirror就有4次 Gather2次,Scatter2次)(powerGraph是5,将apply和scatter1结合);2.低度数, &lt;=1*#mirrors (Scatter, master-&gt;mirror);若G&amp;S阶段需要双向edge,根据需要逐步在G&amp;S阶段增加master和mirror之间的通信,总数最多不超过4次.</p>
-<p>按照hybrid-cut对图进行划分后，计算时所有vertex都采用GAS计算模型，在high-degree vertex中，负载被分散在多台机器上，从而保证负载均衡；在low-degree vertex中，所有计算都在本地机器完成，只在scatter阶段需要master和mirror之间的通信。</p>
-<p>对于low-degree vertex，上述模型只考虑了单方向的locality，为了使改模型更通用，可以根据具体算法的需要，在scatter和gather阶段master和mirror之间的通信，但是增加的额外通信message数不会超过3.，</p>
-<p><strong>参考ADS 10 -12</strong></p>
-<h2 id="let-12-GraphChi"><a href="#let-12-GraphChi" class="headerlink" title="let 12 GraphChi"></a>let 12 GraphChi</h2><p><strong>背景</strong>:分布式程序难写;有效扩展的需求(传统多台机子一次一个task,一个机子一个task的话更易扩展); Cost; Energy. <strong>目标</strong>:单台机子,reasonable时间,大规模图计算.<strong>挑战</strong>:磁盘的随机访问.若以对称邻接文件的方式存储graph, 需要每秒数百万次的磁盘随机访问, SSD也满足不了,因此提出PSW. <strong>Parallel Sliding Windows(PSW)</strong>:1个应用分多个迭代执行完,之前是一个迭代完成整张图的一次计算,现将图分为sub-graph,一个迭代分为多个小迭代执行一个sub-graph,每个小迭代为loadàcomputeàwrite. 流程:1. 所有的顶点依次被编号为1-N, 按顺序分为P个interval,一个sub-graph对应一个interval,每个interval在disk上有一个对应的shard.(每个shard的size足够小,刚好放入内存中; 一个shard中存储其所对应的interval中的所有顶点及其入边; 入边按source顶点排序,使得顶点的出边在每个shard中顶点编号顺序存储). 每个interval需要P次large读, 每次迭代总共需要P2次顺序读. 2. 计算阶段,  本次计算结果下个interval可见,即sub-graph之间是异步的, sub-graph内部均可(不同interval之间同步，同一个interver之内异步). 3.更新写回disk,保证下个shard可见,一次迭代有P2次顺序写.<br><strong>Evolving Graph</strong>:新加入/删除边. 每个interval有一个edge-buffer,新加的edge会被临时存放在edge-buffer中,删除的边被标记为”removed”, 当edge-buffer满了的时候,shard会被在磁盘上recreated,太大的shard会被重新分割为较小的shard,在recreate的过程中,“removed”边会被永久删除. <strong>总结</strong>:PSW可以处理大规模图with很少随机disk访问; 合适的数据结构来scale up</p>
-<h2 id="let-13-Tiled-MapReduce"><a href="#let-13-Tiled-MapReduce" class="headerlink" title="let 13 Tiled-MapReduce"></a>let 13 Tiled-MapReduce</h2><p><strong>背景</strong>：多核处理器普及,可以在单机上实现数据并行应用.<strong>并行优化points</strong>:运行算法、可扩展的数据结构、OS交互.<strong>Phoenix</strong>:<br>利用thread实现并行,利用共享地址空间进行通信.<strong>数据结构</strong>：Intermediate Buffer,矩阵结构.行对应thread,列为key；mapper按行,reducer按列,因此同阶段内数据不冲突,无需加锁；表内为指针指向mmy中数据,降低数据传输开销.<strong>缺陷</strong>：1.内存开销大.需要把整个输入数据都放在内存.2.数据locality差.一次处理全部输入数据,cache不停重刷,reduce相当于面对空cache.3.严格依赖barriers. map全部结束才可以reduce.<strong>TMR</strong>：<strong>Tiling策略</strong>：将大的job拆分为小的sub-job,迭代处理,每次一个sub-job,要求reduce函数是Commutative和Associative. <strong>流程</strong>：1.map.只加载部分输入数据,够sub-job用,将结果存入Intermediate Buffer(IB).2. combine.处理IB中的列,存入Iteration<br>Buffer.1&amp;2循环处理所有子任务. 3.reduce.处理Iteration Buffer,存入Final Buffer.<strong>优点</strong>：并发提高；cache、mmy利用率提高.<strong>缺点</strong>：计算次数增大.<strong>优化</strong>：1.Mmy<br>Reuse. mmy中只存当前子任务需要的数据；不同子任务重用input buffer和IB；重用IB之前,将必需数据复制集中到一起,new buffer（不再用指针）；加入compress阶段自动合并不同combine结果,减少内存占用. 2.数据locality. 每个子任务的working set刚好放在最后一级cache里,使map相当于为reduce预取数据；1中在combine阶段集中必要数据；NUCA/NUMA-Aware Scheduler（以往的问题是用多个核来处理同一个job,现在只要让subjob跑在同一个核上,并只用该核的内存即可；先按core分为不同repeater,然后core内再分worker,Repeater的Job Buffer、Intermediate Buffer、Iteration<br>Buffer都是私有的；将subjob切分得小,通过work-stealing 机制,实现repeater的负载均衡）3. Software Pipeline: map阶段能者多劳,负载较为均衡,但是reduce阶段,key数量少时,可能不均衡；下一个子任务的map与前一个的combine阶段无数据依赖,可以pipeline；子任务间重用IB的依赖,可以用dual buffer消除. 4. Thread Pool: 子任务重用线程</p>
-<h2 id="let-14-Replication-based-fault-tolerance-Imitator"><a href="#let-14-Replication-based-fault-tolerance-Imitator" class="headerlink" title="let 14  Replication-based fault tolerance(Imitator)"></a>let 14  Replication-based fault tolerance(Imitator)</h2><p><strong>背景</strong>：图变大,由于scale大,运行时间长,容错很重要.<strong>BSP流程(图计算)</strong>：Load计算(master) SendMsg(master和replica)(EnterBarrier, Commit, LeaveBarrier),完成CMT,保证结果在下次迭代可见.<strong>容错技术</strong>：1. MapReduce：Simple re-execution. 分给别的worker执行,谁先commit用谁的.问题：只支持确定性、独立的任务,无法处理强依赖. 2. Spark：使用Resilient Distributed Datasets,粗粒度操作,log只记录操作.问题：没有data,不支持细粒度. 3. Checkpoint. (incremental CKPT) 同步中所有节点在global barrier处生成snapshot,异步中以固定时间间隔启动生成.恢复时从metadata snapshot加载图拓扑,从data snapshot更新点和边状态.问题：大开销,慢恢复（一台机器挂,所有机器都要回滚,带来大量读写、IO、同步开销,需要standby node；受限于单机IO；同步中的global barrier不平衡可通过降低打log频率缓解,但会导致恢复时间变长）<strong>Imitator</strong>:<strong>设计思想</strong>：几乎所有节点都有replicas,并且均匀分布在多台机器上.可以重用它们来做recovery.实现：扩展同步msg部分,添加检测.1.Failure before barrier：enter时发现,新建一个机器取代它,其它机器需要回滚到迭代开始,因为一些消息可能因为crash丢了. 2.Failure after barrier：leave时发现,新建一个机器取代它,redo先前流程.<strong>Fault tolerant (FT) replica</strong>：对没有replica的顶点在load图时建立FT replica；位置保证负载均衡；<strong>selfish<br>vertice</strong>：即无出边,只需建立FT replica,无需和master同步,恢复时从FT拿静态信息,动态信息通过邻居节点重新计算.<strong>Full-state<br>Replica (Mirror)</strong>：于master等价；由于普通的replica缺乏meta信息,选择一个mirror存放,负责恢复maste；贪婪分布在mirror少的node上.<strong>恢复目标：</strong>并行恢复；恢复后状态一致.<strong>恢复策略</strong>：<strong>1.<br>Rebirth</strong>.<strong>规则</strong>:master恢复replicas; mirror恢复master;需要standby结点. <strong>流程</strong>：Reloading(活着的点并行检查哪些结点挂掉了,并行发送消息给standby帮助其恢复)-Reconstruction(计算,重构图)-Replay(重做操作来得到最新状态,比如active,和mirror同步时可能还未收到该消息,于是在收到后要发给mirror,这样恢复时mirror会发给它replay) <strong>缺点</strong>：需要Standby；恢复慢,reconstruct/replay阶段不可并行. <strong>2. Migration</strong>.<br>挂后将它所属的数据分布到剩余机器上,比如master挂对应mirror就被提升为master,在它们之上重建图结构.<strong>流程</strong>：Reloading(提升mirror,广播New replicas/Edges from old replicas to the new master/Edges between<br>masters)-Reconstruction(利用消息在剩余机器上重构)-Replay(只需激活被提升成master的节点,自己有激活消息,直接恢复) <strong>优点</strong>：三个阶段都可并行.<strong>总结</strong>：低开销（利用现有的replica）、恢复快（并行恢复）</p>
-<h2 id="lec-extra-sandbox"><a href="#lec-extra-sandbox" class="headerlink" title="lec extra sandbox"></a>lec extra sandbox</h2><p>Royan提供了一个分布式的sandox，利用intel SGX技术保护各个sandbox不被恶意的程序估计；而各个sandbox(nacl)用于保证用户的敏感信息不会在各个平台使用时被泄露出去。Royan是请求为导向的，对每次一个请求只执行一次并不保存任何状态。<strong>threat model:</strong>只信任Ryoan和intel SGX。<strong>Intel SGX:</strong>enclave是被保护的区域，只能被enclave code访问，Ryoan实例就运行在enclave中。通过利用SGX，Ryoan可以保证用户隐私数据在不被信任的平台被使用。<strong>问题：</strong>1.平台可以读用户的私密信息。Sol:enclave可以保护不被外部读数据；2.平台可以将整段encalve中的私密信息复制到不被enclave保护的区域。Sol:nacl限制了sandbox的访问控制。3.利用sys call将私密信息直接写到未被保护的区域。Sol:对sandbox访问的sys<br>call获得的数据都进行加密。4.串通或者伪造用户窃取数据。Sol：royan是不保存任何请求的状态，即每次都会经历初始化-读入数据-处理-输出数据-销毁的过程。<strong>旁路攻击：</strong>解决方法是尽量移除module的system calls，同时保证执行所有输入和输出数据的过程是与数据内容无关的。与第4个问题的解决方法相似，中间有个问题就是初始化阶段overhead很大，优化方法是对初始化阶段做checkpoint这样处理重复请求可以节约时间，但是其他阶段仍然保持无状态，每次都重新执行。同时，一些不可避免的system call则换成功能受限的sys call，如mmap和open、write等“new”sys call则返回预先申请好的安全的内存或者文件。</p>
-<h2 id="考试题型"><a href="#考试题型" class="headerlink" title="考试题型"></a>考试题型</h2><p>某个概念是什么</p>
-<p>给定一个场景，让你提出解决方案</p>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/06/23/ADS-Notes/" data-id="ckqhqa34s0005elj5aijx7l1f"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ADS/" rel="tag">ADS</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-docker迁移-var-lib-docker" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/05/19/docker%E8%BF%81%E7%A7%BB-var-lib-docker/"
-    >docker迁移/var/lib/docker</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/05/19/docker%E8%BF%81%E7%A7%BB-var-lib-docker/" class="article-date">
-  <time datetime="2020-05-19T08:51:26.000Z" itemprop="datePublished">2020-05-19</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/docker/">docker</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>第一步，停止docker服务</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop docker</span><br><span class="line">ps aux | grep -i docker | grep -v grep // 结果为空则说明服务已经停止</span><br></pre></td></tr></table></figure>
-
-<p>第二步，将/var/lib/docker迁移到新的文件夹</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync -aqxP /var/lib/docker /mnt/datadrive/</span><br></pre></td></tr></table></figure>
-
-<p>第三步，修改docker启动脚本</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim /lib/systemd/system/docker.service</span><br><span class="line"></span><br><span class="line">FROM:</span><br><span class="line">ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock</span><br><span class="line">TO:</span><br><span class="line">ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock --graph=/mnt/datadrive/docker</span><br></pre></td></tr></table></figure>
-
-<p>第四步，重启docker</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line"> </span><br><span class="line">systemctl restart docker</span><br><span class="line"> </span><br><span class="line">systemctl enable docker  //开机启动</span><br></pre></td></tr></table></figure>
-
-<p>第五步, 启动后确认没问题，删除旧的/var/lib/docker</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf /var/lib/docker</span><br></pre></td></tr></table></figure>
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://linuxconfig.org/how-to-move-docker-s-default-var-lib-docker-to-another-directory-on-ubuntu-debian-linux" target="_blank" rel="noopener">https://linuxconfig.org/how-to-move-docker-s-default-var-lib-docker-to-another-directory-on-ubuntu-debian-linux</a></p>
-<p><a href="https://my.oschina.net/qbj/blog/2998164" target="_blank" rel="noopener">https://my.oschina.net/qbj/blog/2998164</a></p>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2020/05/19/docker%E8%BF%81%E7%A7%BB-var-lib-docker/" data-id="ckqhqa35k001felj5fl5ig1p8"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%BF%81%E7%A7%BB-var-lib-docker/" rel="tag">迁移/var/lib/docker</a></li></ul>
 
     </footer>
 

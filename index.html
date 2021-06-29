@@ -71,6 +71,153 @@
     
     
     
+    <article id="post-xiaomi-flush-rom" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/06/29/xiaomi-flush-rom/"
+    >小米手机刷机</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/06/29/xiaomi-flush-rom/" class="article-date">
+  <time datetime="2021-06-29T14:35:37.000Z" itemprop="datePublished">2021-06-29</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%88%B7%E6%9C%BA/">刷机</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zkdingme.github.io/2021/06/29/xiaomi-flush-rom/" data-id="ckqhzmsc1002i6jj533kcayi9"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B0%8F%E7%B1%B3/" rel="tag">小米</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-nexus-flush-rom" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/06/29/nexus-flush-rom/"
+    >nexus和samsung刷机</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/06/29/nexus-flush-rom/" class="article-date">
+  <time datetime="2021-06-29T11:40:26.000Z" itemprop="datePublished">2021-06-29</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%88%B7%E6%9C%BA/">刷机</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h2 id="Nexus"><a href="#Nexus" class="headerlink" title="Nexus"></a>Nexus</h2><h3 id="刷入CM"><a href="#刷入CM" class="headerlink" title="刷入CM"></a>刷入CM</h3><p>我这里记录的是Nexus 7（flo）刷入<a href="https://twrp.me/asus/asusnexus72013wifi.html" target="_blank" rel="noopener">TWRP</a> 跟 <a href="http://androidhost.org/uYlcI" target="_blank" rel="noopener">CM13(Android 6.0)</a> 的步骤（注：下载时如果速度太慢，五个多小时那样，把有线网切换为wifi下载）。  </p>
+<ol>
+<li>刷入CM（adb push CM.zip sdcard/）<br>注：adb push/pull 如果显示”remote do not exists” 一般是权限不对 可以先 adb root， adb remount一下，然后再adb push， 如果还不行，就改一下sdcard的权限（chmod 777 sdcard， chmod 777 -R sdcard），如果还不行，请Google。</li>
+<li>关机。  </li>
+<li>同时按住电源键与音量减键进入bootloader模式。  </li>
+<li>解锁（fastboot oem unlock）</li>
+<li>刷入TWRP（fastboot flash recovery xxx.img），然后进入Recovery Mode<br>注：windows上使用fastboot需要装<a href="https://developer.android.com/studio/run/win-usb.html" target="_blank" rel="noopener">驱动</a><br>   如果您刷了Twrp后进入recovery mode后机子一直显示的是启动的画面（中间是Google 下面是一把锁，那可能是因为你刷入的Twrp不符合你的手机类型，您需要找到对应你手机的Twrp版本，重新刷入（即回到第一步）</li>
+<li>wipe。</li>
+<li>install CM.zip</li>
+</ol>
+<h3 id="刷入官方镜像"><a href="#刷入官方镜像" class="headerlink" title="刷入官方镜像"></a>刷入官方镜像</h3><p>下载<a href="https://developers.google.com/android/images" target="_blank" rel="noopener">官方镜像</a>，解压运行脚本。这是<a href="https://blog.csdn.net/u012417380/article/details/72843185" target="_blank" rel="noopener">参考</a></p>
+<h2 id="Samsung"><a href="#Samsung" class="headerlink" title="Samsung"></a>Samsung</h2><p>用odin刷入官方固件</p>
+<h2 id="救砖"><a href="#救砖" class="headerlink" title="救砖"></a>救砖</h2><p>用线刷大师救砖</p>
+
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zkdingme.github.io/2021/06/29/nexus-flush-rom/" data-id="ckqhzmsbt001n6jj5f6gfa1fe"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%88%B7%E6%9C%BA/" rel="tag">刷机</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-Android-JS-Debug" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -139,7 +286,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2021/06/28/Android-JS-Debug/" data-id="ckqhqa34o0001elj52od65t1r"
+      <a data-url="https://zkdingme.github.io/2021/06/28/Android-JS-Debug/" data-id="ckqhzmsao00026jj5cc0u4pqg"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JS/" rel="tag">JS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WebView/" rel="tag">WebView</a></li></ul>
@@ -215,7 +362,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2021/06/15/vpn-proxy/" data-id="ckqhqa35q0025elj58pih67cd"
+      <a data-url="https://zkdingme.github.io/2021/06/15/vpn-proxy/" data-id="ckqhzmsbz002d6jj56pk9glq6"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPN/" rel="tag">VPN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li></ul>
@@ -291,7 +438,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2021/05/18/ssh-login-expect/" data-id="ckqhqa35o001welj51vp069fp"
+      <a data-url="https://zkdingme.github.io/2021/05/18/ssh-login-expect/" data-id="ckqhzmsbv001x6jj5fojj9ycd"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh%E7%99%BB%E9%99%86%E8%84%9A%E6%9C%AC/" rel="tag">ssh登陆脚本</a></li></ul>
@@ -380,7 +527,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2021/04/20/linux-vim-kiss/" data-id="ckqhqa35m001pelj56imk5wbh"
+      <a data-url="https://zkdingme.github.io/2021/04/20/linux-vim-kiss/" data-id="ckqhzmsbs001k6jj54iig9exj"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/" rel="tag">vim</a></li></ul>
@@ -454,10 +601,77 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2021/04/20/linux-crontab-kiss/" data-id="ckqhqa35n001telj53de058z5"
+      <a data-url="https://zkdingme.github.io/2021/04/20/linux-crontab-kiss/" data-id="ckqhzmsbt001q6jj53ic13v0b"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/crontab/" rel="tag">crontab</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-sec-sense-arch" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/03/29/sec-sense-arch/"
+    >浅谈移动设备风险感知系统架构</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/03/29/sec-sense-arch/" class="article-date">
+  <time datetime="2021-03-29T07:51:19.000Z" itemprop="datePublished">2021-03-29</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%BE%E5%A4%87%E9%A3%8E%E6%8E%A7/">设备风控</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      
+      
+      <!-- 打赏 -->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zkdingme.github.io/2021/03/29/sec-sense-arch/" data-id="ckqhzmsbu001u6jj54ef9h3s4"
+        class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E5%A4%87%E9%A3%8E%E6%8E%A7/" rel="tag">设备风控</a></li></ul>
 
     </footer>
 
@@ -540,7 +754,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2021/03/03/alibaba-code-style/" data-id="ckqhqa35e000zelj5919v3jpv"
+      <a data-url="https://zkdingme.github.io/2021/03/03/alibaba-code-style/" data-id="ckqhzmsbl00106jj56t5o936i"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Code-Style/" rel="tag">Code Style</a></li></ul>
@@ -673,283 +887,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2021/02/24/Java-Keyword/" data-id="ckqhqa34y000felj5dgej3s46"
+      <a data-url="https://zkdingme.github.io/2021/02/24/Java-Keyword/" data-id="ckqhzmsbf000n6jj5b2m04ji0"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%85%B3%E9%94%AE%E5%AD%97/" rel="tag">关键字</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-write-resume-skills" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/02/16/write-resume-skills/"
-    >简历写作技巧</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2021/02/16/write-resume-skills/" class="article-date">
-  <time datetime="2021-02-16T06:20:38.000Z" itemprop="datePublished">2021-02-16</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>转自 阿里校招群某位大佬的建议</p>
-<blockquote>
-<p>各位同学好，我们阿里开源核心产品Nacos创始人，近期评估简历发现很多小伙伴写的简历太平淡，给出我一些建议，欢迎小伙伴投简历给我一起交流<br>我的邮箱： <a href="mailto:water.lyl@alibaba-inc.com">water.lyl@alibaba-inc.com</a><br>我的微信：lylolyl  流水<br>写简历怎么写出差异化竞争力？<br>1、有项目经历：参加公司、导致真实的xx项目，采用了xx技术，解决了xx难题<br>2、有竞赛经历：获得了什么结果，竞赛中挑战的题目是，采用什么技术，算法解决。<br>3、有开源经历：参与xx开源项目，贡献多少核心代码，可以把贡献代码负载简历上<br>4、有优秀论文：攻克了软件领域的难题，并且在xx发表<br>5、有博客积累：学习经验和编码程序有积累，可以附在简历上</p>
-</blockquote>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2021/02/16/write-resume-skills/" data-id="ckqhqa35r0028elj5dvlu152j"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%80%E5%8E%86%E5%86%99%E4%BD%9C/" rel="tag">简历写作</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-Code-Style" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/01/21/Code-Style/"
-    >Code Style整理</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2021/01/21/Code-Style/" class="article-date">
-  <time datetime="2021-01-20T17:27:54.000Z" itemprop="datePublished">2021-01-21</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h2 id="命名规范"><a href="#命名规范" class="headerlink" title="命名规范"></a>命名规范</h2><ol>
-<li><p>文件<br>驼峰命名法(小驼峰) 例如 initRoom.js  index.js</p>
-</li>
-<li><p>类<br>驼峰命名法(大驼峰) 例如 LoginAction</p>
-</li>
-<li><p>函数</p>
-<p>驼峰命名法(小驼峰) 例如 initRoom</p>
-</li>
-<li><p>变量<br>驼峰命名法(小驼峰) curCount</p>
-</li>
-<li><p>常量<br>驼峰命名法(大驼峰) MaxCount</p>
-</li>
-</ol>
-<h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><ul>
-<li>删除一个对象不能仅仅靠解绑引用，等GC；要手动强制删除对象 ，但是手动强制删除对象也会有问题，万一哪里忘记删除引用，程序就会挂，不过开发阶段挂也没事。</li>
-</ul>
-<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><ul>
-<li>参数校验<br>统一在函数内部对参数进行校验，校验失败在函数返回值里面体现</li>
-<li>error<br>函数内部遇到错误时，如果是函数自己运行生成的error，统一向上抛</li>
-</ul>
-<h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><ul>
-<li>一个类不应该直接访问另一个类的属性，而是应该封装一个函数给外部类调用<br>例如class Referee 想访问 class Battle的status [waiting, going, end]，不能直接访问battleObj.status，而是应该调用battleObj.isWaiting(), battleObj.isGoing(), battleObj.isEnd()</li>
-<li>对象之前允许套娃引用。worker 创建了 room，然后转发消息给room， room如果突然要把消息传给worker的话，两种方式：其一，函数返回值，worker 里面 ret = worker.onReceiveMessage(msg) ；其二，在room里面加一个指向worker的引用，然后在 room里面调用 worker.onReceiveRoomMessage。第二种方式更好，不要怕引用产生套娃，没事的，面向对象是可以这样的。</li>
-</ul>
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2021/01/21/Code-Style/" data-id="ckqhqa34s0006elj570a10c6d"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Code-Style/" rel="tag">Code Style</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-Linux-shell-符号" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/01/13/Linux-shell-%E7%AC%A6%E5%8F%B7/"
-    >Linux_shell_符号</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2021/01/13/Linux-shell-%E7%AC%A6%E5%8F%B7/" class="article-date">
-  <time datetime="2021-01-13T14:43:26.000Z" itemprop="datePublished">2021-01-13</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Linux/">Linux</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <p>转载：<a href="https://zhuanlan.zhihu.com/p/101752614" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/101752614</a> 和 <a href="https://www.cnblogs.com/eshizhan/archive/2011/11/30/2269325.html" target="_blank" rel="noopener">https://www.cnblogs.com/eshizhan/archive/2011/11/30/2269325.html</a></p>
-<p>在用linux命令时候,我们可以一行执行多条命令或者有条件的执行下一条命令，下面我们讲解一下linux命令分号&amp;&amp;和&amp;，|和||的用法</p>
-<p><strong>“;”分号用法</strong></p>
-<p>方式：command1 ; command2</p>
-<p>用;号隔开每个命令, 每个命令按照从左到右的顺序,顺序执行， 彼此之间不关心是否失败， 所有命令都会执行。</p>
-<p><strong>“| ”管道符用法</strong></p>
-<p>上一条命令的输出，作为下一条命令参数</p>
-<p>方式：command1 | command2</p>
-<p>Linux所提供的管道符“|”将两个命令隔开，管道符左边命令的输出就会作为管道符右边命令的输入。连续使用管道意味着第一个命令的输出会作为 第二个命令的输入，第二个命令的输出又会作为第三个命令的输入，依此类推</p>
-<p>利用一个管道<br># rpm -qa|grep licq<br>这条命令使用一个管道符“|”建立了一个管道。管道将rpm -qa命令的输出（包括系统中所有安装的RPM包）作为grep命令的输入，从而列出带有licq字符的RPM包来。</p>
-<p>利用多个管道<br># cat /etc/passwd | grep /bin/bash | wc -l<br>这条命令使用了两个管道，利用第一个管道将cat命令（显示passwd文件的内容）的输出送给grep命令，grep命令找出含有“/bin /bash”的所有行；第二个管道将grep的输出送给wc命令，wc命令统计出输入中的行数。这个命令的功能在于找出系统中有多少个用户使用bash</p>
-<p><strong>“&amp;”符号用法</strong></p>
-<p>&amp;放在启动参数后面表示设置此进程为后台进程</p>
-<p>方式：command1 &amp;</p>
-<p>默认情况下，进程是前台进程，这时就把Shell给占据了，我们无法进行其他操作，对于那些没有交互的进程，很多时候，我们希望将其在后台启动，可以在启动参数的时候加一个’&amp;’实现这个目的。</p>
-<p><strong>“&amp;&amp;”符号用法</strong></p>
-<p>shell 在执行某个命令的时候，会返回一个返回值，该返回值保存在 shell 变量 $? 中。当 $? == 0 时，表示执行成功；当 $? == 1 时（我认为是非0的数，返回值在0-255间），表示执行失败。</p>
-<p>有时候，下一条命令依赖前一条命令是否执行成功。如：在成功地执行一条命令之后再执行另一条命令，或者在一条命令执行失败后再执行另一条命令等。shell 提供了 &amp;&amp; 和 || 来实现命令执行控制的功能，shell 将根据 &amp;&amp; 或 || 前面命令的返回值来控制其后面命令的执行。</p>
-<p>语法格式如下：</p>
-<p>command1 &amp;&amp; command2 [&amp;&amp; command3 …]</p>
-<p>命令之间使用 &amp;&amp; 连接，实现逻辑与的功能。<br>只有在 &amp;&amp; 左边的命令返回真（命令返回值 $? == 0），&amp;&amp; 右边的命令才会被执行。<br>只要有一个命令返回假（命令返回值 $? == 1），后面的命令就不会被执行。</p>
-<p><strong>“||”符号用法</strong></p>
-<p>逻辑或的功能</p>
-<p>语法格式如下：</p>
-<p>command1 || command2 [|| command3 …]</p>
-<p>命令之间使用 || 连接，实现逻辑或的功能。<br>只有在 || 左边的命令返回假（命令返回值 $? == 1），|| 右边的命令才会被执行。这和 c 语言中的逻辑或语法功能相同，即实现短路逻辑或操作。<br>只要有一个命令返回真（命令返回值 $? == 0），后面的命令就不会被执行。 –直到返回真的地方停止执行。</p>
-<p>举例，ping命令判断存活主机</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ping -c 1 -w 1 192.168.1.1 &amp;&gt; /dev/null &amp;&amp; result=0 ||result=1</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$result</span>"</span> == 0 ];<span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"192.168.1.1 is UP!"</span>    </span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"192.168.2.1 is DOWN!"</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
-
-<p>注意 &amp;&gt;要连起来写。</p>
-<p><strong>“`”符号用法</strong></p>
-<p>位置：反引号（`）这个字符一般在键盘的左上角，数字1的左边，与（~）在同一键上，不要将其同单引号（’）混淆</p>
-<p>作用：反引号括起来的字符串被shell解释为命令行，在执行时，shell首先执行该命令行，并以它的标准输出结果取代整个反引号（包括两个反引号）部分</p>
-<p>举例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[eshizhan@localhost usr]$ echo &#96;date&#96;</span><br><span class="line">2011年 11月 30日 星期三 16:37:23 CST</span><br></pre></td></tr></table></figure>
-
-<p><strong>“$”符号用法</strong></p>
-<p>与反引号`类似</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo $(date)</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-      
-      <!-- 打赏 -->
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2021/01/13/Linux-shell-%E7%AC%A6%E5%8F%B7/" data-id="ckqhqa34z000gelj59tqy47ey"
-        class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/" rel="tag">shell</a></li></ul>
 
     </footer>
 
