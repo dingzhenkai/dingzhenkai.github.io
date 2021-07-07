@@ -71,7 +71,7 @@
     
     
     
-    <article id="post-xiaomi-flush-rom" class="article article-type-post" itemscope
+    <article id="post-lineageos-build" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -79,8 +79,8 @@
     <header class="article-header">
        
 <h2 itemprop="name">
-  <a class="article-title" href="/2021/06/29/xiaomi-flush-rom/"
-    >小米手机刷机</a
+  <a class="article-title" href="/2021/07/06/lineageos-build/"
+    >编译lineageOS过程中的注意点</a
   >
 </h2>
   
@@ -90,12 +90,12 @@
 
     
     <div class="article-meta">
-      <a href="/2021/06/29/xiaomi-flush-rom/" class="article-date">
-  <time datetime="2021-06-29T14:35:37.000Z" itemprop="datePublished">2021-06-29</time>
+      <a href="/2021/07/06/lineageos-build/" class="article-date">
+  <time datetime="2021-07-06T14:36:38.000Z" itemprop="datePublished">2021-07-06</time>
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%88%B7%E6%9C%BA/">刷机</a>
+    <a class="article-category-link" href="/categories/android/">android</a>
   </div>
 
       
@@ -113,16 +113,35 @@
       
 
       
-      
+      <p>本文记录根据<a href="https://wiki.lineageos.org/devices/sagit/build" target="_blank" rel="noopener">官网教程</a>编译lineageos时遇到的一些坑。</p>
+<h2 id="下载时用清华源"><a href="#下载时用清华源" class="headerlink" title="下载时用清华源"></a>下载时用清华源</h2><p>repo init时需要首先下载repo命令的包</p>
+<p>repo init -u <a href="https://github.com/LineageOS/android.git" target="_blank" rel="noopener">https://github.com/LineageOS/android.git</a> -b lineage-15.1 </p>
+<p>repo sync下载lineage os源码是也使用清华源，<a href="https://mirror.tuna.tsinghua.edu.cn/help/lineageOS/" target="_blank" rel="noopener">参考</a></p>
+<p>注意同步源码时使用命令 repo sync -c -j8</p>
+<h2 id="提取vendor"><a href="#提取vendor" class="headerlink" title="提取vendor"></a>提取vendor</h2><p><a href="https://wiki.lineageos.org/extracting_blobs_from_zips.html" target="_blank" rel="noopener">官网</a>提供了两种方式，一种是从真机中提取，另一种是从安装包中提取。建议用后者，这里需要找到一个靠谱的安装包，我当时想找的是lineageos 15.1的版本，这个版本官网已经下架了(似乎是官网没有很多钱支付带宽和存储)，所以去网上下载的，好几个包都没用。。。</p>
+<h2 id="编译报错"><a href="#编译报错" class="headerlink" title="编译报错"></a>编译报错</h2><p><strong>Communication error with Jack server (35), try ‘jack-diagnose’ or see Jack server log</strong></p>
+<p>jack server 通信问题，<a href="https://hex.ro/wp/blog/communication-error-with-jack-server-35-try-jack-diagnose-or-see-jack-server-log/" target="_blank" rel="noopener">参考</a></p>
+<p>需要重启jack server</p>
+<h2 id="刷机报错"><a href="#刷机报错" class="headerlink" title="刷机报错"></a>刷机报错</h2><p>刷机步骤:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fastboot flash recovery recovery.img</span><br><span class="line">fastboot boot recovery.img</span><br><span class="line">fastboot sideload lineageos.zip</span><br></pre></td></tr></table></figure>
+
+<p><strong>assert(xiaomi.verify_trustzone(“TZ.BF.4.0.6-00124”, “xxxxx”) == “1”) failed</strong></p>
+<p>解压编译出的zip文件，在META-INF\com\google\android\updater-script 中删掉第二行assert，然后重新压缩为zip即可刷入</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><a href="https://gitpress.io/@drinko/%E7%BC%96%E8%AF%91%E7%AC%94%E8%AE%B0" target="_blank" rel="noopener">https://gitpress.io/@drinko/%E7%BC%96%E8%AF%91%E7%AC%94%E8%AE%B0</a></li>
+<li><a href="https://www.jianshu.com/p/19cb9c08ee51" target="_blank" rel="noopener">https://www.jianshu.com/p/19cb9c08ee51</a></li>
+<li><a href="https://hex.ro/wp/blog/communication-error-with-jack-server-35-try-jack-diagnose-or-see-jack-server-log/" target="_blank" rel="noopener">https://hex.ro/wp/blog/communication-error-with-jack-server-35-try-jack-diagnose-or-see-jack-server-log/</a></li>
+</ol>
+
       
       <!-- 打赏 -->
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2021/06/29/xiaomi-flush-rom/" data-id="ckqi0lnob002fyrj5b1dleoai"
+      <a data-url="https://zkdingme.github.io/2021/07/06/lineageos-build/" data-id="ckqt5m1tv001liyj5drbyhsjp"
         class="article-share-link">分享</a>
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B0%8F%E7%B1%B3/" rel="tag">小米</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/lineages/" rel="tag">lineages</a></li></ul>
 
     </footer>
 
@@ -147,7 +166,7 @@
        
 <h2 itemprop="name">
   <a class="article-title" href="/2021/06/29/nexus-flush-rom/"
-    >nexus和samsung刷机</a
+    >刷机(nexus、samsung、xiaomi)</a
   >
 </h2>
   
@@ -186,12 +205,13 @@
 <li>关机。  </li>
 <li>同时按住电源键与音量减键进入bootloader模式。  </li>
 <li>解锁（fastboot oem unlock）</li>
-<li>刷入TWRP（fastboot flash recovery xxx.img），然后进入Recovery Mode<br>注：windows上使用fastboot需要装<a href="https://developer.android.com/studio/run/win-usb.html" target="_blank" rel="noopener">驱动</a><br>   如果您刷了Twrp后进入recovery mode后机子一直显示的是启动的画面（中间是Google 下面是一把锁，那可能是因为你刷入的Twrp不符合你的手机类型，您需要找到对应你手机的Twrp版本，重新刷入（即回到第一步）</li>
+<li>刷入TWRP（fastboot flash recovery xxx.img），然后进入Recovery Mode（fastboot boot xxx.img）<br>注：windows上使用fastboot需要装<a href="https://developer.android.com/studio/run/win-usb.html" target="_blank" rel="noopener">驱动</a><br>   如果您刷了Twrp后进入recovery mode后机子一直显示的是启动的画面（中间是Google 下面是一把锁，那可能是因为你刷入的Twrp不符合你的手机类型，您需要找到对应你手机的Twrp版本，重新刷入（即回到第一步）</li>
 <li>wipe。</li>
 <li>install CM.zip</li>
 </ol>
 <h3 id="刷入官方镜像"><a href="#刷入官方镜像" class="headerlink" title="刷入官方镜像"></a>刷入官方镜像</h3><p>下载<a href="https://developers.google.com/android/images" target="_blank" rel="noopener">官方镜像</a>，解压运行脚本。这是<a href="https://blog.csdn.net/u012417380/article/details/72843185" target="_blank" rel="noopener">参考</a></p>
 <h2 id="Samsung"><a href="#Samsung" class="headerlink" title="Samsung"></a>Samsung</h2><p>用odin刷入官方固件</p>
+<h2 id="Xiaomi"><a href="#Xiaomi" class="headerlink" title="Xiaomi"></a>Xiaomi</h2><p>小米刷机有两种方式，其一类似三星提供了odin傻瓜式刷机，小米也提供了<a href="https://www.miui.com/shuaji-393.html" target="_blank" rel="noopener">MiFlush</a>来傻瓜式刷机；其二就是先刷recovery再卡刷rom，与nexus类似。</p>
 <h2 id="救砖"><a href="#救砖" class="headerlink" title="救砖"></a>救砖</h2><p>用线刷大师救砖</p>
 
       
@@ -199,7 +219,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2021/06/29/nexus-flush-rom/" data-id="ckqi0lno4001tyrj53n0435pz"
+      <a data-url="https://zkdingme.github.io/2021/06/29/nexus-flush-rom/" data-id="ckqt5m1tz0021iyj5evd912w0"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%88%B7%E6%9C%BA/" rel="tag">刷机</a></li></ul>
@@ -286,7 +306,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2021/06/28/Android-JS-Debug/" data-id="ckqi0lnn60002yrj570h31lla"
+      <a data-url="https://zkdingme.github.io/2021/06/28/Android-JS-Debug/" data-id="ckqt5m1sw0001iyj5e4690qve"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JS/" rel="tag">JS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WebView/" rel="tag">WebView</a></li></ul>
@@ -362,7 +382,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2021/06/15/vpn-proxy/" data-id="ckqi0lno9002ayrj58w581mlg"
+      <a data-url="https://zkdingme.github.io/2021/06/15/vpn-proxy/" data-id="ckqt5m1u2002ciyj546v84o2q"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPN/" rel="tag">VPN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li></ul>
@@ -438,7 +458,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2021/05/18/ssh-login-expect/" data-id="ckqi0lno90026yrj5gbchh06l"
+      <a data-url="https://zkdingme.github.io/2021/05/18/ssh-login-expect/" data-id="ckqt5m1u00026iyj50uhb9ukx"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh%E7%99%BB%E9%99%86%E8%84%9A%E6%9C%AC/" rel="tag">ssh登陆脚本</a></li></ul>
@@ -527,7 +547,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2021/04/20/linux-vim-kiss/" data-id="ckqi0lno4001pyrj5ef8w73vs"
+      <a data-url="https://zkdingme.github.io/2021/04/20/linux-vim-kiss/" data-id="ckqt5m1tx001viyj5bm1vb9b5"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/" rel="tag">vim</a></li></ul>
@@ -601,7 +621,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2021/04/20/linux-crontab-kiss/" data-id="ckqi0lno3001myrj5732l0c0q"
+      <a data-url="https://zkdingme.github.io/2021/04/20/linux-crontab-kiss/" data-id="ckqt5m1tw001siyj51dex9z4d"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/crontab/" rel="tag">crontab</a></li></ul>
@@ -668,7 +688,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2021/03/29/sec-sense-arch/" data-id="ckqi0lno5001vyrj5f9jr6wbp"
+      <a data-url="https://zkdingme.github.io/2021/03/29/sec-sense-arch/" data-id="ckqt5m1ty001xiyj55pah44u1"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E5%A4%87%E9%A3%8E%E6%8E%A7/" rel="tag">设备风控</a></li></ul>
@@ -754,7 +774,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2021/03/03/alibaba-code-style/" data-id="ckqi0lnnw0010yrj5bict2kaz"
+      <a data-url="https://zkdingme.github.io/2021/03/03/alibaba-code-style/" data-id="ckqt5m1to0011iyj5dlhf5169"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Code-Style/" rel="tag">Code Style</a></li></ul>
@@ -887,7 +907,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zkdingme.github.io/2021/02/24/Java-Keyword/" data-id="ckqi0lnnk000hyrj5fnn1avuf"
+      <a data-url="https://zkdingme.github.io/2021/02/24/Java-Keyword/" data-id="ckqt5m1ti000liyj54ku04mh3"
         class="article-share-link">分享</a>
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%85%B3%E9%94%AE%E5%AD%97/" rel="tag">关键字</a></li></ul>
